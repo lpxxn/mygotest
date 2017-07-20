@@ -2,11 +2,17 @@ package main
 
 import (
 	"fmt"
+	"strconv"
+	"strings"
 )
 
 type Person struct {
 	Name string
 	Age  int
+}
+
+func (p *Person) String() string {
+	return strings.Join([]string{"Name: ", p.Name, " the Age : ", strconv.Itoa(p.Age)}, "")
 }
 
 func main() {
@@ -34,6 +40,10 @@ func main() {
 	switchType("hell")
 	switchType(Person{"li", 10})
 	switchType(&Person{"peng", 10})
+
+	var p1 *Person = &Person{"li", 10}
+	p2 := &Person{"peng", 1}
+	fmt.Println(p1, p2)
 }
 
 func desc(i interface{}) {
