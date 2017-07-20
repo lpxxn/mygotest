@@ -4,7 +4,49 @@ import (
 	"fmt"
 )
 
+type Person struct {
+	Name string
+	Age  int
+}
+
 func main() {
 	fmt.Println("hello")
+	var iemp interface{}
+	desc(iemp)
+	iemp = 1
+	desc(iemp)
+	iemp = "hello"
+	desc(iemp)
 
+	v, ok := iemp.(int)
+	if ok == true {
+		desc(v)
+	} else {
+		fmt.Println("false")
+	}
+
+	v1, ok1 := iemp.(string)
+	if ok1 == true {
+		desc(v1)
+	} else {
+	}
+	switchType(21)
+	switchType("hell")
+	switchType(Person{"li", 10})
+	switchType(&Person{"peng", 10})
+}
+
+func desc(i interface{}) {
+	fmt.Printf("value: %v , type: %T \n", i, i)
+}
+
+func switchType(i interface{}) {
+	switch v := i.(type) {
+	case string:
+		fmt.Printf("string %v \n", i)
+	case int:
+		fmt.Printf("%v , %T \n", i, v)
+	default:
+		fmt.Printf("%v, %T \n", i, v)
+	}
 }
