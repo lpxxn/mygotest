@@ -14,6 +14,11 @@ func(e *MyErr) Error() string {
 	return fmt.Sprintf("at %v, %s", e.When, e.What)
 }
 
+
+type MyFloat64 float64
+
+func (f MyFloat64) Error
+
 func run() error {
 	return &MyErr{
 		time.Now(),
