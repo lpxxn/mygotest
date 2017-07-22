@@ -7,7 +7,19 @@ import (
 	"strings"
 )
 
+type MyReader struct {
+}
+
+func (r MyReader) Read(b []byte) (int, error) {
+	for i := range b {
+		b[i] = 'A'
+	}
+
+	return len(b), nil
+}
+
 func main() {
+
 	r := strings.NewReader("Hello, Reader !")
 	b := make([]byte, 8)
 	for {
@@ -27,4 +39,9 @@ func main() {
 	} else {
 		fmt.Println("err", err)
 	}
+
+	nb := make([]byte, 10)
+	myreader := MyReader{}
+	fmt.Println(myreader.Read(nb))
+	fmt.Println(string(nb[:]))
 }
