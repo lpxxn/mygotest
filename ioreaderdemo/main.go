@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"io"
 	"io/ioutil"
+	"os"
 	"strings"
 )
 
@@ -16,6 +17,18 @@ func (r MyReader) Read(b []byte) (int, error) {
 	}
 
 	return len(b), nil
+}
+
+type rot13Reader struct {
+	r io.Reader
+}
+
+func (r rot13Reader) Read(p []byte) (n int, err error) {
+	n, err = r.r.Read(p)
+	for i := 0; i < n; i++ {
+		p[i] = p[i] + 1
+	}
+	return
 }
 
 func main() {
@@ -44,4 +57,8 @@ func main() {
 	myreader := MyReader{}
 	fmt.Println(myreader.Read(nb))
 	fmt.Println(string(nb[:]))
+
+	s3 := strings.NewReader("Abc Pengli")
+	r3 := rot13Reader{s3}
+	io.Copy(os.Stdout, &r3)
 }
