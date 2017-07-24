@@ -17,7 +17,6 @@ func(e *MyErr) Error() string {
 
 type MyFloat64 float64
 
-func (f MyFloat64) Error
 
 func run() error {
 	return &MyErr{
