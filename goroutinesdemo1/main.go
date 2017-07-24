@@ -22,6 +22,15 @@ func sum(s []int, c chan int) {
 	fmt.Println("end receive")
 }
 
+func fibonacci(n int, c chan int) {
+	x, y := 0, 1
+	for i := 0; i < n; i++ {
+		c <- x
+		x, y = y, x+y
+	}
+	close(c)
+}
+
 func main() {
 	// 1
 	s := []int{1, 3, 2, 10, -1, 5, 0}
@@ -41,6 +50,16 @@ func main() {
 	ch <- 2
 	fmt.Println(<-ch)
 	fmt.Println(<-ch)
+
+	// 3 range and close
+	// range c aren't like others
+	// only one parameter represent the element channel
+	c2 := make(chan int, 10)
+	go fibonacci(cap(c2), c2)
+	for i := range c2 {
+		fmt.Println(i)
+	}
+
 	go say("world")
 	say("hello")
 
