@@ -26,7 +26,7 @@ func getJson(url string, target interface{}) error {
 	if err != nil {
 		return err
 	}
-	err2 := json.Unmarshal([]byte(body), &target)
+	err2 := json.Unmarshal([]byte(body), target)
 	return err2
 	// bodyString := string(body)
 	// fmt.Println(bodyString)
