@@ -39,6 +39,7 @@ type MyDataUserDetail struct {
 	Name  string `json:"name"`
 	Id    string `json:"id"`
 }
+
 type MyDataDetail struct {
 	Total int                `json:"total"`
 	Users []MyDataUserDetail `json:"users"`
