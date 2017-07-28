@@ -38,6 +38,13 @@ func main() {
 	waitGrout.Add(len(feeds))
 	for _, feed := range feeds {
 		fmt.Println(feed)
-
+		go func(feed []Info) {
+			Match(feed, results)
+			waitGrout.Done()
+		}(feed)
 	}
+}
+
+func Match(feed []Info, results chan<- *Result) {
+
 }
