@@ -43,8 +43,20 @@ func main() {
 			waitGrout.Done()
 		}(feed)
 	}
+
+	go func() {
+		waitGrout.Wait()
+		close(results)
+	}()
+
+	for result := range results {
+		fmt.Println("channel -> result.Field : ", result.Field, " Content : ", result.Content)
+	}
 }
 
-func Match(feed []Info, results chan<- *Result) {
-
+func Match(feeds []Info, results chan<- *Result) {
+	for _, result := range feeds {
+		results <- &Result{Field: result.Name, Content: result.Desc}
+		fmt.Println("channel <- result Name: ", result.Name, " Desc: ", result.Desc)
+	}
 }
