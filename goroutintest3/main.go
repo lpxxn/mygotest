@@ -17,6 +17,7 @@ type Info struct {
 
 func main() {
 
+	// results := make(chan *Result, 3)
 	results := make(chan *Result)
 	var waitGrout sync.WaitGroup
 
@@ -50,7 +51,7 @@ func main() {
 	}()
 
 	for result := range results {
-		fmt.Println("channel -> result.Field : ", result.Field, " Content : ", result.Content)
+		fmt.Println("channel len ", len(results), "cap :", cap(results), " -> result.Field : ", result.Field, " Content : ", result.Content)
 	}
 }
 
