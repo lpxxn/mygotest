@@ -12,7 +12,7 @@ import (
 
 func main() {
 	client := new(http.Client)
-	url := "http://localhost:60377/act/wlgroups"
+	url := "http://13.124.215.155:9002/act/wlgroups"
 	payload := strings.NewReader(`{"uid": 1001}`)
 	request, _ := http.NewRequest("POST", url, payload)
 	request.Header.Add("accept-encoding", "gzip")
