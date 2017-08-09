@@ -18,6 +18,8 @@ func ReadCrmConfig(path string) (*CrmConfig, error) {
 		fmt.Printf("Read File Error the Path : %s, Err: %v", path, err)
 		return nil, err
 	}
+	str := string(file)
+	fmt.Printf(str)
 	var jsonObj *CrmConfig = &CrmConfig{}
 
 	if err = json.Unmarshal(file, jsonObj); err != nil {
@@ -29,7 +31,7 @@ func ReadCrmConfig(path string) (*CrmConfig, error) {
 }
 
 func (config *CrmConfig) SaveToFile(path string) error {
-	json, err := json.Marshal(config)
+	json, err := json.MarshalIndent(config, "", "\t")
 	if err != nil {
 		return err
 	}
