@@ -33,6 +33,7 @@ func main() {
 }
 
 // https://stackoverflow.com/questions/6478962/what-does-the-dot-or-period-in-a-go-import-statement-do
+// https://golang.org/ref/spec#Import_declarations
 //Import declaration          Local name of Sin
 //
 //import   "lib/math"         math.Sin
