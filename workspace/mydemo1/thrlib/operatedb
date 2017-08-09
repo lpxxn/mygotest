@@ -1,0 +1,11 @@
+package thrlib
+
+import "fmt"
+
+type ThrdData struct {
+	Host string `json:"host"`
+}
+
+func ConnectSql() {
+	fmt.Println("connect success")
+}
