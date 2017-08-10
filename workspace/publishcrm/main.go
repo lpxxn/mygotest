@@ -4,6 +4,7 @@ import (
 	sconfig "./serverconfig"
 	"fmt"
 
+	"github.com/urfave/cli"
 	"os"
 )
 
@@ -14,6 +15,7 @@ const (
 	pro = "pro"
 )
 func main() {
+	cli.NewApp().Run(os.Args)
 	args := os.Args[1:]
 	if len(args) <= 0 || (args[0] != dev || args[0] != pro) {
 		fmt.Printf("input command dev|pro and options")
