@@ -6,6 +6,9 @@ import (
 	"sort"
 	"os"
 )
+// go run main.go -lang aabcccc a
+// go run main.go -l aabcccc a
+// go run main.go te add
 
 var la string = ""
 func main() {
@@ -46,6 +49,7 @@ func main() {
 			Name: "temp",
 			Aliases:[]string{"te"},
 			Usage: "usage subcommands",
+			// go run main.go te add
 			Subcommands:[]cli.Command{
 				{
 					Name: "add",
