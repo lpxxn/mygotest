@@ -13,6 +13,8 @@ import (
 var la string = ""
 func main() {
 	app := cli.NewApp()
+	//
+	app.EnableBashCompletion = true
 	app.Flags = []cli.Flag{
 		cli.StringFlag{
 			Name: "lang, l",
@@ -37,6 +39,12 @@ func main() {
 				fmt.Println(value, la)
 				fmt.Println("complete")
 				return nil
+			},
+			BashComplete: func(c *cli.Context) {
+				if c.NArg() > 0 {
+					return
+				}
+				fmt.Println("bashcomplete nagrg", c.NArg())
 			},
 		},
 		{
