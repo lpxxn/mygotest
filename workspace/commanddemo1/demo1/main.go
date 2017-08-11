@@ -10,7 +10,13 @@ var strv string = ""
 
 var Flags []cli.Flag = []cli.Flag{
 	cli.StringFlag{
-		Name:"lang",
+		Name:"lang, l",
+		Value:"eng",
+		Usage:"language for the app",
+		Destination: &strv,
+	},
+	cli.StringFlag{
+		Name:"lang2, l2",
 		Value:"eng",
 		Usage:"language for the app",
 		Destination: &strv,
@@ -36,7 +42,7 @@ func Test(c *cli.Context) error{
 	if c.NArg() > 0 {
 		name = c.Args().Get(0)
 	}
-	fmt.Println(strv)
+	fmt.Println(strv, "c.String(`lang`)", c.String("lang"))
 	//if c.String("lang") == "eng" {
 	if strv == "eng" {
 		fmt.Println("Hola", name)
