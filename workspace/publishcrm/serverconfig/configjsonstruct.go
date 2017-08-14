@@ -11,7 +11,7 @@ type CrmConfig struct {
 	ProRedisHost 	string `json:"redisHost"`
 	DebugRedis		string `json:"debug_redis"`
 }
-
+/// test
 func ReadCrmConfig(path string) (*CrmConfig, error) {
 	file, err := ioutil.ReadFile(path)
 	if err != nil {
