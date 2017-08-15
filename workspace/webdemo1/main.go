@@ -5,6 +5,10 @@ import (
 	"fmt"
 	"net/http"
 
+	"os"
+	"os/signal"
+	"context"
+	"time"
 )
 
 // Binding from JSON
@@ -51,6 +55,34 @@ func main()  {
 			}
 		}
 	})
-	r.RunTLS(":9065", "./server.crt", "./server.key")
+
+	//
+	srv := &http.Server{
+		Addr: ":9064",
+		Handler: r,
+	}
+
+	go func() {
+		if err := srv.ListenAndServeTLS("server.crt", "server.key"); err != nil {
+			fmt.Printf("listen: %s \n", err)
+		}
+	}()
+
+	quit := make(chan os.Signal)
+	signal.Notify(quit, os.Interrupt)
+	<-quit
+	fmt.Println("Shutdown Server .....")
+
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+	if err := srv.Shutdown(ctx); err != nil {
+		fmt.Printf("Server Shutdown: %v \n", err)
+	}
+	fmt.Println("server exists")
+
+
+
+
+	//r.RunTLS(":9065", "./server.crt", "./server.key")
 	//r.Run() // listen and serve on 0.0.0.0:8080
 }
