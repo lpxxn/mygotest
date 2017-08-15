@@ -13,6 +13,9 @@ type Login struct {
 	Password string `form:"password1" json:"password1" binding:"required"`
 }
 
+func init() {
+	fmt.Println("init func")
+}
 
 
 func main()  {
@@ -48,6 +51,6 @@ func main()  {
 			}
 		}
 	})
-	r.RunTLS(":9065", "./ca.crt", "./ca.key")
+	r.RunTLS(":9065", "./server.crt", "./server.key")
 	//r.Run() // listen and serve on 0.0.0.0:8080
 }
