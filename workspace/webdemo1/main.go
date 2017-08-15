@@ -24,6 +24,7 @@ func init() {
 
 func main()  {
 	r := gin.Default()
+	//gin.SetMode(gin.ReleaseMode)
 	r.GET("/ping", func(c *gin.Context) {
 		fmt.Println("paing inner")
 		c.JSON(200, gin.H{
@@ -70,6 +71,7 @@ func main()  {
 
 	quit := make(chan os.Signal)
 	signal.Notify(quit, os.Interrupt)
+	fmt.Println("Server is Running....")
 	<-quit
 	fmt.Println("Shutdown Server .....")
 
