@@ -75,15 +75,23 @@ func main()  {
 	<-quit
 	fmt.Println("Shutdown Server .....")
 
+	//ctx, cancel := context.WithTimeout(context.Background(), 5*time.Millisecond)
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
+
 	if err := srv.Shutdown(ctx); err != nil {
 		fmt.Printf("Server Shutdown: %v \n", err)
 	}
+
+	//select {
+	//case <-time.After(1 * time.Second):
+	//	fmt.Println("overslept")
+	//case <-ctx.Done():
+	//	fmt.Println("ctx.Done()")
+	//	fmt.Println(ctx.Err()) // prints "context deadline exceeded"
+	//}
+
 	fmt.Println("server exists")
-
-
-
 
 	//r.RunTLS(":9065", "./server.crt", "./server.key")
 	//r.Run() // listen and serve on 0.0.0.0:8080
