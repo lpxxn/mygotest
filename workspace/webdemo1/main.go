@@ -75,6 +75,7 @@ func main()  {
 	<-quit
 	fmt.Println("Shutdown Server .....")
 
+	// test timeout
 	//ctx, cancel := context.WithTimeout(context.Background(), 5*time.Millisecond)
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
@@ -83,6 +84,7 @@ func main()  {
 		fmt.Printf("Server Shutdown: %v \n", err)
 	}
 
+	// test timeout
 	//select {
 	//case <-time.After(1 * time.Second):
 	//	fmt.Println("overslept")
