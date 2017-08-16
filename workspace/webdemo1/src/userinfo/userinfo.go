@@ -15,8 +15,10 @@ type User struct {
 // Get User
 func GetUserInfoById(c *gin.Context) {
 	strpar := c.DefaultQuery("id", "1")
+	// param in path
+	strname := c.Param("name")
 	id, _ := strconv.Atoi(strpar)
-	users := []User{User{Name:"li", Age:10}, {Name:"peng", Age: 8}}
+	users := []User{User{Name:"li", Age:10}, {Name:strname, Age: 8}}
 	if id > 2 {
 		users = append(users, User{Name: "Na", Age: 10})
 	}
