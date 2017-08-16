@@ -1,14 +1,15 @@
 package main
 
 import (
-	"github.com/gin-gonic/gin"
 	"fmt"
+	"github.com/gin-gonic/gin"
 	"net/http"
 
+	"context"
 	"os"
 	"os/signal"
-	"context"
 	"time"
+	"github.com/mygotest/workspace/webdemo1/src/urls"
 )
 
 // Binding from JSON
@@ -21,8 +22,7 @@ func init() {
 	fmt.Println("init func")
 }
 
-
-func main()  {
+func main() {
 	r := gin.Default()
 	//gin.SetMode(gin.ReleaseMode)
 	r.GET("/ping", func(c *gin.Context) {
@@ -57,9 +57,16 @@ func main()  {
 		}
 	})
 
+	for url, value := range urls.UrlsGetmap {
+		r.GET(url, value)
+	}
+	for url, value := range urls.UrlsPostMap {
+		r.POST(url, value)
+	}
+
 	//
 	srv := &http.Server{
-		Addr: ":9064",
+		Addr:    ":9064",
 		Handler: r,
 	}
 

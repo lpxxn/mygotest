@@ -1,6 +1,9 @@
 package mylib1
 
-import "fmt"
+import (
+	"fmt"
+	"../testlib"
+)
 
 type TestData struct{
 	Name string `json:"name"`
@@ -9,6 +12,7 @@ type TestData struct{
 
 func ReadFun() (string, error) {
 	fmt.Println("return string and err")
+	testlib.PrintLnThing("test in readutil.go ")
 	return "hello ", nil
 
 }
