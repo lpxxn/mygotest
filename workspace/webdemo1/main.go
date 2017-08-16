@@ -63,11 +63,19 @@ func main()  {
 		Handler: r,
 	}
 
+	// start the https server
 	go func() {
+		//if err := http.ListenAndServeTLS(":9064", "server.crt", "server.key", r); err != nil {
+		//	fmt.Printf("listen: %s \n", err)
+		//}
+
 		if err := srv.ListenAndServeTLS("server.crt", "server.key"); err != nil {
 			fmt.Printf("listen: %s \n", err)
 		}
 	}()
+
+	// start http server
+	go http.ListenAndServe(":9065", r)
 
 	quit := make(chan os.Signal)
 	signal.Notify(quit, os.Interrupt)
