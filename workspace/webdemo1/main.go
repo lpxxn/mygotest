@@ -10,6 +10,8 @@ import (
 	"os/signal"
 	"time"
 	"github.com/mygotest/workspace/webdemo1/src/urls"
+	"github.com/gin-contrib/static"
+	//"github.com/derekparker/delve/service/api"
 )
 
 // Binding from JSON
@@ -24,6 +26,11 @@ func init() {
 
 func main() {
 	r := gin.Default()
+	r.Use(static.Serve("/", static.LocalFile("./src/www", true)))
+	//r.Static("/", "./src/www")
+
+
+
 	//gin.SetMode(gin.ReleaseMode)
 	r.GET("/ping", func(c *gin.Context) {
 		fmt.Println("paing inner")
@@ -63,6 +70,33 @@ func main() {
 	for url, value := range urls.UrlsPostMap {
 		r.POST(url, value)
 	}
+
+	/*
+	capi := r.Group("api")
+
+	{
+		capi.GET("/ping", func(c *gin.Context) {
+			fmt.Println("paing inner")
+			c.JSON(200, gin.H{
+				"message": "pong",
+			})
+		})
+
+		// Example for binding JSON ({"user": "manu", "password": "123"})
+		capi.POST("/loginJSON", func(c *gin.Context) {
+			var json Login
+			if c.BindJSON(&json) == nil {
+				if json.User == "manu" && json.Password == "123" {
+					c.JSON(http.StatusOK, gin.H{"status": "you are logged in"})
+				} else {
+					c.JSON(http.StatusUnauthorized, gin.H{"status": "unauthorized"})
+				}
+			}
+		})
+
+	}
+
+	*/
 
 	//
 	srv := &http.Server{

@@ -6,7 +6,7 @@ import (
 )
 
 func main() {
-	tick := time.Tick(100 * time.Millisecond)
+	tick := time.Tick(10 * time.Millisecond)
 	boom := time.After(500 * time.Millisecond)
 
 	for {
@@ -19,7 +19,7 @@ func main() {
 			return
 		default:
 			fmt.Println("    .")
-			time.Sleep(50 * time.Millisecond)
+			time.Sleep(30 * time.Millisecond)
 		}
 	}
 }
