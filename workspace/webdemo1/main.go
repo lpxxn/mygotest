@@ -11,7 +11,7 @@ import (
 	"time"
 	"github.com/mygotest/workspace/webdemo1/src/urls"
 	"github.com/gin-contrib/static"
-	//"github.com/derekparker/delve/service/api"
+
 )
 
 // Binding from JSON
@@ -26,10 +26,13 @@ func init() {
 
 func main() {
 	r := gin.Default()
+	// github.com/gin-contrib/static
 	r.Use(static.Serve("/", static.LocalFile("./src/www", true)))
-	//r.Static("/", "./src/www")
+	//r.Static("/", "./src/www/index.html")
 
-
+	r.NoRoute(func(c *gin.Context) {
+		c.JSON(404, gin.H{"code": "PAGE_NOT_FOUND", "message": "hello world my name is lp"})
+	})
 
 	//gin.SetMode(gin.ReleaseMode)
 	r.GET("/ping", func(c *gin.Context) {

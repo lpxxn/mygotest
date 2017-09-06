@@ -6,4 +6,6 @@ func init() {
 
 	UrlsGetmap["userinfobyid"] = userinfo.GetUserInfoById
 	UrlsGetmap["userinfobyid2/:name"] = userinfo.GetUserInfoById
+	UrlsGetmap["callback"] =  userinfo.CallBack
+	UrlsGetmap["reqoauth"] = userinfo.RequestOauth
 }
