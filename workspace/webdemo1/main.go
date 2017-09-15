@@ -11,7 +11,9 @@ import (
 	"time"
 	"github.com/mygotest/workspace/webdemo1/src/urls"
 	"github.com/gin-contrib/static"
-
+ 	"github.com/go-redis/redis"
+	"net"
+	"strings"
 )
 
 // Binding from JSON
@@ -37,8 +39,45 @@ func main() {
 	//gin.SetMode(gin.ReleaseMode)
 	r.GET("/ping", func(c *gin.Context) {
 		fmt.Println("paing inner")
+		hostName, _ := os.Hostname()
+
+		ifaces, err := net.Interfaces()
+		var ips []string
+		var ip string
+		if err == nil {
+			for _, i := range ifaces {
+				addrs, err := i.Addrs()
+				if err == nil {
+					for _, addr := range addrs {
+						var netIp net.IP
+						switch v := addr.(type) {
+						case *net.IPNet:
+							netIp = v.IP
+						case *net.IPAddr:
+							netIp = v.IP
+						}
+						ips = append(ips, netIp.String())
+					}
+				}
+			}
+			ip = strings.Join(ips, " ,")
+		}
+
+		// redis
+		client := redis.NewClient(&redis.Options{
+			Addr: "redistest:6379",
+			Password: "",
+			DB: 0,
+		})
+		var redisInfo string
+		redisInfo = client.Ping().String()
+
+
 		c.JSON(200, gin.H{
 			"message": "pong",
+			"hostName": hostName,
+			"hostIp": ip,
+			"redisInfo": redisInfo,
 		})
 	})
 
