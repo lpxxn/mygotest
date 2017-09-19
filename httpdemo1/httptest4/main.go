@@ -20,8 +20,8 @@ func main() {
 	c.AddFunc("*/1 * * * * *", func() { fmt.Println("Every hour on the half hour") })
 	c.Start()
 	defer c.Stop()
-
-	resp, err := http.Get("https://p.3.cn/prices/mgets?skuIds=J_2952697")
+	//2316993  2316993
+	resp, err := http.Get("https://p.3.cn/prices/mgets?skuIds=J_2316993")
 	if err == nil {
 		msg, err := ioutil.ReadAll(resp.Body)
 		if err == nil {
@@ -36,7 +36,7 @@ func main() {
 	} else {
 		fmt.Println(err)
 	}
-	select {
 
+	select {
 	}
 }
