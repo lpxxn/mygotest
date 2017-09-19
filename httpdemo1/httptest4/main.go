@@ -1,18 +1,22 @@
 package main
 
 import (
-	"net/http"
+	"encoding/json"
 	"fmt"
 	"io/ioutil"
-	"encoding/json"
+	"net/http"
+	"os"
+	"os/signal"
+	"syscall"
+
 	"github.com/robfig/cron"
 )
 
 type JdPrice []struct {
 	Op string `json:"op"`
-	M string `json:"m"`
+	M  string `json:"m"`
 	ID string `json:"id"`
-	P string `json:"p"`
+	P  string `json:"p"`
 }
 
 func main() {
@@ -37,6 +41,14 @@ func main() {
 		fmt.Println(err)
 	}
 
+	signalCh := make(chan os.Signal, 1)
+	signal.Notify(signalCh, os.Interrupt, syscall.SIGTERM)
+
 	select {
+	case <-signalCh:
+		fmt.Println("close")
 	}
+
+	// single select can block the app
+	select {}
 }
