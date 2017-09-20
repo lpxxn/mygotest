@@ -28,8 +28,6 @@ var favoritesProduct = map[string]float64{
 	"2316993": 333,  // 耳机
 }
 
-///
-/// test
 func GetPrice(product string, myPrice float64) {
 	//2316993  2316993
 	//resp, err := http.Get("https://p.3.cn/prices/mgets?skuIds=J_2316993")
