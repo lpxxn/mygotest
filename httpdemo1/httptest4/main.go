@@ -9,9 +9,10 @@ import (
 	"os/signal"
 	"syscall"
 
-	"github.com/robfig/cron"
-	"github.com/lpxxn/gomail"
 	"crypto/tls"
+
+	"github.com/lpxxn/gomail"
+	"github.com/robfig/cron"
 )
 
 type JdPrice []struct {
@@ -84,7 +85,6 @@ func main() {
 func sendEmail() {
 	d := gomail.NewDialer("smtp.exmail.qq.com", 465, "p.li@angaomeng.com", "AgmLip123p.li")
 	d.TLSConfig = &tls.Config{InsecureSkipVerify: true}
-
 
 	m := gomail.NewMessage()
 	m.SetHeader("From", "p.li@angaomeng.com")
