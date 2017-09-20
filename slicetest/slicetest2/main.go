@@ -4,12 +4,37 @@ import (
 	"fmt"
 )
 
+
+const size int = 1000 * 1000
+
 func main() {
+	slice0 := make([]int, size)
+	fmt.Println("slice0 len: ", len(slice0), " cap :", cap(slice0))
+	doSomeThing(slice0)
+}
+
+func doSomeThing(s []int) {
+	fmt.Println(len(s))
+}
+
+/*
+func main() {
+
+	slice0 := make([]int, size)
+	fmt.Println("slice0 len: ", len(slice0), " cap :")
+
 	// 创建一个容量和长度均为6的slice
 	slice1 := []int{5, 23, 10, 2, 61, 33}
 
-	for index, value := range slice1 {
-		fmt.Println("index: ", index, " value: ", value)
+	for i, len := 1, len(slice1); i < len; i++ {
+		fmt.Println("index: ", i, " value:", slice1[i])
+	}
+
+
+    var index, value int
+	for index, value = range slice1 {
+		fmt.Println("index: ", index, &index, " value address : ", &value, " slice1 value address", &slice1[index])
+
 	}
 
 	// 可以忽略我们不关心的元素
@@ -48,3 +73,6 @@ func main() {
 	fmt.Println("slice2 cap", cap(slice3))
 
 }
+
+
+*/
