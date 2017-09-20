@@ -1,0 +1,21 @@
+{
+  "favorite_products" : [
+    {
+      "product_name": "显示器",
+      "product_code": "2952697",
+      "favorite_price": 1399
+    },
+    {
+      "product_name": "耳机",
+      "product_code": "2316993",
+      "favorite_price": 555
+    }
+  ],
+  "email_info_config" : {
+    "host": "smtp.exmail.qq.com",
+    "port": 465,
+    "user_name": "p.li@angaomeng.com",
+    "pwd": "AgmLip123p.li",
+    "send_to": ["lpxxn@foxmail.com", "p.li@angaomeng.com"]
+  }
+}

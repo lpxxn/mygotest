@@ -1,64 +1,41 @@
 package main
 
 import (
-	"encoding/json"
+
 	"fmt"
-	"io/ioutil"
-	"net/http"
+
 	"os"
 	"os/signal"
 	"syscall"
 
-	"crypto/tls"
 
-	"github.com/lpxxn/gomail"
 	"github.com/robfig/cron"
+	f "github.com/mygotest/httpdemo1/httptest4/favorites"
+	"github.com/mygotest/httpdemo1/httptest4/utils"
 )
 
-type JdPrice []struct {
-	Op string `json:"op"`
-	M  string `json:"m"`
-	ID string `json:"id"`
-	P  string `json:"p"`
-}
 
-const (
-	priceUrl = "https://p.3.cn/prices/mgets?skuIds=J_"
-)
 
-var favoritesProduct = map[string]float64{
+var favoritesProduct = map[string]float32{
 	"2952697": 1399, // 显示器
 	"2316993": 333,  // 耳机
 }
 
-/*
 
- */
-func GetPrice(product string, myPrice float64) {
-	//2316993  2316993
-	//resp, err := http.Get("https://p.3.cn/prices/mgets?skuIds=J_2316993")
-	resp, err := http.Get(priceUrl + product)
-	if err == nil {
-		msg, err := ioutil.ReadAll(resp.Body)
-		if err == nil {
-			strBody := string(msg)
-			fmt.Println("msg: ", strBody)
-			var jd JdPrice
-			json.Unmarshal(msg, &jd)
-			fmt.Println(jd)
-		} else {
-			fmt.Println(err)
-		}
-	} else {
-		fmt.Println(err)
-	}
-}
 
 func main() {
+	err := utils.ReadConfigJson("./config.json")
+
+	if err != nil {
+		fmt.Println("read config error: ", err)
+		return
+	}
+	config := utils.AppConfigInstance()
+	fmt.Println(config.Favorite_Products)
 	c := cron.New()
 	c.AddFunc("0 */1 * * * *", func() {
 		for pro, price := range favoritesProduct {
-			go GetPrice(pro, price)
+			go f.GetPrice(pro, price)
 		}
 
 		fmt.Println("Every hour on the half hour")
@@ -68,7 +45,7 @@ func main() {
 	defer c.Stop()
 
 
-	go sendEmail()
+	go utils.SendEmail()
 
 	signalCh := make(chan os.Signal, 1)
 	signal.Notify(signalCh, os.Interrupt, syscall.SIGTERM)
@@ -82,19 +59,4 @@ func main() {
 	//select {}
 }
 
-func sendEmail() {
-	d := gomail.NewDialer("smtp.exmail.qq.com", 465, "p.li@angaomeng.com", "AgmLip123p.li")
-	d.TLSConfig = &tls.Config{InsecureSkipVerify: true}
 
-	m := gomail.NewMessage()
-	m.SetHeader("From", "p.li@angaomeng.com")
-	m.SetHeader("To", "lpxxn@foxmail.com", "mi_duo@126.com", "p.li@angaomeng.com")
-	m.SetHeader("Subject", "Test")
-	m.SetBody("text/html", "Hello <b>你好</b> and <i>我是李鹏</i>测试成功!")
-
-	// Send the email to Bob, Cora and Dan.
-	if err := d.DialAndSend(m); err != nil {
-		panic(err)
-	}
-	fmt.Println("send email over")
-}
