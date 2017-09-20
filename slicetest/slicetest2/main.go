@@ -12,14 +12,14 @@ func main() {
 		fmt.Println("index: ", index, " value: ", value)
 	}
 
-	// 可以只用我们关心的元素
+	// 可以忽略我们不关心的元素
 	// 只关心value
 	for _, value := range slice1 {
 		fmt.Println("value ", value)
 	}
 
-	// 只关心index
-	for index, _ := range slice1 {
+	// 只关心index, 可以不用 _
+	for index := range slice1 {
 		fmt.Println("index: ", index)
 	}
 
