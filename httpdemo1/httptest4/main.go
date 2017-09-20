@@ -67,6 +67,7 @@ func main() {
 	defer c.Stop()
 
 
+	go sendEmail()
 
 	signalCh := make(chan os.Signal, 1)
 	signal.Notify(signalCh, os.Interrupt, syscall.SIGTERM)
@@ -95,5 +96,5 @@ func sendEmail() {
 	if err := d.DialAndSend(m); err != nil {
 		panic(err)
 	}
-	fmt.Println("")
+	fmt.Println("send email over")
 }
