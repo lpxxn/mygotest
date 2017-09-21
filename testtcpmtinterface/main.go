@@ -14,8 +14,8 @@ import (
 
 ///"github.com/mahonia"
 type ConfigObject struct {
-	Service string `json: "service"`
-	Uuid    string `json: "uuid"`
+	Service string `json:"service"`
+	Uuid    string `json:"uuid"`
 }
 
 func main() {

@@ -4,10 +4,11 @@ import (
 	"io/ioutil"
 	"encoding/json"
 	"sync"
+	"github.com/mygotest/httpdemo1/httptest4/models"
 )
 
 type AppConfig struct {
-	Favorite_Products FavoriteProducts `json:"favorite_products"`
+	JdProductInfo   models.JdInfo	`json:"jd_product_info"`
 	EmailInfoConfig EmailInfo	`json:"email_info_config"`
 }
 var instantiate *AppConfig = nil

@@ -1,16 +1,20 @@
 {
-  "favorite_products" : [
-    {
-      "product_name": "显示器",
-      "product_code": "2952697",
-      "favorite_price": 1399
-    },
-    {
-      "product_name": "耳机",
-      "product_code": "2316993",
-      "favorite_price": 555
-    }
-  ],
+  "jd_product_info": {
+    "jd_favorite_products" : [
+      {
+        "product_name": "显示器",
+        "product_code": "2952697",
+        "favorite_price": 1399
+      },
+      {
+        "product_name": "耳机",
+        "product_code": "2316993",
+        "favorite_price": 555
+      }
+    ],
+    "price_url": "https://p.3.cn/prices/mgets?skuIds=J_"
+  },
+
   "email_info_config" : {
     "host": "smtp.exmail.qq.com",
     "port": 465,

@@ -1,11 +1,10 @@
-package favorites
+package models
 
 import (
 	"io/ioutil"
 	"fmt"
 	"net/http"
 	"encoding/json"
-	"github.com/mygotest/httpdemo1/httptest4/utils"
 )
 
 type JdPrice []struct {
@@ -15,14 +14,13 @@ type JdPrice []struct {
 	P  string `json:"p"`
 }
 const (
-	priceUrl = "https://p.3.cn/prices/mgets?skuIds=J_"
+	priceUrl = ""
 )
 
 /*
 
  */
 func GetPrice(product string, myPrice float32) {
-	utils.SendEmail()
 	//2316993  2316993
 	//resp, err := http.Get("https://p.3.cn/prices/mgets?skuIds=J_2316993")
 	resp, err := http.Get(priceUrl + product)
