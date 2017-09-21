@@ -2,15 +2,26 @@
   "jd_product_info": {
     "jd_favorite_products" : [
       {
-        "product_name": "显示器",
+        "product_name": "漫步者 W855BT",
         "product_code": "2952697",
-        "favorite_price": 1399
+        "favorite_price": 899
       },
       {
-        "product_name": "耳机",
+        "product_name": "戴尔（DELL） U2417H",
         "product_code": "2316993",
-        "favorite_price": 555
+        "favorite_price": 1655
+      },
+      {
+        "product_name": "杯子 SM-KC 咖啡色480ml",
+        "product_code": "1988489318",
+        "favorite_price": 120
+      },
+      {
+        "product_name": "Apple iPhone 7 Plus 128G 红色特别版",
+        "product_code": "3995645",
+        "favorite_price": 6700
       }
+
     ],
     "price_url": "https://p.3.cn/prices/mgets?skuIds=J_"
   },
@@ -19,7 +30,7 @@
     "host": "smtp.exmail.qq.com",
     "port": 465,
     "user_name": "p.li@angaomeng.com",
-    "pwd": "AgmLip123p.li",
-    "send_to": ["lpxxn@foxmail.com", "p.li@angaomeng.com"]
+    "pwd": "AgmLip123li.p",
+    "send_to": ["lpxxn@foxmail.com", "p.li@angaomeng.com", "x.guo@angaomeng.com"]
   }
 }

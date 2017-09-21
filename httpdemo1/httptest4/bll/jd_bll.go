@@ -26,8 +26,8 @@ func GetJdPrice(url string, product *models.JdFavoriteProduct) {
 		json.Unmarshal(msg, &jd)
 		t := time.Now()
 		d := date.Date{ Year: int32(t.Year()), Month: int32(t.Month()), Day: int32(t.Day())}
-		fmt.Printf("京东 商品 %s,当前价格  %s, 期望价格:%g \n", product.ProductName, jd[0].P, product.FavoritePrice)
-		if product.SendEmailTime == d && product.SendCount > 1 {
+		fmt.Printf("京东 商品 %s,当前价格  %s, 期望价格:%g ,编号：%s \n", product.ProductName, jd[0].P, product.FavoritePrice, product.ProductCode)
+		if product.SendEmailTime == d && product.SendCount > 0 {
 			fmt.Printf("have send %d", product.SendCount)
 			return
 		}
