@@ -27,6 +27,8 @@ func init() {
 }
 
 func main() {
+	t := time.Now()
+	fmt.Println(t)
 	r := gin.Default()
 	// github.com/gin-contrib/static
 	r.Use(static.Serve("/", static.LocalFile("./src/www", true)))

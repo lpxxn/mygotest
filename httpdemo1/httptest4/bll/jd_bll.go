@@ -26,7 +26,7 @@ func GetJdPrice(url string, product *models.JdFavoriteProduct) {
 		t := time.Now()
 		fmt.Printf("京东 商品 %s,当前价格  %s, 期望价格:%g ,编号：%s \n", product.ProductName, jd[0].P, product.FavoritePrice, product.ProductCode)
 		if product.SendCount > 0 {
-			fmt.Printf("have send %d", product.SendCount)
+			fmt.Printf("have send %d \n", product.SendCount)
 			return
 		}
 		if jd != nil && len(jd) > 0  {
