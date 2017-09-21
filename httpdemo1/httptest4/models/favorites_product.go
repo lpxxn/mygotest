@@ -1,12 +1,14 @@
 package models
 
-import "google.golang.org/genproto/googleapis/type/date"
+import (
+	"time"
+)
 
 type JdFavoriteProduct struct {
 	ProductName string	`json:"product_name"`
 	ProductCode string `json:"product_code"`
 	FavoritePrice float32	`json:"favorite_price"`
-	SendEmailTime date.Date
+	SendEmailTime time.Time
 	SendCount int
 }
 

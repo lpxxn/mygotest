@@ -9,7 +9,6 @@ import (
 	"encoding/json"
 	"strconv"
 	"time"
-	"google.golang.org/genproto/googleapis/type/date"
 )
 
 func GetPrice(jd *models.JdInfo) {
@@ -25,9 +24,8 @@ func GetJdPrice(url string, product *models.JdFavoriteProduct) {
 		var jd models.JdPrice
 		json.Unmarshal(msg, &jd)
 		t := time.Now()
-		d := date.Date{ Year: int32(t.Year()), Month: int32(t.Month()), Day: int32(t.Day())}
 		fmt.Printf("京东 商品 %s,当前价格  %s, 期望价格:%g ,编号：%s \n", product.ProductName, jd[0].P, product.FavoritePrice, product.ProductCode)
-		if product.SendEmailTime == d && product.SendCount > 0 {
+		if product.SendCount > 0 {
 			fmt.Printf("have send %d", product.SendCount)
 			return
 		}
@@ -36,9 +34,9 @@ func GetJdPrice(url string, product *models.JdFavoriteProduct) {
 			pf := float32(p)
 			if p > 0 && pf <= product.FavoritePrice {
 				fmt.Println("send email")
-				go utils.SendEmail(fmt.Sprintf("京东 商品<b> %s </b>,当前价格 <b> %s </b>, 期望价格<b>:%g </b>", product.ProductName, jd[0].P, product.FavoritePrice))
+				go utils.SendEmail(fmt.Sprintf("京东 商品<b> %s </b>,当前价格 <b> %s </b>, 期望价格<b>:%g </b>, 编号：%s ", product.ProductName, jd[0].P, product.FavoritePrice, product.ProductCode))
 				product.SendCount += 1
-				product.SendEmailTime = d
+				product.SendEmailTime = t
 			}
 		}
 	} else {

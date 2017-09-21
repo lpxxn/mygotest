@@ -12,10 +12,6 @@ import (
 	"time"
 )
 
-var favoritesProduct = map[string]float32{
-	"2952697": 1399, // 显示器
-	"2316993": 333,  // 耳机
-}
 
 func init() {
 	err := utils.ReadConfigJson("./config.json")
