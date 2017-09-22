@@ -9,7 +9,6 @@ import (
 
 	"github.com/mygotest/httpdemo1/httptest4/crons"
 	"github.com/mygotest/httpdemo1/httptest4/utils"
-	"time"
 )
 
 
@@ -21,7 +20,6 @@ func init() {
 }
 
 func main() {
-	time.Now()
 	crons.JdCron()
 	defer crons.JdStopCron()
 	signalCh := make(chan os.Signal, 1)

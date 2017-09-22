@@ -28,7 +28,8 @@
       }
 
     ],
-    "price_url": "https://p.3.cn/prices/mgets?pduid=150571970596525865975232723&skuIds=J_"
+    "pduid": "1505719705965258659727",
+    "price_url": "https://p.3.cn/prices/mgets?pduid=%s&skuIds=J_"
   },
 
   "email_info_config" : {
@@ -36,6 +37,6 @@
     "port": 465,
     "user_name": "p.li@angaomeng.com",
     "pwd": "AgmLip123li.p",
-    "send_to": ["lpxxn@foxmail.com", "p.li@angaomeng.com", "x.guo@angaomeng.com"]
+    "send_to": ["lpxxn@foxmail.com", "p.li@angaomeng.com"]
   }
 }
