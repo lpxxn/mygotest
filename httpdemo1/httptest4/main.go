@@ -35,3 +35,5 @@ func main() {
 	// single select can block the app
 	//select {}
 }
+// container time issue
+// docker run -it -d -p 10001:10001 -v /etc/localtime:/etc/localtime:ro  3ee
