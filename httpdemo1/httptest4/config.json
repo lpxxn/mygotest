@@ -36,7 +36,7 @@
     "host": "smtp.exmail.qq.com",
     "port": 465,
     "user_name": "p.li@angaomeng.com",
-    "pwd": "AgmLip123li.p",
+    "pwd": "AgmLip123p.li",
     "send_to": ["lpxxn@foxmail.com", "p.li@angaomeng.com"]
   }
 }

@@ -14,6 +14,7 @@ import (
  	"github.com/go-redis/redis"
 	"net"
 	"strings"
+	_ "github.com/denisenkom/go-mssqldb"
 )
 
 // Binding from JSON
