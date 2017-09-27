@@ -22,6 +22,7 @@ func init() {
 	SqlDbInstance()
 }
 
+
 var db *sql.DB = nil
 var once sync.Once
 func SqlDbInstance() *sql.DB {
