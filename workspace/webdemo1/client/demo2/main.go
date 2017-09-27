@@ -7,7 +7,13 @@ import (
 
 	"github.com/denisenkom/go-mssqldb"
 	"time"
+	"math/rand"
+	"log"
 )
+
+func init() {
+	rand.Seed(time.Now().UnixNano())
+}
 
 func main() {
 	db := utils.SqlDbInstance()
@@ -23,5 +29,45 @@ func main() {
 		row.Scan(&id, &name, &val1)
 		fmt.Println(id.String(), name, val1)
 	}
-	db.Exec("insert into [User] (Name, CTime) values (?1, ?2)", "peng", time.Now())
+
+	txn, err := db.Begin()
+	if err != nil {
+		panic("error stmt")
+	}
+
+	stmt, err := txn.Prepare(mssql.CopyIn("[User]", mssql.MssqlBulkOptions{}, "Name", "CTime"))
+
+	total := rand.Intn(50)
+	for ;total > 0; total-- {
+		nameLen := rand.Intn(10)
+		stmt.Exec(generateString(nameLen), time.Now())
+		time.Sleep(time.Duration(time.Millisecond))
+	}
+	result, err := stmt.Exec()
+	if err != nil {
+		panic(err)
+	}
+
+	err = stmt.Close()
+	if err != nil {
+		panic(err)
+	}
+
+	err = txn.Commit()
+	if err != nil {
+		panic(err)
+	}
+	rowCount, _ := result.RowsAffected()
+	log.Printf("%d row copied\n", rowCount)
+	//db.Exec("insert into [User] (Name, CTime) values (?1, ?2)", "peng", time.Now())
+}
+
+func generateString(n int) string {
+	letters := "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+	letterLen := len(letters)
+	b := make([]byte, n)
+	for i := range b {
+		b[i] = letters[rand.Intn(letterLen)]
+	}
+	return string(b)
 }

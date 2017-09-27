@@ -42,3 +42,5 @@ func SqlDbInstance() *sql.DB {
 	})
 	return db
 }
+
+
