@@ -23,5 +23,5 @@ func main() {
 		row.Scan(&id, &name, &val1)
 		fmt.Println(id.String(), name, val1)
 	}
-
+	db.Exec("insert into [User] (Name, CTime) values (?1, ?2)", "peng", time.Now())
 }
