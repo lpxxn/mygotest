@@ -6,6 +6,7 @@ import (
 	"github.com/mygotest/protocoldemo/demo1/protos"
 	"github.com/gogo/protobuf/proto"
 	"io/ioutil"
+	"runtime"
 )
 func main() {
 	fmt.Println("test")
@@ -45,6 +46,32 @@ func main() {
 		c.JSON(http.StatusOK, p2)
 
 	})
+
+
+	v1 := r.Group("/v1")
+	{
+		v1.GET("/user", func(context *gin.Context) {
+			context.JSON(http.StatusOK, gin.H{"User": "li"})
+		})
+	}
+	// template
+	r.LoadHTMLGlob("./public/html/*/*.html")
+	r.Static("/public", "./public")
+	r.GET("/", func(c *gin.Context) {
+		c.HTML(http.StatusOK, "index.html", gin.H{
+			"goVersion": "v 1.0",
+			"myVersion": runtime.Version(),
+		})
+	})
+
+	r.NoRoute(func(c *gin.Context) {
+		c.HTML(http.StatusNotFound, "404.html", gin.H{"say": "HeHe....."})
+	})
+
+	r.GET("/h2", func(c *gin.Context) {
+		c.HTML(http.StatusOK, "h2test.html", gin.H{"say": "Hello World"})
+	})
+
 	http.ListenAndServe(":9000", r)
 
 }
