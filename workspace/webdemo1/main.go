@@ -15,6 +15,7 @@ import (
 	"net"
 	"strings"
 	_ "github.com/denisenkom/go-mssqldb"
+	"github.com/mygotest/workspace/webdemo1/tutorial"
 )
 
 // Binding from JSON
@@ -106,6 +107,13 @@ func main() {
 			} else {
 				c.JSON(http.StatusUnauthorized, gin.H{"status": "unauthorized"})
 			}
+		}
+	})
+
+	r.POST("/testproto1", func(c *gin.Context) {
+		var p1 tutorial.Person
+		if c.Bind(&p1) == nil {
+			c.JSON(http.StatusOK, gin.H{"p1": p1})
 		}
 	})
 

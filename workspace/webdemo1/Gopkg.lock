@@ -8,12 +8,6 @@
   version = "v0.13.0"
 
 [[projects]]
-  branch = "master"
-  name = "github.com/axgle/mahonia"
-  packages = ["."]
-  revision = "0c44128a83abf861873f8f4ec81fe58ff1cf6ea4"
-
-[[projects]]
   name = "github.com/davecgh/go-spew"
   packages = ["spew"]
   revision = "346938d642f2ec3594ed81d874461961cd0faa76"
@@ -24,12 +18,6 @@
   name = "github.com/denisenkom/go-mssqldb"
   packages = ["."]
   revision = "59e3d448a68d91a4037e1b9b0da98c5024e26df9"
-
-[[projects]]
-  branch = "master"
-  name = "github.com/djimenez/iconv-go"
-  packages = ["."]
-  revision = "8960e66bd3dacbc8773962b40eb82fc18c63c127"
 
 [[projects]]
   branch = "master"
@@ -202,6 +190,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "34c338182667c66bfc9f0bb36e0b5d807d0677c8adca9b78b7fbeb21dfa09701"
+  inputs-digest = "a35599e5382a5ff15d14ba39de6489d405ef2a87a92bb05198c3d0dacfc2db25"
   solver-name = "gps-cdcl"
   solver-version = 1
