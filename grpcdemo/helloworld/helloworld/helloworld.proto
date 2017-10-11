@@ -11,7 +11,8 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-
+// protoc -I helloworld/ helloworld/helloworld.proto --go_out=plugins=grpc:helloworld
+// protoc -I helloworld/ helloworld/*.proto --go_out=plugins=grpc:helloworld
 syntax = "proto3";
 
 option java_multiple_files = true;
