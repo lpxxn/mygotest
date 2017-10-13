@@ -8,10 +8,22 @@
   revision = "22d885f9ecc78bf4ee5d72b937e4bbcdc58e8cae"
 
 [[projects]]
+  branch = "master"
+  name = "github.com/gin-contrib/static"
+  packages = ["."]
+  revision = "e6b7eb92648d0a5faeea81700668a7a5dbe8424f"
+
+[[projects]]
   name = "github.com/gin-gonic/gin"
   packages = [".","binding","render"]
   revision = "d459835d2b077e44f7c9b453505ee29881d5d12d"
   version = "v1.2"
+
+[[projects]]
+  name = "github.com/gogo/protobuf"
+  packages = ["proto"]
+  revision = "342cbe0a04158f6dcb03ca0079991a51a4248c02"
+  version = "v0.5"
 
 [[projects]]
   branch = "master"
@@ -52,6 +64,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "c281c683a2b27acca679395d896799abf53f85154e80dd8d48d16cd34c852bf3"
+  inputs-digest = "d963b75938868521072ab686065b89fbd22db39d61eb47d4d71252a59030c053"
   solver-name = "gps-cdcl"
   solver-version = 1

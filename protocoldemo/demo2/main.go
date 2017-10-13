@@ -6,6 +6,7 @@ import (
 	"github.com/mygotest/protocoldemo/demo1/protos"
 	"github.com/gogo/protobuf/proto"
 	"io/ioutil"
+	"github.com/gin-contrib/static"
 	"runtime"
 )
 func main() {
@@ -56,12 +57,16 @@ func main() {
 	}
 	// template
 	r.LoadHTMLGlob("./public/html/*/*.html")
-	r.Static("/public", "./public")
-	r.GET("/", func(c *gin.Context) {
-		c.HTML(http.StatusOK, "index.html", gin.H{
+	//r.Static("/public", "./public")
+	//r.Static("/", "./public")
+	r.Use(static.Serve("/", static.LocalFile("./public/html", true)))
+
+	r.GET("/ie", func(c *gin.Context) {
+		c.HTML(http.StatusOK, "index2.html", gin.H{
 			"goVersion": "v 1.0",
 			"myVersion": runtime.Version(),
 		})
+		//c.HTML(http.StatusOK, "index.html", nil)
 	})
 
 	r.NoRoute(func(c *gin.Context) {
