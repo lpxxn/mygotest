@@ -59,7 +59,8 @@ func main() {
 	r.LoadHTMLGlob("./public/html/*/*.html")
 	//r.Static("/public", "./public")
 	//r.Static("/", "./public")
-	r.Use(static.Serve("/", static.LocalFile("./public/html", true)))
+	//r.Use(static.Serve("/", static.LocalFile("./public/html", true)))
+	r.Use(static.Serve("/", static.LocalFile("./public", true)))
 
 	r.GET("/ie", func(c *gin.Context) {
 		c.HTML(http.StatusOK, "index2.html", gin.H{
@@ -77,6 +78,6 @@ func main() {
 		c.HTML(http.StatusOK, "h2test.html", gin.H{"say": "Hello World"})
 	})
 
-	http.ListenAndServe(":9000", r)
+	http.ListenAndServe(":9001", r)
 
 }
