@@ -16,6 +16,8 @@ import (
 	"strings"
 	_ "github.com/denisenkom/go-mssqldb"
 	"github.com/mygotest/workspace/webdemo1/tutorial"
+
+	"github.com/gin-contrib/cors"
 )
 
 // Binding from JSON
@@ -32,6 +34,10 @@ func main() {
 	t := time.Now()
 	fmt.Println(t)
 	r := gin.Default()
+
+	// allow all origins
+	r.Use(cors.Default());
+
 	// github.com/gin-contrib/static
 	r.Use(static.Serve("/", static.LocalFile("./src/www", true)))
 	//r.Static("/", "./src/www/index.html")
