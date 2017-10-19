@@ -8,6 +8,7 @@ import (
 	"io/ioutil"
 	"net/http"
 	"strconv"
+	"github.com/mygotest/workspace/webdemo1/src/utils"
 )
 
 type User struct {
@@ -63,6 +64,37 @@ func CallBack(c *gin.Context) {
 	}
 
 	c.JSON(200, gin.H{"rowQuery": c.Request.URL.RawQuery, "url": c.Request.URL})
+}
+
+type pageReq struct {
+	PageSize int	`json:"page_size" form:"page_size"`
+	CurrentPage int	`json:"current_page" form:"current_page"`
+}
+
+func PaginationPerson(c *gin.Context) {
+	param := pageReq{}
+
+	if c.BindJSON(&param) != nil {
+		c.JSON(http.StatusOK, gin.H{"status": false})
+		return
+	}
+
+	data := utils.GetPersionInfo()
+	totalCount := len(*data)
+	currentPage := param.CurrentPage;
+	pageSize := param.PageSize;
+
+	pageNumber := (totalCount + pageSize -1) / pageSize
+
+	startIndex := (currentPage - 1) * pageSize
+	endSlice := startIndex + pageSize;
+
+	fmt.Println(pageNumber, endSlice)
+	newArr := (*data)[startIndex : endSlice : endSlice]
+	fmt.Println(newArr)
+
+	c.JSON(http.StatusOK, gin.H{"status": true, "pageNumber": pageNumber, "pageTotal": totalCount, "data": newArr})
+
 }
 
 

@@ -18,6 +18,9 @@ import (
 	"github.com/mygotest/workspace/webdemo1/tutorial"
 
 	"github.com/gin-contrib/cors"
+	"flag"
+	"path"
+	"github.com/mygotest/workspace/webdemo1/src/utils"
 )
 
 // Binding from JSON
@@ -28,11 +31,25 @@ type Login struct {
 
 func init() {
 	fmt.Println("init func")
+
+
 }
 
 func main() {
 	t := time.Now()
 	fmt.Println(t)
+
+	persondatajsonpath := flag.String("persiondatapath", "./mock_data/mock_person_data.json", "the path of person data")
+	currentPath, err := os.Getwd();
+	if err != nil {
+		os.Exit(1);
+		return;
+	}
+ 	*persondatajsonpath = path.Join(currentPath, *persondatajsonpath);
+	utils.PersonDataPath = *persondatajsonpath;
+	personData := utils.GetPersionInfo();
+	fmt.Println(len(*personData))
+
 	r := gin.Default()
 
 	// allow all origins
