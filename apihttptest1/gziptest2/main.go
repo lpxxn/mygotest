@@ -1,13 +1,13 @@
 package main
 
 import (
-	"net/http"
-	"io"
-	"io/ioutil"
-	"fmt"
 	"bytes"
 	"compress/gzip"
+	"fmt"
 	"github.com/fatih/stopwatch"
+	"io"
+	"io/ioutil"
+	"net/http"
 )
 
 func main() {
@@ -21,9 +21,8 @@ func main() {
 	s := stopwatch.Start(0)
 	response, _ := client.Do(request)
 	duration := s.ElapsedTime()
-	defer  response.Body.Close()
+	defer response.Body.Close()
 	fmt.Println("request use time: ", duration)
-
 
 	var reader io.Reader = response.Body
 
@@ -36,13 +35,11 @@ func main() {
 	fmt.Println("read body time: ", duration)
 	fmt.Printf("body length: %d \n content : %s \n", len(body2), string(body2))
 
-
 	var zipReader *bytes.Reader = bytes.NewReader(body2)
 	reader, _ = gzip.NewReader(zipReader)
 	body2, err = ioutil.ReadAll(reader)
 	duration = s.ElapsedTime()
 	fmt.Println("zip read body time: ", duration)
 	fmt.Printf("body length: %d \n content : %s \n", len(body2), string(body2))
-
 
 }

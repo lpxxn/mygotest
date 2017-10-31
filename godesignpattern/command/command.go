@@ -7,7 +7,7 @@ type Commander interface {
 }
 
 type CommandInvoker struct {
-	commands [] Commander
+	commands []Commander
 }
 
 func (self *CommandInvoker) Execute() string {
@@ -24,7 +24,7 @@ func (self *CommandInvoker) Append(command Commander) {
 
 func (self *CommandInvoker) Undo() {
 	if len(self.commands) != 0 {
-		self.commands = self.commands[:len(self.commands) - 1]
+		self.commands = self.commands[:len(self.commands)-1]
 	}
 }
 
@@ -43,5 +43,5 @@ type DrawCommand struct {
 }
 
 func (self *DrawCommand) Execute() string {
-	return  self.PositionInfo.Point()
+	return self.PositionInfo.Point()
 }

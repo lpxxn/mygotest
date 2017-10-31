@@ -5,20 +5,20 @@ import (
 	"github.com/urfave/cli"
 	"os"
 )
-var strv string = ""
 
+var strv string = ""
 
 var Flags []cli.Flag = []cli.Flag{
 	cli.StringFlag{
-		Name:"lang, l",
-		Value:"eng",
-		Usage:"language for the app",
+		Name:        "lang, l",
+		Value:       "eng",
+		Usage:       "language for the app",
 		Destination: &strv,
 	},
 	cli.StringFlag{
-		Name:"lang2, l2",
-		Value:"eng",
-		Usage:"language for the app",
+		Name:        "lang2, l2",
+		Value:       "eng",
+		Usage:       "language for the app",
 		Destination: &strv,
 	},
 }
@@ -36,7 +36,7 @@ func main() {
 
 }
 
-func Test(c *cli.Context) error{
+func Test(c *cli.Context) error {
 
 	name := "Test"
 	if c.NArg() > 0 {

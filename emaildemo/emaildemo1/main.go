@@ -12,7 +12,6 @@ func main() {
 	d := gomail.NewDialer("smtp.exmail.qq.com", 465, "p.li@angaomeng.com", "AgmLip123p.li")
 	d.TLSConfig = &tls.Config{InsecureSkipVerify: true}
 
-
 	m := gomail.NewMessage()
 	m.SetHeader("From", "p.li@angaomeng.com")
 	m.SetHeader("To", "lpxxn@foxmail.com", "mi_duo@126.com", "p.li@angaomeng.com")
@@ -25,4 +24,3 @@ func main() {
 	}
 
 }
-

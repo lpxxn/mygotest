@@ -2,7 +2,7 @@ package thrlib
 
 import "fmt"
 
-type ThadData struct{
+type ThadData struct {
 	Host string `json:"host"`
 }
 

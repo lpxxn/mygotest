@@ -14,6 +14,7 @@ const (
 	dev = "dev"
 	pro = "pro"
 )
+
 func main() {
 	cli.NewApp().Run(os.Args)
 	args := os.Args[1:]

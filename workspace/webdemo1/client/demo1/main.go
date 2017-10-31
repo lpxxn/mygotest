@@ -1,13 +1,11 @@
 package main
 
-
-
 import (
 	"database/sql"
 	"flag"
 	"fmt"
-	"log"
 	"github.com/denisenkom/go-mssqldb"
+	"log"
 
 	"time"
 )
@@ -18,7 +16,7 @@ var (
 	port     *int = flag.Int("port", 1433, "the database port")
 	server        = flag.String("server", "192.168.0.105", "the database server")
 	user          = flag.String("user", "sa", "the database user")
-	database	  = flag.String("database", "testSplit", "use database")
+	database      = flag.String("database", "testSplit", "use database")
 )
 
 func main() {
@@ -59,7 +57,7 @@ func main() {
 
 	fmt.Printf("bye\n")
 
-	rows,_ := conn.Query("select * from [User]")
+	rows, _ := conn.Query("select * from [User]")
 	fmt.Println(rows)
 
 	defer rows.Close()

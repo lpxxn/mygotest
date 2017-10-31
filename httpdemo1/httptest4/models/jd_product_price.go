@@ -1,10 +1,10 @@
 package models
 
 import (
-	"io/ioutil"
-	"fmt"
-	"net/http"
 	"encoding/json"
+	"fmt"
+	"io/ioutil"
+	"net/http"
 )
 
 type JdPrice []struct {
@@ -13,6 +13,7 @@ type JdPrice []struct {
 	ID string `json:"id"`
 	P  string `json:"p"`
 }
+
 const (
 	priceUrl = ""
 )

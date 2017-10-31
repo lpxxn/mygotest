@@ -2,11 +2,11 @@ package utilities
 
 import (
 	"fmt"
-	"strings"
 	"os/exec"
+	"strings"
 )
 
-func ExecBatCmd(path string, args ...string) error{
+func ExecBatCmd(path string, args ...string) error {
 	fmt.Printf("Running: %q %q\n", path, strings.Join(args, ","))
 	cmd := exec.Command("test.bat", args...)
 	bs, err := cmd.CombinedOutput()

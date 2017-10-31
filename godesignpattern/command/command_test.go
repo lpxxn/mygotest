@@ -1,8 +1,8 @@
 package command
 
 import (
-	"testing"
 	"fmt"
+	"testing"
 )
 
 func TestCommand(t *testing.T) {
@@ -13,7 +13,6 @@ func TestCommand(t *testing.T) {
 	fmt.Println(macro.Execute())
 
 }
-
 
 func TestCommand2(t *testing.T) {
 	macro := CommandInvoker{}

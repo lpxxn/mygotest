@@ -1,12 +1,12 @@
 package bll
 
 import (
-	"io/ioutil"
-	"github.com/mygotest/httpdemo1/httptest4/utils"
+	"encoding/json"
 	"fmt"
 	"github.com/mygotest/httpdemo1/httptest4/models"
+	"github.com/mygotest/httpdemo1/httptest4/utils"
+	"io/ioutil"
 	"net/http"
-	"encoding/json"
 	"strconv"
 	"time"
 )
@@ -46,7 +46,7 @@ func GetJdPrice(product *models.JdFavoriteProduct) {
 			return
 		}
 
-		p, _ :=strconv.ParseFloat(jd[0].P, 32)
+		p, _ := strconv.ParseFloat(jd[0].P, 32)
 		pf := float32(p)
 		if p > 0 && pf <= product.FavoritePrice {
 			strchan := make(chan string)

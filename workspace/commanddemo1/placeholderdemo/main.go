@@ -9,7 +9,7 @@ import (
 func main() {
 	app := cli.NewApp()
 
-	app.Flags = []cli.Flag {
+	app.Flags = []cli.Flag{
 		cli.StringFlag{
 			// set alternate (or short) names for flags by providing a comma-delimited list for the Name e.g.
 			Name: "config, c",

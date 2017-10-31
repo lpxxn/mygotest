@@ -1,14 +1,16 @@
 package main
+
 import (
 	"fmt"
-	"github.com/gin-gonic/gin"
-	"net/http"
-	"github.com/mygotest/protocoldemo/demo1/protos"
-	"github.com/gogo/protobuf/proto"
-	"io/ioutil"
 	"github.com/gin-contrib/static"
+	"github.com/gin-gonic/gin"
+	"github.com/gogo/protobuf/proto"
+	"github.com/mygotest/protocoldemo/demo1/protos"
+	"io/ioutil"
+	"net/http"
 	"runtime"
 )
+
 func main() {
 	fmt.Println("test")
 	r := gin.Default()
@@ -25,7 +27,7 @@ func main() {
 		defer c.Request.Body.Close()
 		data, _ := ioutil.ReadAll(c.Request.Body)
 		proto.Unmarshal(data, p2)
-		fmt.Println(p2);
+		fmt.Println(p2)
 		p2.Name += "__Test"
 		reData, _ := proto.Marshal(p2)
 		c.Writer.Write(reData)
@@ -41,13 +43,12 @@ func main() {
 		defer c.Request.Body.Close()
 		data, _ := ioutil.ReadAll(c.Request.Body)
 		proto.Unmarshal(data, p2)
-		fmt.Println(p2);
+		fmt.Println(p2)
 		p2.Name += "__Test_JSON_33333"
 		//reData, _ := proto.Marshal(p2)
 		c.JSON(http.StatusOK, p2)
 
 	})
-
 
 	v1 := r.Group("/v1")
 	{

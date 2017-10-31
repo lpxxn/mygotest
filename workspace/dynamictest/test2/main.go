@@ -16,13 +16,13 @@ func PrintParams(param1, param2 string) {
 func Invoke(fn interface{}, args ...string) {
 	v := reflect.ValueOf(fn)
 	rargs := make([]reflect.Value, len(args))
-	for i, a := range  args {
+	for i, a := range args {
 		rargs[i] = reflect.ValueOf(a)
 	}
 	v.Call(rargs)
 }
 
-func main()  {
+func main() {
 	Invoke(PrintParam, "Li")
 	Invoke(PrintParams, "Peng", "Na")
 }

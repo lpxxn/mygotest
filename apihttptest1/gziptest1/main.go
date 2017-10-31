@@ -1,13 +1,13 @@
 package main
 
 import (
-	"net/http"
-	"strings"
-	"io/ioutil"
+	"compress/gzip"
 	"fmt"
 	"github.com/axgle/mahonia"
 	"io"
-	"compress/gzip"
+	"io/ioutil"
+	"net/http"
+	"strings"
 )
 
 func main() {
@@ -39,7 +39,7 @@ func main() {
 		reader = response.Body
 		fmt.Println("content-encoding not gzip")
 	}
-    defer reader.Close()
+	defer reader.Close()
 	body2, err := ioutil.ReadAll(reader)
 	if err != nil {
 		fmt.Println("err", err)

@@ -1,14 +1,13 @@
 package main
 
 import (
-
-	"github.com/mygotest/workspace/webdemo1/src/utils"
 	"fmt"
+	"github.com/mygotest/workspace/webdemo1/src/utils"
 
 	"github.com/denisenkom/go-mssqldb"
-	"time"
-	"math/rand"
 	"log"
+	"math/rand"
+	"time"
 )
 
 func init() {
@@ -38,7 +37,7 @@ func main() {
 	stmt, err := txn.Prepare(mssql.CopyIn("[User]", mssql.MssqlBulkOptions{}, "Name", "CTime"))
 
 	total := rand.Intn(50)
-	for ;total > 0; total-- {
+	for ; total > 0; total-- {
 		nameLen := rand.Intn(10)
 		stmt.Exec(generateString(nameLen), time.Now())
 		time.Sleep(time.Duration(time.Millisecond))

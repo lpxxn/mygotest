@@ -6,21 +6,21 @@ import (
 	"net/http"
 
 	"context"
+	_ "github.com/denisenkom/go-mssqldb"
+	"github.com/gin-contrib/static"
+	"github.com/go-redis/redis"
+	"github.com/mygotest/workspace/webdemo1/src/urls"
+	"github.com/mygotest/workspace/webdemo1/tutorial"
+	"net"
 	"os"
 	"os/signal"
-	"time"
-	"github.com/mygotest/workspace/webdemo1/src/urls"
-	"github.com/gin-contrib/static"
- 	"github.com/go-redis/redis"
-	"net"
 	"strings"
-	_ "github.com/denisenkom/go-mssqldb"
-	"github.com/mygotest/workspace/webdemo1/tutorial"
+	"time"
 
-	"github.com/gin-contrib/cors"
 	"flag"
-	"path"
+	"github.com/gin-contrib/cors"
 	"github.com/mygotest/workspace/webdemo1/src/utils"
+	"path"
 )
 
 // Binding from JSON
@@ -32,7 +32,6 @@ type Login struct {
 func init() {
 	fmt.Println("init func")
 
-
 }
 
 func main() {
@@ -40,23 +39,24 @@ func main() {
 	fmt.Println(t)
 
 	persondatajsonpath := flag.String("persiondatapath", "./mock_data/mock_person_data.json", "the path of person data")
-	currentPath, err := os.Getwd();
+	currentPath, err := os.Getwd()
 	if err != nil {
-		os.Exit(1);
-		return;
+		os.Exit(1)
+		return
 	}
- 	*persondatajsonpath = path.Join(currentPath, *persondatajsonpath);
-	utils.PersonDataPath = *persondatajsonpath;
-	personData := utils.GetPersionInfo();
+	*persondatajsonpath = path.Join(currentPath, *persondatajsonpath)
+	utils.PersonDataPath = *persondatajsonpath
+	personData := utils.GetPersionInfo()
 	fmt.Println(len(*personData))
 
 	r := gin.Default()
 
 	// allow all origins
-	r.Use(cors.Default());
+	r.Use(cors.Default())
 
 	// github.com/gin-contrib/static
-	r.Use(static.Serve("/", static.LocalFile("./src/www", true)))
+	//r.Use(static.Serve("/", static.LocalFile("./src/www", true)))
+	r.Use(static.Serve("/", static.LocalFile("./src/www", false)))
 	//r.Static("/", "./src/www/index.html")
 
 	r.NoRoute(func(c *gin.Context) {
@@ -92,18 +92,17 @@ func main() {
 
 		// redis
 		client := redis.NewClient(&redis.Options{
-			Addr: "redistest:6379",
+			Addr:     "redistest:6379",
 			Password: "",
-			DB: 0,
+			DB:       0,
 		})
 		var redisInfo string
 		redisInfo = client.Ping().String()
 
-
 		c.JSON(200, gin.H{
-			"message": "pong",
-			"hostName": hostName,
-			"hostIp": ip,
+			"message":   "pong",
+			"hostName":  hostName,
+			"hostIp":    ip,
 			"redisInfo": redisInfo,
 		})
 	})
@@ -148,29 +147,29 @@ func main() {
 	}
 
 	/*
-	capi := r.Group("api")
+		capi := r.Group("api")
 
-	{
-		capi.GET("/ping", func(c *gin.Context) {
-			fmt.Println("paing inner")
-			c.JSON(200, gin.H{
-				"message": "pong",
+		{
+			capi.GET("/ping", func(c *gin.Context) {
+				fmt.Println("paing inner")
+				c.JSON(200, gin.H{
+					"message": "pong",
+				})
 			})
-		})
 
-		// Example for binding JSON ({"user": "manu", "password": "123"})
-		capi.POST("/loginJSON", func(c *gin.Context) {
-			var json Login
-			if c.BindJSON(&json) == nil {
-				if json.User == "manu" && json.Password == "123" {
-					c.JSON(http.StatusOK, gin.H{"status": "you are logged in"})
-				} else {
-					c.JSON(http.StatusUnauthorized, gin.H{"status": "unauthorized"})
+			// Example for binding JSON ({"user": "manu", "password": "123"})
+			capi.POST("/loginJSON", func(c *gin.Context) {
+				var json Login
+				if c.BindJSON(&json) == nil {
+					if json.User == "manu" && json.Password == "123" {
+						c.JSON(http.StatusOK, gin.H{"status": "you are logged in"})
+					} else {
+						c.JSON(http.StatusUnauthorized, gin.H{"status": "unauthorized"})
+					}
 				}
-			}
-		})
+			})
 
-	}
+		}
 
 	*/
 

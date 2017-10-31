@@ -1,14 +1,13 @@
 package command
 
-
 import "fmt"
 
 // command interface
 type Command interface {
-	Executed();
+	Executed()
 }
 
-type ConcreteCommand struct{
+type ConcreteCommand struct {
 	Name string
 }
 
@@ -30,4 +29,3 @@ func (invoker *Invoker) Execute() {
 		item.Executed()
 	}
 }
-

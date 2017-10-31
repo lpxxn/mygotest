@@ -5,10 +5,10 @@ import (
 	//"encoding/json"
 	"fmt"
 	"github.com/gin-gonic/gin"
+	"github.com/mygotest/workspace/webdemo1/src/utils"
 	"io/ioutil"
 	"net/http"
 	"strconv"
-	"github.com/mygotest/workspace/webdemo1/src/utils"
 )
 
 type User struct {
@@ -51,14 +51,14 @@ func CallBack(c *gin.Context) {
 	err := c.Request.URL.Query().Get("error")
 	if err != "" {
 		myHtmlStr := fmt.Sprintf(
-				`<html>
+			`<html>
 							<body>
 								<h1>Error</h1>
 								%s
 							</body>
 						</html>
 						`, err)
-			c.Writer.WriteHeader(http.StatusOK)
+		c.Writer.WriteHeader(http.StatusOK)
 		c.Writer.Write([]byte(myHtmlStr))
 		return
 	}
@@ -67,8 +67,8 @@ func CallBack(c *gin.Context) {
 }
 
 type pageReq struct {
-	PageSize int	`json:"page_size" form:"page_size"`
-	CurrentPage int	`json:"current_page" form:"current_page"`
+	PageSize    int `json:"page_size" form:"page_size"`
+	CurrentPage int `json:"current_page" form:"current_page"`
 }
 
 func PaginationPerson(c *gin.Context) {
@@ -81,25 +81,23 @@ func PaginationPerson(c *gin.Context) {
 
 	data := utils.GetPersionInfo()
 	totalCount := len(*data)
-	currentPage := param.CurrentPage;
-	pageSize := param.PageSize;
+	currentPage := param.CurrentPage
+	pageSize := param.PageSize
 
-	pageNumber := (totalCount + pageSize -1) / pageSize
+	pageNumber := (totalCount + pageSize - 1) / pageSize
 
 	startIndex := (currentPage - 1) * pageSize
-	endSlice := startIndex + pageSize;
+	endSlice := startIndex + pageSize
 
 	fmt.Println(pageNumber, endSlice)
-	newArr := (*data)[startIndex : endSlice : endSlice]
+	newArr := (*data)[startIndex:endSlice:endSlice]
 	fmt.Println(newArr)
 
 	c.JSON(http.StatusOK, gin.H{"status": true, "pageNumber": pageNumber, "pageTotal": totalCount, "data": newArr})
 
 }
 
-
 type TableUserPostModel struct {
-
 }
 
 // Post
