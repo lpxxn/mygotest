@@ -10,10 +10,10 @@ import (
 )
 
 var (
-	server = flag.String("server", "154.223.243.121:3306", "db ip")
+	server = flag.String("server", "54.223.243.21:3306", "db ip")
 	database = flag.String("database", "hydra", "user database")
-	user = flag.String("user", "mtk_backofficea", "db users")
-	password = flag.String("password", "1q2Ayy2qPE6wKyqan", "the database password")
+	user = flag.String("user", "mtk_backoffice", "db users")
+	password = flag.String("password", "q2Ayy2qPE6wKyqan", "the database password")
 )
 
 func init() {
