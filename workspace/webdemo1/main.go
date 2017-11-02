@@ -56,6 +56,7 @@ func main() {
 	store, _ := sessions.NewRedisStore(10, "tcp", "192.168.0.105:6379", "", []byte("mysessionsecrit"))
 	store.Options(sessions.Options{
 		MaxAge:   86400,
+		//Domain:".lp.com",
 	})
 
 	r.Use(sessions.Sessions("workino_session", store))
