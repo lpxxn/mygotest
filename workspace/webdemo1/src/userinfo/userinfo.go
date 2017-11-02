@@ -9,6 +9,7 @@ import (
 	"net/http"
 	"strconv"
 	"github.com/mygotest/workspace/webdemo1/src/utils"
+	"github.com/gin-gonic/contrib/sessions"
 )
 
 type User struct {
@@ -105,4 +106,25 @@ type TableUserPostModel struct {
 // Post
 func UserPagination(c *gin.Context) {
 
+}
+var testInt  = 1
+func SetSession(c *gin.Context) {
+	session := sessions.Default(c)
+	testInt++;
+	t := strconv.Itoa(testInt)
+	session.Set("name", "test1" + t)
+	session.Save()
+	c.String(http.StatusOK, "ok" + t)
+}
+
+func GetSession(c *gin.Context) {
+	session := sessions.Default(c)
+	var v interface{}
+	if v = session.Get("name"); v == nil {
+
+		c.JSON(http.StatusOK, gin.H{"error": "novalue"})
+		return
+	}
+	name := v.(string)
+	c.String(http.StatusOK, name)
 }

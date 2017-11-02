@@ -21,6 +21,8 @@ import (
 	"flag"
 	"path"
 	"github.com/mygotest/workspace/webdemo1/src/utils"
+	"github.com/gin-gonic/contrib/sessions"
+
 )
 
 // Binding from JSON
@@ -52,6 +54,9 @@ func main() {
 
 	r := gin.Default()
 
+	// sassion
+	store, _ := sessions.NewRedisStore(10, "tcp", "192.168.0.105:6379", "", []byte("mysessionsecrit"))
+	r.Use(sessions.Sessions("session", store))
 	// allow all origins
 	r.Use(cors.Default());
 
@@ -182,13 +187,13 @@ func main() {
 
 	// start the https server
 	go func() {
-		//if err := http.ListenAndServeTLS(":9064", "server.crt", "server.key", r); err != nil {
-		//	fmt.Printf("listen: %s \n", err)
-		//}
-
-		if err := srv.ListenAndServeTLS("server.crt", "server.key"); err != nil {
+		if err := http.ListenAndServeTLS(":9064", "server.crt", "server.key", r); err != nil {
 			fmt.Printf("listen: %s \n", err)
 		}
+
+		//if err := srv.ListenAndServeTLS("server.crt", "server.key"); err != nil {
+		//	fmt.Printf("listen: %s \n", err)
+		//}
 	}()
 
 	// start http server
