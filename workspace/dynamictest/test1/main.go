@@ -1,8 +1,8 @@
 package main
 
 import (
-	"reflect"
 	"fmt"
+	"reflect"
 )
 
 type Test struct {
@@ -15,7 +15,7 @@ func (t Test) Finish() string {
 }
 
 // pointer receiver
-func (t *Test) Another() string  {
+func (t *Test) Another() string {
 	return t.Start + "another"
 }
 
@@ -48,10 +48,10 @@ func CallMethod(i interface{}, methodName string) interface{} {
 		return finalMethod.Call([]reflect.Value{})[0].Interface()
 	}
 	// return or panic, method not found of either type
-	return "";
+	return ""
 }
 
-func main()  {
+func main() {
 	i := Test{Start: "start"}
 	j := Test{Start: "start2"}
 
@@ -64,8 +64,6 @@ func main()  {
 	fmt.Println(CallMethod(j, "Another"))
 	fmt.Println(CallMethod(&j, "Another"))
 }
-
-
 
 // https://stackoverflow.com/questions/14116840/dynamically-call-method-on-interface-regardless-of-receiver-type
 // https://stackoverflow.com/questions/32673407/dynamic-function-call-in-go

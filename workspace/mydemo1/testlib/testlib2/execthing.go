@@ -2,12 +2,11 @@ package testlib2
 
 import "fmt"
 
-type User struct{
+type User struct {
 	Name string
-	age int
-
+	age  int
 }
 
-func ExecMethod()  {
+func ExecMethod() {
 	fmt.Println("ExecMethod")
 }

@@ -13,4 +13,3 @@ func (dev *DevicesDb) GetName() string {
 func DeviceOp() {
 	fmt.Println("Device i")
 }
-

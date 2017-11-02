@@ -1,12 +1,11 @@
 package main
 
 import (
-	"github.com/ory-am/hydra/sdk"
 	"fmt"
+	"github.com/ory-am/hydra/sdk"
 )
 
-
-func main()  {
+func main() {
 
 	var hydra, err = sdk.Connect(
 		sdk.ClientID("some-consumer9"),

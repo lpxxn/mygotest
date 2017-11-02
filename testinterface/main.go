@@ -55,7 +55,7 @@ func main() {
 	p2 := &Person{"peng", 1}
 	fmt.Println(p1, p2)
 
-	host := map[string]IPAddr {
+	host := map[string]IPAddr{
 		"loopbask":  {127, 0, 0, 1},
 		"googleDNS": {8, 8, 8, 8},
 	}

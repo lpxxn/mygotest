@@ -1,10 +1,10 @@
 package utils
 
 import (
-	"sync"
+	"encoding/json"
 	"io/ioutil"
 	"os"
-	"encoding/json"
+	"sync"
 )
 
 type Person struct {
@@ -17,7 +17,6 @@ type Person struct {
 	Phone     string `json:"phone"`
 }
 
-
 type PersonInfo []Person
 
 var instance *PersonInfo
@@ -28,9 +27,9 @@ var PersonDataPath string
 
 func GetPersionInfo() *PersonInfo {
 	oncePerson.Do(func() {
-		data, err := ioutil.ReadFile(PersonDataPath);
+		data, err := ioutil.ReadFile(PersonDataPath)
 		if err != nil {
-			os.Exit(1);
+			os.Exit(1)
 		}
 		instance = new(PersonInfo)
 		json.Unmarshal(data, instance)
@@ -38,6 +37,3 @@ func GetPersionInfo() *PersonInfo {
 
 	return instance
 }
-
-
-

@@ -2,11 +2,11 @@ package utils
 
 import (
 	"database/sql"
-	_ "github.com/denisenkom/go-mssqldb"
 	"flag"
 	"fmt"
-	"time"
+	_ "github.com/denisenkom/go-mssqldb"
 	"sync"
+	"time"
 )
 
 var (
@@ -15,16 +15,16 @@ var (
 	port     *int = flag.Int("port", 1433, "the database port")
 	server        = flag.String("server", "192.168.0.105", "the database server")
 	user          = flag.String("user", "sa", "the database user")
-	database	  = flag.String("database", "testSplit", "use database")
+	database      = flag.String("database", "testSplit", "use database")
 )
 
 func init() {
 	SqlDbInstance()
 }
 
-
 var db *sql.DB = nil
 var once sync.Once
+
 func SqlDbInstance() *sql.DB {
 	once.Do(func() {
 		connString := fmt.Sprintf("server=%s;user id=%s;password=%s;port=%d;database=%s;", *server, *user, *password, *port, *database)
@@ -42,5 +42,3 @@ func SqlDbInstance() *sql.DB {
 	})
 	return db
 }
-
-

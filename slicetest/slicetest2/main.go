@@ -4,7 +4,6 @@ import (
 	"fmt"
 )
 
-
 const size int = 1000 * 1000
 
 func main() {

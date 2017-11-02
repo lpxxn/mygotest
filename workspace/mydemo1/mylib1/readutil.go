@@ -1,21 +1,19 @@
 package mylib1
 
 import (
-	"fmt"
 	"../testlib"
 	"../testlib/testlib2"
 	"bytes"
+	"fmt"
 )
 
-type TestData struct{
+type TestData struct {
 	Name string `json:"name"`
-
 }
 
 type Person struct {
 	testlib2.User
 	Desc string
-
 }
 
 type tinh struct {
@@ -29,7 +27,7 @@ func (ti *tinh) TString() string {
 	buffer.WriteString(" hi ")
 	buffer.WriteString(ti.T1)
 	return buffer.String()
-//	return ti.T2 + "hi " + ti.T1
+	//	return ti.T2 + "hi " + ti.T1
 
 }
 
@@ -48,8 +46,7 @@ func ReadFun() (string, error) {
 
 	testlib.PrintLnThing("test in readutil.go ")
 
-
-	p := Person{Desc:"hello"}
+	p := Person{Desc: "hello"}
 	p.Name = "li"
 
 	fmt.Println(p)

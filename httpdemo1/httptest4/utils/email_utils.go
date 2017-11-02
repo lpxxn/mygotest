@@ -6,20 +6,19 @@ import (
 	"github.com/lpxxn/gomail"
 )
 
-
 type EmailInfo struct {
-	Host string `json:"host"`
-	Port int `json:"port"`
-	UserName string	`json:"user_name"`
-	Pwd string	`json:"pwd"`
-	SendTo []string `json:"send_to"`
+	Host     string   `json:"host"`
+	Port     int      `json:"port"`
+	UserName string   `json:"user_name"`
+	Pwd      string   `json:"pwd"`
+	SendTo   []string `json:"send_to"`
 }
 
 func init() {
 }
 
-func SendEmail(body  <-chan string) {
-	strBody := <- body
+func SendEmail(body <-chan string) {
+	strBody := <-body
 	config := AppConfigInstance().EmailInfoConfig
 	// 	"smtp.exmail.qq.com",
 	d := gomail.NewDialer(config.Host, config.Port, config.UserName, config.Pwd)

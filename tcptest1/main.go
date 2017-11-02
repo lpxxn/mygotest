@@ -2,10 +2,11 @@ package main
 
 import (
 	"fmt"
+	"github.com/mahonia"
 	"log"
 	"net"
-	"github.com/mahonia"
 )
+
 // google mahonia
 // https://code.google.com/archive/p/mahonia/source/default/source
 
@@ -29,7 +30,6 @@ func main() {
 
 	// 3
 
-
 	log.Printf("Send: %s", message)
 
 	buff := make([]byte, 1024)
@@ -43,7 +43,7 @@ func main() {
 	// convert to utf 8
 	if ret, ok := dec.ConvertStringOK(string(buff)); ok {
 
-		fmt.Println("GBK to UTF-8: ", ret, " bytes:" )
+		fmt.Println("GBK to UTF-8: ", ret, " bytes:")
 
 	}
 }

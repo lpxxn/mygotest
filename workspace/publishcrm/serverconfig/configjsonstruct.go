@@ -1,16 +1,17 @@
 package serverconfig
 
 import (
-	"io/ioutil"
-	"fmt"
 	"encoding/json"
+	"fmt"
+	"io/ioutil"
 )
 
 type CrmConfig struct {
-	JsonFilePath 	string `json:"jsonFile"`
-	ProRedisHost 	string `json:"redisHost"`
-	DebugRedis		string `json:"debug_redis"`
+	JsonFilePath string `json:"jsonFile"`
+	ProRedisHost string `json:"redisHost"`
+	DebugRedis   string `json:"debug_redis"`
 }
+
 /// test
 func ReadCrmConfig(path string) (*CrmConfig, error) {
 	file, err := ioutil.ReadFile(path)
@@ -29,4 +30,3 @@ func ReadCrmConfig(path string) (*CrmConfig, error) {
 
 	return jsonObj, nil
 }
-
