@@ -3,6 +3,8 @@ package main
 import (
 	"fmt"
 	//"sync/atomic"
+	"log"
+	"strconv"
 )
 
 type People interface {
@@ -64,6 +66,15 @@ func main() {
 	c := a[2:]
 	b = append(b, 55)
 	fmt.Println(b, "   ", c, "       ", a)
+
+	v, mb, t, err := strconv.UnquoteChar(`\"Fran & Freddie's Diner\"`, '"')
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	fmt.Println("value:", string(v))
+	fmt.Println("multibyte:", mb)
+	fmt.Println("tail:", t)
 }
 
 func GetValue(m map[int]string, id int) (string, bool) {
