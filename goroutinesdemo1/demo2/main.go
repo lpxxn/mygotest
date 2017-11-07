@@ -39,4 +39,20 @@ func main() {
 	for _ = range langs {
 		<-done
 	}
+
+	test1 := make(chan *int)
+	// 指针channel 提前关闭后写入报错
+	// 读取的时候指针为空，取值会报错
+	close(test1)
+	go func() {
+		defer func() {
+			if e := recover(); e != nil {
+				fmt.Println(e)
+			}
+		}()
+		var v  int= 10
+		test1 <- &v
+	}()
+	v1, ok := <-test1
+	fmt.Println(v1, ok)
 }
