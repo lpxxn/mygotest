@@ -27,7 +27,8 @@ func main() {
 	go func() {
 		done <- struct{}{}
 	}()
-	// 关闭后不可以写panic 可以读
+	// 关闭后不可以写panic 可以读 但是为false
+	// 在goroute 里写入不报错
 	//close(done)
 	//done <- struct{}{}
 	x, ok := <-done
