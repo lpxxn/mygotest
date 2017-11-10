@@ -17,6 +17,11 @@ func main() {
 			Usage:       "language for the greeting",
 			Destination: &langDesc,
 		},
+		cli.StringFlag{
+			Name:        "name, n",
+			Value:       "li",
+			Usage:       "my name",
+		},
 	}
 
 	app.Commands = []cli.Command{
@@ -26,8 +31,11 @@ func main() {
 			Usage:   "complete a task on the list",
 			Action: func(c *cli.Context) error {
 				//  go run clitest.go  -lang=adcde c asde dddde
+				// go run clitest.go  -lang=adcde -name peng c asde dddde
+				// go run clitest.go  -lang=adcde -n peng c asde dddde
 				lan := langDesc
-				fmt.Println(lan, "  args : ", c.Args(), " args length ", len(c.Args()))
+				name := c.GlobalString("n")
+				fmt.Println("lang : ", lan, "  name :", name, "  args : ", c.Args(), " args length ", len(c.Args()))
 				return nil
 			},
 		},
