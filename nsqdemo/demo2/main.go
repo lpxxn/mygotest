@@ -13,7 +13,8 @@ import (
 
 func main() {
 
-	topicName := "publishtest"
+	//topicName := "publishtest"
+	topicName := "GroupSink"
 	msgCount := 2
 	for i := 0; i < msgCount; i++ {
 		//time.Sleep(time.Millisecond * 20)
