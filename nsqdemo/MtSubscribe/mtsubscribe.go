@@ -3,14 +3,18 @@ package main
 import (
 	"fmt"
 	"github.com/nsqio/go-nsq"
-	"time"
-	"sync"
 	"os"
 	"os/signal"
+	"sync"
+	"time"
 )
-var ConsumersInfo *CountConsumer = &CountConsumer{Consumers:make([]*nsq.Consumer, 0)}
+
+var ConsumersInfo *CountConsumer = &CountConsumer{Consumers: make([]*nsq.Consumer, 0)}
+
 func main() {
 	go readMtMsg("GroupSink", "chgroup1#ephemeral")
+	go readMtMsg("MtOrderSubscribe", "order#ephemeral") //
+	go readMtMsg("MtDealSubscribe", "dealscribe")
 
 	cleanup := make(chan os.Signal)
 	signal.Notify(cleanup, os.Interrupt)
@@ -19,7 +23,7 @@ func main() {
 	quit := make(chan bool)
 
 	go func() {
-		for _ = range cleanup{
+		for _ = range cleanup {
 			fmt.Println("Receive an interrupt, stop listen Msg")
 			ConsumersInfo.StopAllConsumers()
 			quit <- true
@@ -30,10 +34,10 @@ func main() {
 	fmt.Println("stop")
 }
 
-
 func readMtMsg(topicName, channelName string) {
 	defer func() {
-		if err := recover(); err!= nil {
+		fmt.Println("error , topicName :", topicName, " channel name : ", channelName)
+		if err := recover(); err != nil {
 			fmt.Println("error: ", err)
 		}
 	}()
@@ -47,7 +51,7 @@ func readMtMsg(topicName, channelName string) {
 	if err != nil {
 		panic(err)
 	}
-	handler := &MyTestHandler{Consumer:q}
+	handler := &MyTestHandler{Consumer: q, TopicName: topicName, ChannelName: channelName}
 	q.AddHandler(handler)
 	ConsumersInfo.Add(q)
 
@@ -63,21 +67,22 @@ func readMtMsg(topicName, channelName string) {
 }
 
 type MyTestHandler struct {
-	Consumer *nsq.Consumer
+	Consumer    *nsq.Consumer
+	TopicName   string
+	ChannelName string
 }
 
 func (handler *MyTestHandler) HandleMessage(message *nsq.Message) error {
+
 	msg := string(message.Body)
-	fmt.Println(msg)
+	fmt.Printf("TopicName : %s, ChannelName : %s, Msg: %s \n", handler.TopicName, handler.ChannelName, msg)
 	return nil
 }
-
 
 type CountConsumer struct {
 	sync.Mutex
 	Consumers []*nsq.Consumer
 }
-
 
 func (self CountConsumer) Add(consumer *nsq.Consumer) {
 	self.Lock()
@@ -85,16 +90,15 @@ func (self CountConsumer) Add(consumer *nsq.Consumer) {
 	self.Unlock()
 }
 
-
 func (self CountConsumer) Get(index int) *nsq.Consumer {
 	self.Lock()
-	defer  self.Unlock()
+	defer self.Unlock()
 	return self.Consumers[index]
 }
 
 func (self CountConsumer) StopAllConsumers() bool {
 	total := len(self.Consumers)
-	for i := 0; i < total; i ++ {
+	for i := 0; i < total; i++ {
 		self.Consumers[i].StopChan <- 1
 		self.Consumers[i].Stop()
 	}
