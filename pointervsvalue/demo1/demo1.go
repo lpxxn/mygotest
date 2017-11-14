@@ -60,5 +60,11 @@ func main() {
 	fmt.Println(value2.status_code)
 
 
+	point1 := &TestS{headers:make(map[string]string)}
+	point1.updateStatusP(33333)
+	fmt.Println(point1.status_code)
+	// 指针变量调用也没有发生变化
+	point1.updateStatusV(44444)
+	fmt.Println(point1.status_code)
 
 }
