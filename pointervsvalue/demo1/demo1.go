@@ -41,25 +41,25 @@ func (t *TestS) updateMapP(header, value string) {
 	t.headers[header] = value
 }
 
-// Msg value as same as normal field
+// 指针会变
 func (t TestS) updateMsgV(msg string) {
-	t.msg = &msg
+	*t.msg = msg
 }
 
 func (t *TestS) updateMsgP(msg string) {
-	t.msg = &msg
+	*t.msg = msg
 }
 
 func (t TestS) updateIntV(value int) {
-	t.intValue = &value
+	*t.intValue = value
 }
 
 func (t *TestS) updateIntP(value int) {
-	t.intValue = &value
+	*t.intValue = value
 }
 
 func main() {
-	value1 := TestS{headers: make(map[string]string)}
+	value1 := TestS{headers: make(map[string]string), intValue: new(int), msg: new(string)}
 	value1.updateStatusP(123)
 	fmt.Println(value1.status_code)
 
@@ -75,8 +75,8 @@ func main() {
 	value1.updateMsgV("li-msg")
 	fmt.Println("msg : ", *value1.msg)
 
-	value1.updateIntP(1111111)
-	value1.updateIntV(2222222)
+	value1.updateIntP(111111111111)
+	value1.updateIntV(222222222222)
 	fmt.Println("intValue: ", *value1.intValue)
 	fmt.Println("------------------")
 
@@ -103,6 +103,8 @@ func main() {
 	valuP.intValue = new(int)
 	*valuP.intValue = 11
 	fmt.Println(*valuP.intValue)
+	// valuP.headers["aa"] = "aa"// error
+	valuP.headers = make(map[string]string)
 	valuP.headers["aa"] = "aa"
 
 }

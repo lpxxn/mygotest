@@ -50,7 +50,7 @@ func initData() {
 	if err != nil {
 		panic(err)
 	}
-	rows, count := rel.RowsAffected()
-	fmt.Println(rows, count)
+	rows, error := rel.RowsAffected()
+	fmt.Println(rows, error)
 
 }
