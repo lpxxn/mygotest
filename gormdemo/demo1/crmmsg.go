@@ -8,12 +8,13 @@ import (
 )
 
 func main() {
-	db := utils.SqldbInit()
+	db := utils.GormInit()
 	db.SingularTable(true)
 	user := &models.User{BaseModel: models.BaseModel{ID: uuid.NewV4().String()}, Name: "li", Age: 18}
 	//if has := db.HasTable(&models.User{}); has == false {
 	//	db.CreateTable(&models.User{})
 	//}
+	//er\c
 	var err error = db.AutoMigrate(&models.User{}).Error
 	if err != nil {
 		fmt.Println(err)

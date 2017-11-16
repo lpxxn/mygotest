@@ -7,14 +7,14 @@ import (
 	"os"
 	"os/signal"
 	"strconv"
-	"time"
 	"sync"
+	"time"
 )
 
 func main() {
 
-	//topicName := "publishtest"
-	topicName := "GroupSink"
+	topicName := "publishtest"
+	//topicName := "GroupSink"
 	msgCount := 2
 	for i := 0; i < msgCount; i++ {
 		//time.Sleep(time.Millisecond * 20)
@@ -33,13 +33,13 @@ func main() {
 		//	quit <- true
 		//}
 		select {
-			case <- cleanup:
-				fmt.Println("Received an interrupt , stoping service ...")
-				for _, ele := range consumers {
-					ele.StopChan <- 1
-					ele.Stop()
-				}
-				quit <- true
+		case <-cleanup:
+			fmt.Println("Received an interrupt , stoping service ...")
+			for _, ele := range consumers {
+				ele.StopChan <- 1
+				ele.Stop()
+			}
+			quit <- true
 		}
 	}()
 	<-quit
@@ -72,6 +72,7 @@ func readMessage(topicName string, msgCount int) {
 	config := nsq.NewConfig()
 	config.MaxInFlight = 1000
 	config.MaxBackoffDuration = 500 * time.Second
+	config.DialTimeout = 10 * time.Second
 
 	//q, _ := nsq.NewConsumer(topicName, "ch" + strconv.Itoa(msgCount), config)
 	//q, _ := nsq.NewConsumer(topicName, "ch" + strconv.Itoa(msgCount) + "#ephemeral", config)
@@ -80,7 +81,8 @@ func readMessage(topicName string, msgCount int) {
 	h := &ConsumerHandle{q: q, msgGood: msgCount}
 	q.AddHandler(h)
 
-	err := q.ConnectToNSQLookupd("192.168.0.105:4161")
+	err := q.ConnectToNSQLookupd("13.125.77.114:9002")
+	//err := q.ConnectToNSQLookupd("192.168.0.105:4161")
 	//err := q.ConnectToNSQDs([]string{"192.168.0.105:4161"})
 	//err := q.ConnectToNSQD("192.168.0.49:4150")
 	//err := q.ConnectToNSQD("192.168.0.105:4415")

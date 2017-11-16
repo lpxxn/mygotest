@@ -11,7 +11,7 @@ import (
 var db *gorm.DB = nil
 var sqlonce sync.Once
 
-func SqldbInit() *gorm.DB {
+func GormInit() *gorm.DB {
 	sqlonce.Do(func() {
 
 		//connStr := fmt.Sprintf("server=%s;password=%s;port=%d;database=%s;", "192.168.0.105", "12qwaszx", 3306, "GoOrmTest")
