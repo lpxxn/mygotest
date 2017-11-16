@@ -16,7 +16,7 @@ func GormInit() *gorm.DB {
 
 		//connStr := fmt.Sprintf("server=%s;password=%s;port=%d;database=%s;", "192.168.0.105", "12qwaszx", 3306, "GoOrmTest")
 		connStr := fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=utf8&parseTime=True&loc=Local", "root", "12qwaszx", "192.168.0.105:3306", "GoOrmTest")
-		fmt.Printf(connStr)
+		fmt.Println(connStr)
 
 		var err error
 		//db, err = sql.Open("mysql", connStr)

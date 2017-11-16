@@ -3,8 +3,9 @@ package models
 import "time"
 
 type JoinModelBase struct {
-	ID         string     `gorm:"type:varchar(36);primary_key"`
-	CreatedAt  time.Time  `gorm:"type:datetime;"`
+	ID        string    `gorm:"type:varchar(36);primary_key"`
+	CreatedAt time.Time `gorm:"type:datetime;"`
+	// pointer 可以不传值 像CreatedAt和TestTime 必需传值
 	UpdateTime *time.Time `gorm:"type:datetime;" sql:"DEFAULT:current_timestamp"`
 	TestTime   time.Time  `gorm:"type:datetime;" sql:"DEFAULT:NOW()"`
 }
@@ -18,7 +19,7 @@ type Movie struct {
 	JoinModelBase
 	Title      string
 	LanguageID string
-	Language   Language
+	Language   Language `gorm:"ForeignKey:LanguageID;"`
 }
 
 type Artist struct {
