@@ -13,6 +13,7 @@ type JoinModelBase struct {
 type Language struct {
 	JoinModelBase
 	Name string
+	TestStr string `gorm:"type:varchar(100);"`
 }
 
 type Movie struct {
