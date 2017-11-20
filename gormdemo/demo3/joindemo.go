@@ -6,6 +6,8 @@ import (
 	//"github.com/mygotest/gormdemo/models"
 	"database/sql"
 	"github.com/mygotest/gormdemo/models"
+	"encoding/json"
+	"log"
 )
 
 func main() {
@@ -26,10 +28,21 @@ func main() {
 		models.Movie
 	}{}
 	rdb := db.Table("gotest_languages").Joins("INNER JOIN `gotest_movies` on `gotest_languages`.id = `gotest_movies`.language_id").Select(
-		[]string{"gotest_languages.id", "gotest_movies.id", "gotest_languages.name", "gotest_movies.title"}).Scan(&findrev)
+		[]string{"gotest_languages.*", "gotest_movies.*"}).Find(&findrev)//.Scan(&findrev)  , "gotest_movies.title"
+		//[]string{"gotest_languages.id", "gotest_movies.id", "gotest_languages.name"}).Find(&findrev)//.Scan(&findrev)  , "gotest_movies.title"
 	err := rdb.Error
 	fmt.Println(err)
 	fmt.Println(findrev)
+	testStr0 := findrev[0].TestStr
+	if testStr0 == nil {
+		fmt.Println("testStr0 is nil")
+	}
+	jsonVal, err := json.Marshal(findrev)
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println(string(jsonVal))
+
 	rows, err := rdb.Rows()
 	if err != nil {
 		panic(err)

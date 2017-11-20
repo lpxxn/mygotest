@@ -13,7 +13,7 @@ func main() {
 	db := utils.GormInit()
 	db.AutoMigrate(new(models.Language), new(models.Movie), new(models.Artist))
 
-	//initData()
+	initData()
 	var movie models.Movie = models.Movie{JoinModelBase: models.JoinModelBase{ID: "34c81d41-4c3a-4ea6-abb0-a8628ea1b8a3"}}
 	rows := db.Model(&movie).Association("Language").Count()
 	fmt.Println(rows)
