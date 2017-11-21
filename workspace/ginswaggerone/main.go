@@ -32,7 +32,7 @@ func main() {
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	r.POST("/lptest/p1/", p1)
-	r.GET("/testapi/p2/", p2)
+	r.GET("/lptest/p2/", p2)
 
 	//r.Run(":8101")
 	srv := &http.Server{
@@ -84,22 +84,17 @@ func p1(c *gin.Context) {
 //}
 
 // @Description get struct array by P1Req
-// @ID p1
+// @ID p2
 // @Accept  json
 // @Produce  json
-// @Param   P1Req     query    string     true        "param"
+// @Param   str1     query    string     false        "param1"
+// @Param   str2     query    string     false        "param2"
 // @Success 200 {string} string	"ok"
 // @Failure 400 {object} web.APIError "We need ID!!"
 // @Failure 404 {object} web.APIError "Can not find ID"
-// @Router /lptest/p2/ [post]
+// @Router /lptest/p2/ [get]
 func p2(c *gin.Context) {
-	param := models.P1Req{}
-	if c.BindJSON(&param) != nil {
-		c.JSON(http.StatusOK, gin.H{"Status": false})
-		return
-	}
-
-	fmt.Println(param)
-	param.Name = param.Name + "test"
-	c.JSON(http.StatusOK, gin.H{"Rev": param})
+	str1 := c.DefaultQuery("str1", "str11111")
+	str2 := c.Query("str2")
+	c.JSON(http.StatusOK, gin.H{"str1": str1, "str2": str2})
 }
