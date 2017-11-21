@@ -6,6 +6,7 @@ import (
 	"github.com/mygotest/workspace/ginswaggerone/models"
 	"github.com/swaggo/gin-swagger"
 	"github.com/swaggo/gin-swagger/swaggerFiles"
+	"log"
 	"net/http"
 	"os"
 	"os/signal"
@@ -33,8 +34,19 @@ func main() {
 	r.POST("/lptest/p1/", p1)
 	r.GET("/testapi/p2/", p2)
 
-	r.Run(":8101")
-	//http.ListenAndServe("8101", r)
+	//r.Run(":8101")
+	srv := &http.Server{
+		Addr:    ":8101",
+		Handler: r,
+	}
+
+	go func() {
+		if err := srv.ListenAndServe(); err != nil {
+			log.Fatal(err)
+		}
+	}()
+
+	go http.ListenAndServe(":8102", r)
 
 	quit := make(chan os.Signal)
 	signal.Notify(quit, os.Interrupt)
