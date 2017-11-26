@@ -11,7 +11,7 @@ import (
 var Cluster *redis.Client = nil
 
 func init() {
-	ConnectCluster()
+	//ConnectCluster()
 }
 func ConnectCluster() {
 	//Cluster = redis.NewClusterClient(&redis.ClusterOptions{

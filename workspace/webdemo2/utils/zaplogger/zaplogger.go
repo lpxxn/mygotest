@@ -41,3 +41,9 @@ func InitLogger() *zap.Logger {
 	})
 	return singletonZap
 }
+
+
+
+func Panic(msg string, fields ...zapcore.Field){
+	InitLogger().Panic(msg, fields...)
+}
