@@ -1,11 +1,8 @@
 package config
 
 import (
-
-	"path/filepath"
-
-	"github.com/spf13/viper"
 	"github.com/mygotest/workspace/webdemo2/utils/zaplogger"
+	"github.com/spf13/viper"
 )
 
 var config *viper.Viper
@@ -23,7 +20,5 @@ func InitConfig(env string) {
 	}
 	config = v
 }
-
-
 
 // https://github.com/vsouza/go-gin-boilerplate/blob/master/config/config.go

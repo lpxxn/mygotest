@@ -1,15 +1,18 @@
 package utils
 
 import (
-	"net"
 	"fmt"
+	"net"
 )
 
 func HostLocalIp() string {
 	netInterfaceAddresses, err := net.InterfaceAddrs()
 
-	if err != nil { return "" }
+	if err != nil {
+		return ""
+	}
 
+	var ips []string
 	for _, netInterfaceAddress := range netInterfaceAddresses {
 
 		networkIp, ok := netInterfaceAddress.(*net.IPNet)
@@ -19,9 +22,10 @@ func HostLocalIp() string {
 			ip := networkIp.IP.String()
 
 			fmt.Println("Resolved Host IP: " + ip)
-
-			return ip
+			ips = append(ips, ip)
+			//return ip
 		}
 	}
-	return ""
+	fmt.Println(ips)
+	return ips[0]
 }

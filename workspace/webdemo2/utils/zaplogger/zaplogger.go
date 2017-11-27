@@ -25,6 +25,7 @@ func InitLogger() *zap.Logger {
 		fmt.Println(exPath)
 
 		logPath := path.Join(exPath, "logs", "crm.log")
+		fmt.Println("log path : ", logPath)
 		w := zapcore.AddSync(&lumberjack.Logger{
 			Filename:   logPath,
 			MaxSize:    1, // megabytes
@@ -42,8 +43,10 @@ func InitLogger() *zap.Logger {
 	return singletonZap
 }
 
-
-
-func Panic(msg string, fields ...zapcore.Field){
+func Panic(msg string, fields ...zapcore.Field) {
 	InitLogger().Panic(msg, fields...)
+}
+
+func Info(msg string, fields ...zapcore.Field) {
+	InitLogger().Info(msg, fields...)
 }

@@ -4,12 +4,12 @@ import (
 
 	//"encoding/json"
 	"fmt"
+	"github.com/gin-gonic/contrib/sessions"
 	"github.com/gin-gonic/gin"
+	"github.com/mygotest/workspace/webdemo1/src/utils"
 	"io/ioutil"
 	"net/http"
 	"strconv"
-	"github.com/mygotest/workspace/webdemo1/src/utils"
-	"github.com/gin-gonic/contrib/sessions"
 )
 
 type User struct {
@@ -83,14 +83,19 @@ func PaginationPerson(c *gin.Context) {
 	data := utils.GetPersionInfo()
 	totalCount := len(*data)
 
+	currentPage := param.CurrentPage
+	pageSize := param.PageSize
+
+	pageNumber := (totalCount + pageSize - 1) / pageSize
 
 	startIndex := (currentPage - 1) * pageSize
+	endSlice := startIndex + pageSize
 
 	fmt.Println(pageNumber, endSlice)
+	newArr := (*data)[startIndex:endSlice:endSlice]
 	fmt.Println(newArr)
 
 	c.JSON(http.StatusOK, gin.H{"status": true, "pageNumber": pageNumber, "pageTotal": totalCount, "data": newArr})
-
 }
 
 type TableUserPostModel struct {
@@ -100,14 +105,16 @@ type TableUserPostModel struct {
 func UserPagination(c *gin.Context) {
 
 }
-var testInt  = 1
+
+var testInt = 1
+
 func SetSession(c *gin.Context) {
 	session := sessions.Default(c)
-	testInt++;
+	testInt++
 	t := strconv.Itoa(testInt)
-	session.Set("name", "test1" + t)
+	session.Set("name", "test1"+t)
 	session.Save()
-	c.String(http.StatusOK, "ok" + t)
+	c.String(http.StatusOK, "ok"+t)
 }
 
 func GetSession(c *gin.Context) {
