@@ -1,6 +1,7 @@
 package server
 
 import (
+	"github.com/mygotest/workspace/webdemo2/server/userinfo"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -22,6 +23,8 @@ func userRouter(r *gin.Engine) {
 	r.GET("ping", func(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{"msg": "Hello World !"})
 	})
+	r.POST("setuserinfo", userinfo.SetUserInfo)
+	r.GET("getuserinfo", userinfo.GetUserInfo)
 }
 
 func apiRouter(r *gin.Engine) {
