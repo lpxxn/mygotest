@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"go.uber.org/zap"
 	"net/http"
 	"os"
 	"os/signal"
@@ -10,6 +9,7 @@ import (
 	"github.com/mygotest/workspace/webdemo2/server"
 	"github.com/mygotest/workspace/webdemo2/utils"
 	"github.com/mygotest/workspace/webdemo2/utils/zaplogger"
+	"go.uber.org/zap"
 )
 
 func main() {
