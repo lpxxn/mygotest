@@ -15,6 +15,7 @@ import (
 func main() {
 	//_, err := utils.Cluster.Set("crmweb", "value111", 0).Result()
 	//fmt.Println(err)
+	utils.GormInit()
 	ipstr := utils.HostLocalIp()
 	fmt.Println(ipstr)
 
