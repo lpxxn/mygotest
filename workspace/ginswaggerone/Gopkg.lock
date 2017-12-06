@@ -41,7 +41,7 @@
   branch = "master"
   name = "github.com/go-openapi/spec"
   packages = ["."]
-  revision = "a4fa9574c7aa73b2fc54e251eb9524d0482bb592"
+  revision = "4a3d26106361caf1779728cd8301ad6b9534934b"
 
 [[projects]]
   branch = "master"
@@ -70,38 +70,38 @@
 [[projects]]
   branch = "master"
   name = "github.com/swaggo/gin-swagger"
-  packages = [".","example/docs","swaggerFiles"]
-  revision = "754ef901026cc14c7411bc880641346dc57d348d"
+  packages = [".","swaggerFiles"]
+  revision = "77adc371556e21060e9fcef18bfd80b71ce626e6"
 
 [[projects]]
-  branch = "master"
   name = "github.com/swaggo/swag"
   packages = ["."]
-  revision = "20a28bc6099e88ddf88d02854f6c32cdb2d575bf"
+  revision = "acc3460bbe5b259414db5f61c8893eed2ace6a56"
+  version = "v1.0.0"
 
 [[projects]]
   branch = "master"
   name = "github.com/ugorji/go"
   packages = ["codec"]
-  revision = "a437b1adc2d23f710b6cebba4e8081c9469374d6"
+  revision = "f0aa215a7d653544d39d0e27dfa10fa4b183f397"
 
 [[projects]]
   branch = "master"
   name = "golang.org/x/net"
   packages = ["context","idna","webdav","webdav/internal/xml"]
-  revision = "9dfe39835686865bff950a07b394c12a98ddc811"
+  revision = "a8b9294777976932365dabb6640cf1468d95c70f"
 
 [[projects]]
   branch = "master"
   name = "golang.org/x/sys"
   packages = ["unix"]
-  revision = "328643532ee3c60c099171d4ce2cad0ca0354ca9"
+  revision = "8b4580aae2a0dd0c231a45d3ccb8434ff533b840"
 
 [[projects]]
   branch = "master"
   name = "golang.org/x/text"
   packages = ["collate","collate/build","internal/colltab","internal/gen","internal/tag","internal/triegen","internal/ucd","language","secure/bidirule","transform","unicode/bidi","unicode/cldr","unicode/norm","unicode/rangetable","width"]
-  revision = "88f656faf3f37f690df1a32515b479415e1a6769"
+  revision = "57961680700a5336d15015c8c50686ca5ba362a4"
 
 [[projects]]
   name = "gopkg.in/go-playground/validator.v8"
@@ -118,6 +118,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "5c8f9e10e98172ecee46b030eeaa1f5a5d7dcebc0bc3c1542990de9e2e20dd6e"
+  inputs-digest = "a9ec4521835944a12bfdecc7c6c78536fe63b19e0f1288a0cf2a83333eb858cc"
   solver-name = "gps-cdcl"
   solver-version = 1
