@@ -1,0 +1,9 @@
+{
+    "database": {
+        "connectionUri":"www.lp.com"
+    },
+    "server": {
+        "port" : 8000,
+        "tlsPort": 8081
+    }
+}
