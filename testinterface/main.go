@@ -62,6 +62,11 @@ func main() {
 	for name, ip := range host {
 		fmt.Printf("name: %v, ip: %v \n", name, ip)
 	}
+	fmt.Println("-----")
+	p3 := Person{Name: "P3", Age: 22}
+	fmt.Println(p3.String())
+	p4 := &Person{Name:"p4", Age: 33}
+	fmt.Println(p4.String())
 }
 
 func desc(i interface{}) {
