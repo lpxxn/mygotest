@@ -23,14 +23,25 @@ func ConnectCluster() {
 	//	WriteTimeout: 1 * time.Minute,
 	//	// Password: password,
 	//})
+	//Cluster = redis.NewClient(&redis.Options{
+	//	Addr:         "192.168.0.105:6379",
+	//	Password:     "",
+	//	PoolSize:     1000,
+	//	PoolTimeout:  2 * time.Minute,
+	//	IdleTimeout:  10 * time.Minute,
+	//	ReadTimeout:  2 * time.Minute,
+	//	WriteTimeout: 1 * time.Minute,
+	//	//DB:           0,
+	//})
 	Cluster = redis.NewClient(&redis.Options{
-		Addr:         "192.168.0.105:6379",
-		Password:     "",
+		Addr:         "13.125.77.114:9000",
+		Password:     "crmpwd",
 		PoolSize:     1000,
 		PoolTimeout:  2 * time.Minute,
 		IdleTimeout:  10 * time.Minute,
 		ReadTimeout:  2 * time.Minute,
 		WriteTimeout: 1 * time.Minute,
+
 		//DB:           0,
 	})
 	_, err := Cluster.Ping().Result()
