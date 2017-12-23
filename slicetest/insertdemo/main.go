@@ -24,5 +24,10 @@ func main() {
 	//a = b
 	//a = append(b, a...)
 	fmt.Println(a)
+	// delete
+
+	delIndex := 3
+	a = append(a[:delIndex], a[delIndex+1 :]...)
+	fmt.Println(a)
 }
 
