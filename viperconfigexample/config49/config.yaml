@@ -1,0 +1,7 @@
+database:
+  connectionUri: "database connection uri"
+
+server:
+  port: 8080
+  tlsPort: 8081
+#test
