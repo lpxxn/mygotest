@@ -23,15 +23,17 @@ func main() {
 
 	feeds1 := []Info{
 		Info{Name: "li", Desc: "liliiiiii"},
-		Info{Name: "peng", Desc: "penggggggg"},
-		Info{Name: "yi", Desc: "yyyyyyyyyyyyy"},
-		Info{Name: "er", Desc: "errrrrrrrrrr"},
-		Info{Name: "san", Desc: "sansssssssss"}}
+		//Info{Name: "peng", Desc: "penggggggg"},
+		//Info{Name: "yi", Desc: "yyyyyyyyyyyyy"},
+		//Info{Name: "er", Desc: "errrrrrrrrrr"},
+		//Info{Name: "san", Desc: "sansssssssss"},
+		}
 
 	feeds2 := []Info{
 		Info{Name: "si", Desc: "si"},
-		Info{Name: "wu", Desc: "Wu"},
-		Info{Name: "liu", Desc: "Liu"}}
+		//Info{Name: "wu", Desc: "Wu"},
+		//Info{Name: "liu", Desc: "Liu"},
+		}
 
 	feeds := [][]Info{feeds1, feeds2}
 	fmt.Println(feeds, results)
@@ -47,6 +49,7 @@ func main() {
 
 	go func() {
 		waitGrout.Wait()
+		// 如果 不close range 将一直等 死锁
 		close(results)
 	}()
 
