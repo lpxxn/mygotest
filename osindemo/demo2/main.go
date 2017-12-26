@@ -89,7 +89,7 @@ func main() {
 		// build access code url
 		aurl := fmt.Sprintf("/token?grant_type=authorization_code&client_id=1234&client_secret=aabbccdd&state=xyz&redirect_uri=%s&code=%s",
 			url.QueryEscape("http://localhost:14000/appauth/code"), url.QueryEscape(code))
-
+		fmt.Println("aurl", aurl)
 		// if parse, download and parse json
 		if r.Form.Get("doparse") == "1" {
 			err := example.DownloadAccessToken(fmt.Sprintf("http://localhost:14000%s", aurl),
