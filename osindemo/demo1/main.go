@@ -18,6 +18,7 @@ func main() {
 		osin.REFRESH_TOKEN, osin.PASSWORD, osin.CLIENT_CREDENTIALS, osin.ASSERTION}
 	sconfig.AllowGetAccessRequest = true
 	sconfig.AllowClientSecretInParams = true
+	//sconfig.AccessExpiration = 3600
 	server := osin.NewServer(sconfig, example.NewTestStorage())
 
 	// Authorization code endpoint

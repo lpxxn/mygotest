@@ -15,6 +15,7 @@ func main() {
 	cfg := osin.NewServerConfig()
 	cfg.AllowGetAccessRequest = true
 	cfg.AllowClientSecretInParams = true
+	//cfg.AccessExpiration = 15
 
 	server := osin.NewServer(cfg, example.NewTestStorage())
 
