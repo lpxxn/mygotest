@@ -65,6 +65,7 @@ func main() {
 					ar.Authorized = true
 				}
 			}
+
 			server.FinishAccessRequest(resp, r, ar)
 		}
 		if resp.IsError && resp.InternalError != nil {
@@ -83,6 +84,17 @@ func main() {
 
 		if ir := server.HandleInfoRequest(resp, r); ir != nil {
 			server.FinishInfoRequest(resp, r, ir)
+		}
+		osin.OutputJSON(resp, w, r)
+	})
+
+	http.HandleFunc("/info2", func(w http.ResponseWriter, r *http.Request) {
+		resp := server.NewResponse()
+		defer resp.Close()
+
+		if ir := server.HandleInfoRequest(resp, r); ir != nil {
+			server.FinishInfoRequest(resp, r, ir)
+			resp.Output["user_data"] = ir.AccessData.UserData
 		}
 		osin.OutputJSON(resp, w, r)
 	})
@@ -262,6 +274,9 @@ func main() {
 			rurl := fmt.Sprintf("/appauth/info?code=%s", at)
 			w.Write([]byte(fmt.Sprintf("<a href=\"%s\">Info</a><br/>", rurl)))
 		}
+		if userData, ok := jr["user_data"]; ok {
+			w.Write([]byte(fmt.Sprintln("<p> %s</p>", userData)))
+		}
 
 		w.Write([]byte("</body></html>"))
 	})
@@ -405,6 +420,10 @@ func main() {
 		if rt, ok := jr["refresh_token"]; ok {
 			rurl := fmt.Sprintf("/appauth/refresh?code=%s", rt)
 			w.Write([]byte(fmt.Sprintf("<a href=\"%s\">Refresh Token</a><br/>", rurl)))
+		}
+
+		if userData, ok := jr["user_data"]; ok {
+			w.Write([]byte(fmt.Sprintln("<p> %s</p>", userData)))
 		}
 	})
 
