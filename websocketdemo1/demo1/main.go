@@ -87,8 +87,8 @@ func echo(conn *websocket.Conn) {
 			if err != nil {
 				m.OutPut = fmt.Sprintf("%v", err)
 			} else {
-				//dec := mahonia.NewDecoder("GBK")
-				dec := mahonia.NewDecoder("UTF-8")
+				dec := mahonia.NewDecoder("GBK")
+				//dec := mahonia.NewDecoder("UTF-8")
 				ret := dec.ConvertString(buf.String())
 				fmt.Println(ret)
 				m.OutPut = ret
