@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script>
+        var ws = new WebSocket('ws://127.0.0.1:8080/');
+
+        ws.onmessage = function(event) {
+            document.getElementById('msgBox').innerHTML = event.data;
+            document.getElementById('outMsg').value='';
+        }
+
+        function send()
+        {
+            ws.send(document.getElementById('outMsg').value);
+        }
+    </script>
+</head>
+<body>
+    <div id='msgBox'>Nothing sent yet!</div>
+    <input type="text" id="outMsg">
+    <button type="button" onclick="send()">Send</button>
+</body>
+</html>
