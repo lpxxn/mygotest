@@ -17,6 +17,7 @@ func main() {
 		Certificates:       []tls.Certificate{cert},
 		InsecureSkipVerify: true,
 	}
+	config.AuthSecret = "sBgUWDNqSdeJPiJKceA8jg"
 
 	// 随便给哪个ip发都可以
 	w1, _ := nsq.NewProducer("192.168.0.105:4150", config)

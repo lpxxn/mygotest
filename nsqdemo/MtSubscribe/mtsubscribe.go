@@ -55,7 +55,7 @@ func readMtMsg(topicName, channelName string) {
 		Certificates:       []tls.Certificate{cert},
 		InsecureSkipVerify: true,
 	}
-
+	config.AuthSecret = "abcdde"
 	q, err := nsq.NewConsumer(topicName, channelName, config)
 	if err != nil {
 		panic(err)
