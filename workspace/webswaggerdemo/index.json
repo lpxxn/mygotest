@@ -1,0 +1,19 @@
+{
+    "apiVersion": "0.0.0",
+    "swaggerVersion": "1.2",
+    "basePath": "{{.}}",
+    "apis": [
+        {
+            "path": "/a",
+            "description": "Test API"
+        }
+    ],
+    "info": {
+        "title": "title",
+        "description": "description",
+        "contact": "user@domain.com",
+        "termsOfServiceUrl": "http://...",
+        "license": "MIT",
+        "licenseUrl": "http://osensource.org/licenses/MIT"
+    }
+}

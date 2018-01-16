@@ -1,6 +1,7 @@
 package main
 
 import (
+	"crypto/tls"
 	"fmt"
 	"github.com/nsqio/go-nsq"
 	"github.com/pkg/errors"
@@ -10,9 +11,17 @@ import (
 
 func main() {
 	config := nsq.NewConfig()
+	config.TlsV1 = true
+	cert, _ := tls.LoadX509KeyPair("./../test/client.pem", "./../test/client.key")
+	config.TlsConfig = &tls.Config{
+		Certificates:       []tls.Certificate{cert},
+		InsecureSkipVerify: true,
+	}
+
 	// 随便给哪个ip发都可以
 	//w1, _ := nsq.NewProducer("192.168.0.105:4150", config)
-	w1, _ := nsq.NewProducer("13.125.77.114:9003", config)
+	//w1, _ := nsq.NewProducer("13.125.77.114:9003", config)
+	w1, _ := nsq.NewProducer("127.0.0.1:4150", config)
 	//w1, _ := nsq.NewProducer("192.168.0.49:4150", config)
 
 	err1 := w1.Ping()
@@ -21,7 +30,8 @@ func main() {
 		return
 	}
 	defer w1.Stop()
-	topicName := "publishtest"
+	//topicName := "publishtest"
+	topicName := "test"
 	msgCount := 2
 	for i := 1; i < msgCount; i++ {
 		err1 := w1.Publish(topicName, []byte("测试测试publis test case"))

@@ -13,7 +13,8 @@ import (
 
 func main() {
 
-	topicName := "publishtest"
+	//topicName := "publishtest"
+	topicName := "test"
 	//topicName := "GroupSink"
 	msgCount := 2
 	for i := 0; i < msgCount; i++ {

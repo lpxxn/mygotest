@@ -1,6 +1,7 @@
 package main
 
 import (
+	"crypto/tls"
 	"fmt"
 	"github.com/nsqio/go-nsq"
 	"os"
@@ -12,9 +13,10 @@ import (
 var ConsumersInfo *CountConsumer = &CountConsumer{Consumers: make([]*nsq.Consumer, 0)}
 
 func main() {
-	go readMtMsg("GroupSink", "chgroup1#ephemeral")
-	go readMtMsg("MtOrderSubscribe", "order#ephemeral") //
-	go readMtMsg("MtDealSubscribe", "dealscribe")
+	//go readMtMsg("GroupSink", "chgroup1#ephemeral")
+	//go readMtMsg("MtOrderSubscribe", "order#ephemeral") //
+	//go readMtMsg("MtDealSubscribe", "dealscribe")
+	go readMtMsg("test", "dealscribe")
 
 	cleanup := make(chan os.Signal)
 	signal.Notify(cleanup, os.Interrupt)
@@ -47,6 +49,13 @@ func readMtMsg(topicName, channelName string) {
 	config.MaxInFlight = 1000
 	config.MaxBackoffDuration = time.Second * 500
 
+	config.TlsV1 = true
+	cert, _ := tls.LoadX509KeyPair("./../test/client.pem", "./../test/client.key")
+	config.TlsConfig = &tls.Config{
+		Certificates:       []tls.Certificate{cert},
+		InsecureSkipVerify: true,
+	}
+
 	q, err := nsq.NewConsumer(topicName, channelName, config)
 	if err != nil {
 		panic(err)
@@ -55,7 +64,8 @@ func readMtMsg(topicName, channelName string) {
 	q.AddHandler(handler)
 	ConsumersInfo.Add(q)
 
-	err = q.ConnectToNSQLookupd("192.168.0.105:4161")
+	//err = q.ConnectToNSQLookupd("192.168.0.105:4161")
+	err = q.ConnectToNSQLookupd("127.0.0.1:4161")
 
 	if err != nil {
 		fmt.Println("connect nsqd error :", err)
