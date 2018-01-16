@@ -19,9 +19,9 @@ func main() {
 	}
 
 	// 随便给哪个ip发都可以
-	//w1, _ := nsq.NewProducer("192.168.0.105:4150", config)
+	w1, _ := nsq.NewProducer("192.168.0.105:4150", config)
 	//w1, _ := nsq.NewProducer("13.125.77.114:9003", config)
-	w1, _ := nsq.NewProducer("127.0.0.1:4150", config)
+	//w1, _ := nsq.NewProducer("127.0.0.1:4150", config)
 	//w1, _ := nsq.NewProducer("192.168.0.49:4150", config)
 
 	err1 := w1.Ping()
