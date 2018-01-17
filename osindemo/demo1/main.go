@@ -178,12 +178,13 @@ func main() {
 	// Application destination - TOKEN
 	http.HandleFunc("/appauth/token", func(w http.ResponseWriter, r *http.Request) {
 		r.ParseForm()
-
+		//accessToken := r.Form.Get("access_token")
+		accessToken := r.URL.Query().Get("access_token")
 		w.Write([]byte("<html><body>"))
 		w.Write([]byte("APP AUTH - TOKEN<br/>"))
 
 		w.Write([]byte("Response data in fragment - not acessible via server - Nothing to do"))
-
+		w.Write([]byte("<p>" + accessToken + "</p>"))
 		w.Write([]byte("</body></html>"))
 	})
 
