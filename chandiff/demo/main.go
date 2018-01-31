@@ -17,7 +17,6 @@ func func1(ch chan bool) {
 
 func main() {
 	ch1 := make(chan bool)
-
 	func1(ch1)
 
 	fmt.Println("-----------------")
