@@ -16,6 +16,7 @@ func main() {
 	tmp := append([]int{}, a[insertIndex:]...)
 	fmt.Println(tmp)
 	fmt.Println("a[0:index]", a[0:insertIndex])
+	fmt.Println("a[index:", a[insertIndex:])
 	a = append(a[0:insertIndex], b...)
 	fmt.Println(a)
 	a = append(a, tmp...)
