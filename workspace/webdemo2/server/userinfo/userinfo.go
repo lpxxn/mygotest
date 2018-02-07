@@ -9,7 +9,7 @@ import (
 	"net/http"
 )
 
-// swagger:route Post /setuserinfo users  upUserParam
+// swagger:route Post /setuserinfo users upUserParam
 //
 // 修改用户 by some parameters.
 //
