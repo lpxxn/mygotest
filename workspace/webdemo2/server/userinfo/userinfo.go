@@ -9,8 +9,35 @@ import (
 	"net/http"
 )
 
+// swagger:route Post /setuserinfo users  upUserParam
+//
+// 修改用户 by some parameters.
+//
+// This will show all available pets by default.
+// You can get the pets that are out of stock
+//
+//     Consumes:
+//     - application/json
+//     - application/x-protobuf
+//
+//     Produces:
+//     - application/json
+//     - application/x-protobuf
+//
+//     Schemes: http, https, ws, wss
+//
+//     Security:
+//       api_key:
+//       oauth: read, write
+
+//     Responses:
+//       default: pingResponse
+//       200: pingResponse
+//        description: succession
+//       422:
+//        description: false
 func SetUserInfo(c *gin.Context) {
-	var param = &parammodes.UserParam{}
+	var param = &parammodes.UserParamInfo{}
 	if c.BindJSON(param) != nil {
 		c.JSON(http.StatusOK, gin.H{"Status": false})
 		return
@@ -27,7 +54,7 @@ func GetUserInfo(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{"Status": false})
 		return
 	}
-	u := &parammodes.UserParam{}
+	u := &parammodes.UserParamInfo{}
 	json.Unmarshal([]byte(str), u)
 	c.JSON(http.StatusOK, gin.H{"Status": true, "Data": u})
 
