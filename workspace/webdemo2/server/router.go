@@ -6,12 +6,13 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 )
 
 func NewRouter() *gin.Engine {
 	newRouter := gin.Default()
-
+	newRouter.Use(cors.Default())
 	newRouter.NoRoute(func(context *gin.Context) {
 		context.JSON(http.StatusNotFound, gin.H{"code": "NOT_FOUND", "msg": "sorry"})
 	})
@@ -58,7 +59,9 @@ func apiRouter(r *gin.Engine) {
 //     Responses:
 //       default: pingResponse
 //       200: pingResponse
-//       422: validationError
+//        description: succession
+//       422:
+//        description: false
 func ping(c *gin.Context) {
 	pingModel := models.RspPing{Msg: "Hello World!", CurrentTime: time.Now()}
 	c.JSON(http.StatusOK, pingModel)

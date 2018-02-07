@@ -20,6 +20,7 @@ func main() {
 	fmt.Println(ipstr)
 
 	r := server.NewRouter()
+
 	httpsServer := &http.Server{
 		Addr:    ":9101",
 		Handler: r,
@@ -57,3 +58,5 @@ func main() {
 	fmt.Println("Stop Server")
 
 }
+
+//  swagger generate spec -m tmp.go -o ./nodeserver/public/swagger.json

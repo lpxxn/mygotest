@@ -25,3 +25,5 @@ debug
 /grpcdemo/helloworld/helloworld/Ts
 /zapdemo/logs
 /workspace/webdemo2/logs
+/workspace/webdemo2/nodeserver/node_modules
+/workspace/webdemo2/nodeserver/public
