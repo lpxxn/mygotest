@@ -18,6 +18,7 @@ func main() {
 func DeferFunc1(i int) (t int) {
 	t = i
 	defer func() {
+		fmt.Println("func1:", t)
 		t += 3
 	}()
 	return t
@@ -26,6 +27,7 @@ func DeferFunc1(i int) (t int) {
 func DeferFunc2(i int) int {
 	t := i
 	defer func() {
+		fmt.Println("func2:", t)
 		t += 3
 	}()
 	return t
@@ -33,6 +35,7 @@ func DeferFunc2(i int) int {
 
 func DeferFunc3(i int) (t int) {
 	defer func() {
+		fmt.Println("func3:", t)
 		t += i
 	}()
 
