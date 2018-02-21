@@ -41,19 +41,22 @@ func (t *TestS) updateMapP(header, value string) {
 	t.headers[header] = value
 }
 
-// 指针会变
+// 因为msg 是指针所有都会变
 func (t TestS) updateMsgV(msg string) {
 	*t.msg = msg
 }
 
+// 因为msg 是指针所有都会变
 func (t *TestS) updateMsgP(msg string) {
 	*t.msg = msg
 }
 
+// 因为 intValue是指针，所有都会变
 func (t TestS) updateIntV(value int) {
 	*t.intValue = value
 }
 
+// 因为 intValue是指针，所有都会变
 func (t *TestS) updateIntP(value int) {
 	*t.intValue = value
 }
@@ -72,15 +75,17 @@ func main() {
 	fmt.Println(value1.headers)
 
 	value1.updateMsgP("li-msg-point")
+	fmt.Println("msg P : ", *value1.msg)
 	value1.updateMsgV("li-msg")
-	fmt.Println("msg : ", *value1.msg)
+	fmt.Println("msg V : ", *value1.msg)
 
 	value1.updateIntP(111111111111)
+	fmt.Println("intValue P: ", *value1.intValue)
 	value1.updateIntV(222222222222)
-	fmt.Println("intValue: ", *value1.intValue)
+	fmt.Println("intValue V: ", *value1.intValue)
 	fmt.Println("------------------")
 
-	value2 := &TestS{headers: make(map[string]string)}
+	value2 := &TestS{headers: make(map[string]string), msg:new(string)}
 	value2.updateStatusP(1111)
 	fmt.Println(value2.status_code)
 
@@ -93,6 +98,13 @@ func main() {
 	// 指针变量调用也没有发生变化
 	point1.updateStatusV(44444)
 	fmt.Println(point1.status_code)
+
+
+	value2.updateMsgP("li-msg-point")
+	fmt.Println("msg2 P : ",*value2.msg)
+	value2.updateMsgV("li-msg")
+	fmt.Println("msg2 V : ", *value2.msg)
+
 
 	var a *int = new(int)
 	*a = 123123123
