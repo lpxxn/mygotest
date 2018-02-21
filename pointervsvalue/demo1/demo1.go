@@ -32,7 +32,7 @@ func (t *TestS) updateStatusP(new_status int) {
 	t.status_code = new_status
 }
 
-// 会被个性map底层是指针
+// 会被修改, 因为map底层是指针
 func (t TestS) updateMapV(header, value string) {
 	t.headers[header] = value
 }
