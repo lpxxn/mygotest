@@ -48,9 +48,10 @@ func main() {
 	fmt.Println((*it).GetAge())
 
 	// error GetName method has pointer receiver
-	//	var it3 ITestBase = MyTestC{name: "lili", age:3}
+	// var it3 ITestBase = MyTestC{name: "lili", age:3}
 	// this work
 	var it3 MyTestC = MyTestC{"lili", 3}
+	// var it3 ITestBase = &MyTestC{name: "lili", age:3}
 	fmt.Println(it3.GetName())
 	fmt.Println(it3.GetAge())
 }
