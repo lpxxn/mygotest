@@ -7,10 +7,15 @@ import (
 
 type Cat struct {
 	Name string
+	Age int
 }
 
 func (c Cat) GetName() string {
 	return c.Name
+}
+
+func (c Cat)GetAge() int {
+	return c.Age
 }
 
 func main() {
@@ -24,6 +29,11 @@ func main() {
 		fmt.Println(t.Method(i).Name)
 	}
 
+
+	var ib IB = Cat{Name:"tom", Age:23}
+	fmt.Println(ib.GetAge())
+	fmt.Println(ib.GetName())
+
 }
 
 /*
@@ -33,3 +43,12 @@ So if you have a method with Cat as the receiver type, that method is also part 
 
 
  */
+
+ type IA interface {
+ 	GetName() string
+ }
+
+ type IB interface {
+ 	IA
+ 	GetAge() int
+ }
