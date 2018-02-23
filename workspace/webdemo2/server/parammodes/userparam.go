@@ -1,5 +1,7 @@
 package parammodes
 
+import "time"
+
 //
 // swagger:parameters upUserParam
 type UserParam struct {
@@ -12,9 +14,10 @@ type UserParam struct {
 
 // swagger:model param
 type UserParamInfo struct {
-	Id   string `json:"id"`
-	Name string `json:"name"`
-	Age  int32  `json:"age"`
+	Id    string    `json:"id"`
+	Name  string    `json:"name"`
+	Age   int32     `json:"age"`
+	UTime time.Time `json:"u_time"`
 }
 
 // swagger:response operateRev

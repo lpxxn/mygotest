@@ -42,7 +42,9 @@ func SetUserInfo(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{"Status": false})
 		return
 	}
+	fmt.Println(param)
 	pjson, _ := json.Marshal(param)
+	fmt.Println(string(pjson))
 	str, err := utils.Cluster.Set("gouser", pjson, 0).Result()
 	fmt.Println(str, err)
 	rev := parammodes.OperateResult{RevValueBase: parammodes.RevValueBase{Status: true}}

@@ -39,7 +39,7 @@ type PintModel struct {
 	// ID of the order
 	//
 	// required: true
-	ID int64 `json:"id"`
+	ID int `json:"id"`
 
 	// the id of the user who placed the order.
 	//

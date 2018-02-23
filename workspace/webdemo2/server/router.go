@@ -28,6 +28,7 @@ func userRouter(r *gin.Engine) {
 	r.POST("setuserinfo", userinfo.SetUserInfo)
 	r.GET("getuserinfo", userinfo.GetUserInfo)
 	r.GET("pets", listPets)
+	r.GET("testparams", testParam)
 }
 
 func apiRouter(r *gin.Engine) {
@@ -68,10 +69,15 @@ type GenericError struct {
 // 		    200: pingResponseArr
 func listPets(c *gin.Context) {
 	strpar := c.DefaultQuery("status", "1")
+	slice := c.DefaultQuery("foo_slice", "1")
+	cTime := c.DefaultQuery("created", time.Now().Format("20060102150405"))
 	// param in path
 	strname := c.Param("id")
 	fmt.Println(strpar)
 	fmt.Println(strname)
+	fmt.Println(slice)
+	fmt.Println(cTime)
+
 	resp := make([]models.RspPing, 0)
 	resp = append(resp, models.RspPing{Msg: strpar})
 	c.JSON(http.StatusOK, resp)
@@ -108,4 +114,36 @@ func listPets(c *gin.Context) {
 func ping(c *gin.Context) {
 	pingModel := models.RspPing{Msg: "Hello World!", CurrentTime: time.Now()}
 	c.JSON(http.StatusOK, pingModel)
+}
+
+// GetPets swagger:route GET /testparams pets someOperation
+//
+// Lists the pets known to the store.
+//
+// By default it will only lists pets that are available for sale.
+// This can be changed with the status flag.
+//
+// Responses:
+// 		default: genericError
+// 		    200: pingResponseArr
+func testParam(c *gin.Context) {
+	strpar := c.DefaultQuery("id", "1")
+	slice := c.DefaultQuery("foo_slice", "1")
+	cTime := c.DefaultQuery("created", time.Now().Format("20060102150405"))
+	//cTime := c.DefaultQuery("created", time.Now().Format("2006-01-02 15:04:05"))
+	// param in path
+	strname := c.Param("id")
+	fmt.Println(strpar)
+	fmt.Println(strname)
+	fmt.Println(slice)
+	fmt.Println(cTime)
+	fmt.Println(strpar)
+	fmt.Println(strname)
+	fmt.Println(time.Now().Format("2006-01-02 15:04:05"))
+	conTime, err := time.Parse("2006-01-02 15:04:05", cTime)
+	fmt.Println(conTime, " err: ", err)
+	resp := make([]models.RspPing, 0)
+	resp = append(resp, models.RspPing{Msg: strpar, CurrentTime: conTime, Payload: &models.PintModel{ID: len(slice)}})
+	c.JSON(http.StatusOK, resp)
+
 }
