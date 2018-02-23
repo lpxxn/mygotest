@@ -29,10 +29,10 @@ import (
 //     Security:
 //       api_key:
 //       oauth: read, write
-
+//
 //     Responses:
 //       default: pingResponse
-//       200: pingResponse
+//       200: successOperate
 //        description: succession
 //       422:
 //        description: false
@@ -45,7 +45,8 @@ func SetUserInfo(c *gin.Context) {
 	pjson, _ := json.Marshal(param)
 	str, err := utils.Cluster.Set("gouser", pjson, 0).Result()
 	fmt.Println(str, err)
-	c.JSON(http.StatusOK, gin.H{"Status": true})
+	rev := parammodes.OperateResult{RevValueBase: parammodes.RevValueBase{Status: true}}
+	c.JSON(http.StatusOK, rev)
 }
 
 func GetUserInfo(c *gin.Context) {
