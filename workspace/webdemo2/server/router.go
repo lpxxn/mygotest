@@ -65,7 +65,7 @@ type GenericError struct {
 //
 // Responses:
 // 		default: genericError
-// 		    200: []pingResponse
+// 		    200: pingResponseArr
 func listPets(c *gin.Context) {
 	strpar := c.DefaultQuery("status", "1")
 	// param in path
@@ -73,14 +73,14 @@ func listPets(c *gin.Context) {
 	fmt.Println(strpar)
 	fmt.Println(strname)
 	resp := make([]models.RspPing, 0)
-	resp = append(resp, models.RspPing{Msg: "abcdef"})
+	resp = append(resp, models.RspPing{Msg: strpar})
 	c.JSON(http.StatusOK, resp)
 
 }
 
-// swagger:route GET /ping pets users listPets
+// swagger:route GET /ping pets pingresult
 //
-// Lists pets filtered by some parameters.
+// Ping something
 //
 // This will show all available pets by default.
 // You can get the pets that are out of stock
@@ -100,7 +100,7 @@ func listPets(c *gin.Context) {
 //       oauth: read, write
 //
 //     Responses:
-//       default: pingResponse
+//       default: genericError
 //       200: pingResponse
 //        description: succession
 //       422:

@@ -6,6 +6,21 @@ import "time"
 // This is used for returning a response with a single order as body
 //
 // swagger:response pingResponse
+type ResPingBody struct {
+	// PingBody
+	//
+	// in:body
+	Body RspPing
+}
+
+// swagger:response pingResponseArr
+type ResPingBodyArr struct {
+	// PingBody
+	//
+	// in:body
+	Body []RspPing
+}
+
 type RspPing struct {
 	// Return Message
 	Msg string `json:"msgstr"`
