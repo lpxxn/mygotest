@@ -31,8 +31,8 @@ import (
 //       oauth: read, write
 //
 //     Responses:
-//       default: pingResponse
-//       200: successOperate
+//       default: operateRev
+//       200: operateRev
 //        description: succession
 //       422:
 //        description: false

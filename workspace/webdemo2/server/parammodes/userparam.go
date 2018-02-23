@@ -17,8 +17,8 @@ type UserParamInfo struct {
 	Age  int32  `json:"age"`
 }
 
-// swagger:response successOperate
-type SuccessOperateRsp struct {
+// swagger:response operateRev
+type OperateRevRsp struct {
 
 	// success operate data
 	//
@@ -26,6 +26,13 @@ type SuccessOperateRsp struct {
 	Body OperateResult
 }
 
+/*
+/// RevValueBase是嵌入的类型用 swagger all
+/// RevValueBase 必须定义为 swagger model swagger 才能生成引用的model
+*/
+
+// Operate status
+// swagger:model
 type RevValueBase struct {
 	Status bool   `json:"state"`
 	Err    string `json:"err"`
