@@ -24,11 +24,11 @@ func NewRouter() *gin.Engine {
 }
 
 func userRouter(r *gin.Engine) {
-	r.GET("ping", ping)
+	r.GET("/ping", ping)
 	r.POST("setuserinfo", userinfo.SetUserInfo)
 	r.GET("getuserinfo", userinfo.GetUserInfo)
 	r.GET("pets", listPets)
-	r.GET("testparams", testParam)
+	r.GET("/testparams/:id", testParam)
 }
 
 func apiRouter(r *gin.Engine) {
@@ -116,7 +116,7 @@ func ping(c *gin.Context) {
 	c.JSON(http.StatusOK, pingModel)
 }
 
-// GetPets swagger:route GET /testparams pets someOperation
+// GetPets swagger:route GET /testparams/{id} pets someOperation
 //
 // Lists the pets known to the store.
 //
