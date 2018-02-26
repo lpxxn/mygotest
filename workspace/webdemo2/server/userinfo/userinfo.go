@@ -26,10 +26,6 @@ import (
 //
 //     Schemes: http, https, ws, wss
 //
-//     Security:
-//       api_key:
-//       oauth: read, write
-//
 //     Responses:
 //       default: operateRev
 //       200: operateRev

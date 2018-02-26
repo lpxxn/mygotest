@@ -93,17 +93,12 @@ func listPets(c *gin.Context) {
 //
 //     Consumes:
 //     - application/json
-//     - application/x-protobuf
 //
 //     Produces:
 //     - application/json
 //     - application/x-protobuf
 //
 //     Schemes: http, https, ws, wss
-//
-//     Security:
-//       api_key:
-//       oauth: read, write
 //
 //     Responses:
 //       default: genericError

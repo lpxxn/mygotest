@@ -153,8 +153,6 @@ func main() {
 			w.Write([]byte(fmt.Sprintf("ACCESS TOKEN: %s<br/>\n", at)))
 		}
 
-		w.Write([]byte(fmt.Sprintf("FULL RESULT: %+v<br/>\n", jr)))
-
 		// output links
 		w.Write([]byte(fmt.Sprintf("<a href=\"%s\">Goto Token URL</a><br/>", aurl)))
 
