@@ -20,8 +20,9 @@ func partition(a []int, l, r int) int {
 			storeIndex++
 		}
 	}
+	fmt.Println("a1 :", a)
 	a[r], a[storeIndex] = a[storeIndex], a[r]
-	fmt.Println("a :", a)
+	fmt.Println("a2 :", a)
 	return storeIndex
 }
 
@@ -41,7 +42,7 @@ func QuickSort(a []int, left, right int) {
 }
 
 func main() {
-	arr := []int{3, 7, 8, 5, 2, 1, 9, 5, 4}
+	arr := []int{6, 7, 8, 5, 2, 1, 9, 5, 4}
 	QuickSort(arr, 0, len(arr)-1)
 	fmt.Println(arr)
 }
