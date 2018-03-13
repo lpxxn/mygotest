@@ -52,6 +52,7 @@ func main() {
 
 	bubbleSort(arr3)
 	fmt.Println(arr3)
+	fmt.Println(binary_serarch(arr3, 0, len(arr3) - 1, 5))
 }
 
 func insertsort(arr []int) {
@@ -93,3 +94,19 @@ func bubbleSort(arr []int) {
 然后再从头开始进行两两比较交换,直到倒数第二位时结束,其余类似看例子
 
  */
+
+ // 二分查找
+
+ func binary_serarch(arr []int, low, high, hkey int) int {
+ 	if low > high {
+ 		return -1
+	}
+	mid := low + (high - low) / 2
+
+	if hkey < arr[mid] {
+		return binary_serarch(arr, low, mid - 1, hkey)
+	} else if hkey > arr[mid] {
+		return binary_serarch(arr, mid + 1, high, hkey)
+	}
+	return mid
+ }
