@@ -1,0 +1,26 @@
+{
+  "swagger": "2.0",
+  "paths": {},
+  "definitions": {
+    "Person": {
+      "type": "object",
+      "properties": {
+        "Email": {
+          "description": "Their email",
+          "type": "string",
+          "format": "email"
+        },
+        "Name": {
+          "description": "Their preferred name",
+          "type": "string"
+        },
+        "RegistrationDate": {
+          "description": "When the registered 自动转换成 string",
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "x-go-package": "github.com/mygotest/goswaggerdemo/demo1"
+    }
+  }
+}

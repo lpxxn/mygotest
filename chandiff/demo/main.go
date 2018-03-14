@@ -23,4 +23,12 @@ func main() {
 
 	ch2 := make(chan bool, 1)
 	func1(ch2)
+	fmt.Println(test(true))
+}
+func test(val bool) (i int) {
+	if val {
+		return 1
+	} else {
+		return 0
+	}
 }
