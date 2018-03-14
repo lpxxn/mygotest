@@ -5,24 +5,25 @@ import "fmt"
 var totalNum int = 0
 
 func perm(arr []int, k, m int) {
-	i := 0
+	//i := 0
 	//fmt.Println("k: ", k, " m:", m)
 	if k > m {
-		fmt.Println("arr begin")
-		for i = 0; i <= m; i++ {
+		//fmt.Println("arr begin")
+		for i := 0; i <= m; i++ {
 			fmt.Print(arr[i])
 		}
-		fmt.Println("\narr end")
+		//fmt.Println("\narr end")
+		fmt.Println()
 		totalNum++;
 	} else {
-		for i = k; i <= m; i++ {
-			fmt.Println("order: ", arr)
-			fmt.Printf("i: %d k: %d \n", i , k)
+		for i := k; i <= m; i++ {
+			//fmt.Println("order: ", arr)
+			//fmt.Printf("i: %d k: %d \n", i , k)
 			arr[i], arr[k] = arr[k], arr[i]
-			fmt.Println("change: 1",  arr)
+			//fmt.Println("change: 1",  arr)
 			perm(arr, k + 1, m)
 			arr[i], arr[k] = arr[k], arr[i]
-			fmt.Println("end change: 2",  arr, "--------")
+			//fmt.Println("end change: 2",  arr, "--------")
 		}
 	}
 }
