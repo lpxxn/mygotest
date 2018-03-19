@@ -56,8 +56,8 @@ func rightChild(i int) int  {
 }
 
 func main() {
-	//a := []int {20,50,20,40,70,10,80,30,60}
-	a := []int {1,5,6,3,2,4}
+	a := []int {20,50,20,40,70,10,80,30,60}
+	//a := []int {1,5,6,3,2,4}
 	//
 	HeapSort(a)
 	fmt.Println(a)

@@ -172,28 +172,23 @@ func PerOrder2(tree *TreeNode) {
 // 中序
 // 左根右
 func InOrder(tree *TreeNode) {
-	if tree.Left != nil {
-		PreOrder(tree.Left)
+	if tree  == nil {
+		return
 	}
+	InOrder(tree.Left)
 	fmt.Println(tree.Value, "")
 
-	if tree.Right != nil {
-		PreOrder(tree.Right)
-	}
+	InOrder(tree.Right)
 }
 
 // 后序遍历
 func AfterOrder(tree *TreeNode) {
-	if tree.Left != nil {
-		PreOrder(tree.Left)
+	if tree  == nil {
+		return
 	}
-
-
-	if tree.Right != nil {
-		PreOrder(tree.Right)
-	}
+	AfterOrder(tree.Left)
+	AfterOrder(tree.Right)
 	fmt.Println(tree.Value, "")
-
 }
 
 
