@@ -28,13 +28,13 @@ func adjustHeap(a []int, i, length int) {
 
 		right := left + 1 // 右节点
 		j := left	// j 指向左节点
-		// 选出较大的节点
-		if right < length && a[left] < a[right] {
+		// 选出较小的节点
+		if right < length && a[left] > a[right] {
 			j++
 		}
 
-		// 如果父节点比最大的孩子节点小，则交换
-		if a[i] < a[j] {
+		// 如果父节点比最大的孩子节点大，则交换
+		if a[i] > a[j] {
 			a[i], a[j] = a[j], a[i]
 
 		} else {
