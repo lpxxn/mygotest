@@ -39,7 +39,7 @@ func (tree *SegTree) Query(start, end int) int {
 	}
 
 	mid := (tree.Start + tree.End)/2
-	if (start <= mid && end > mid) {
+	if (start < mid && end > mid) {
 		return maxInt(tree.Left.Query(start, mid), tree.Right.Query(mid + 1, end))
 	} else if start <= mid && end <= mid {
 		return tree.Left.Query(start, end)
@@ -66,7 +66,7 @@ func maxInt(n1, n2 int) int {
 func main() {
 	arr := []int{1, 4, 2, 3}
 	tree := BuildTree(arr, 0, len(arr) - 1)
-	fmt.Println(tree.Query(0, 2))
+	fmt.Println(tree.Query(2, 2))
 }
 /*
 
