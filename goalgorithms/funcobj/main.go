@@ -1,6 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"strings"
+)
 
 type f1 func(a string) string
 
@@ -16,4 +19,6 @@ func main() {
 	}
 	r := f.Bind("peng")
 	print(r)
+	s1 := "abcde"
+	strings.Compare("a", "b")
 }
