@@ -28,7 +28,15 @@ func (c *Cabinet) Get(retref interface{}) interface{} {
 
 	//*retref.(*interface{}) = c.s.Index(0)
 
-	retref = c.s.Index(0)
+	//switch d := retref.(type) {
+	//case *string:
+	//	*d= "abcde"
+	//case *float64:
+	//	*d = 124
+	//}
+
+
+	//retref = c.s.Index(0)
 	v := c.s.Index(0)
 	fmt.Println(retref, "   ", v)
 	c.s = c.s.Slice(1, c.s.Len())
@@ -43,7 +51,9 @@ func main() {
 	c.Put(f)
 	c.Put(1.2)
 	c.Put(0.56)
-	fmt.Println(c.Get(&g))
+	v1 := c.Get(&g)
+	fmt.Println(v1)
+	fmt.Println(v1.(*float64))
 	fmt.Println(g)
 	fmt.Println(c.s)
 
