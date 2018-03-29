@@ -50,6 +50,9 @@ func main() {
 	Foo2(a)
 
 	b := B()
+	if b == nil {
+		fmt.Println("B is nil")
+	}
 	Foo(b)
 	Foo2(b)
 
