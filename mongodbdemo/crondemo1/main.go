@@ -10,7 +10,7 @@ func main() {
 	defer cron1.Stop()
 
 	// 秒
-	cron1.AddFunc("*/1 * * * * *", func() {
+	cron1.AddFunc("*/10 * * * * ?", func() {
 		fmt.Println("second")
 		})
 
@@ -18,6 +18,9 @@ func main() {
 		fmt.Println("min 30")
 	})
 
+	cron1.AddFunc("0 */1 * * * ?", func() {
+		fmt.Println("min 1")
+	})
 	// 晚上0点
 	cron1.AddFunc("0 0 0 * * ?", func() {
 		fmt.Println("zero")
