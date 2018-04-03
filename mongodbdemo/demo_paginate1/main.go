@@ -26,10 +26,30 @@ func main() {
 	// Optional. Switch the session to a monotonic behavior.
 	session.SetMode(mgo.Monotonic, true)
 
-	c := session.DB("wakuangbao").C("comunities_coin_day")
+	c := session.DB("wakuangbao").C("user_hash_minute")
+
+	count, err := c.Count()
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println(count)
 
 	query := c.Find(bson.M{})
-	cData := []Comunities_coin_day{}
+	cData := []interface{}{}
 	query.All(&cData)
 	fmt.Println(cData)
+
+	if count > 100 {
+		pageSize := 120
+		skipValue := 0
+		for count > 0 {
+			findrev := c.Find(bson.M{}).Skip(skipValue).Limit(pageSize)
+			revData := []interface{}{}
+			findrev.All(&revData)
+			fmt.Println(revData)
+			fmt.Println("len: ", len(revData))
+			skipValue += pageSize
+			count -= pageSize
+		}
+	}
 }
