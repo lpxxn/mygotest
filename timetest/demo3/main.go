@@ -77,11 +77,15 @@ func processF(idx int) {
 			fmt.Println("error")
 		}
 	}()
-	for {
-		str, ok := <- chs[idx]
-		if ok {
-			fmt.Println(str)
-		}
+	//for {
+	//	str, ok := <- chs[idx]
+	//	if ok {
+	//		fmt.Println(str)
+	//	}
+	//}
+
+	for str := range chs[idx] {
+		fmt.Println(str)
 	}
 }
 
