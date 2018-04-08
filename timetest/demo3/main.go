@@ -5,7 +5,9 @@ import (
 	"strconv"
 	"time"
 
-	"runtime"
+	"math/rand"
+	"os"
+	"os/signal"
 )
 
 var chs []chan string
@@ -15,9 +17,21 @@ func main() {
 		chs = append(chs, ch)
 	}
 	go func() {
-		for i := 0; i< 100; i++ {
-			time.Sleep(time.Second * 2)
-			chs[i%10] <- strconv.Itoa(i)
+		//for i := 0; i< 100; i++ {
+		go func() {
+			for {
+				//time.Sleep(time.Second/5)
+				time.Now()
+				v := Random(0, 999999)
+				chs[v%10] <- strconv.Itoa(v)
+				v = Random(0, 9999)
+				chs[v%10] <- strconv.Itoa(v)
+			}
+		}()
+
+		for {
+			v := Random(0, 999999)
+			chs[v%10] <- strconv.Itoa(v)
 		}
 	}()
 
@@ -40,23 +54,21 @@ func main() {
 		chs[i] <- strconv.Itoa(i)
 	}
 
-	runtime.Goexit()
 
-	fmt.Println("Exit")
-	//stopSignal := make(chan os.Signal)
-	//signal.Notify(stopSignal, os.Interrupt)
-	//quit := make(chan bool)
-	//
-	//go func() {
-	//	for _ = range stopSignal {
-	//		fmt.Println("Receive an interrup, Begin Stop.....")
-	//
-	//		quit <- true
-	//	}
-	//}()
-	//fmt.Println("Running Service ....")
-	//<-quit
-	//fmt.Println("Stop Server")
+	stopSignal := make(chan os.Signal)
+	signal.Notify(stopSignal, os.Interrupt)
+	quit := make(chan bool)
+
+	go func() {
+		for _ = range stopSignal {
+			fmt.Println("Receive an interrup, Begin Stop.....")
+
+			quit <- true
+		}
+	}()
+	fmt.Println("Running Service ....")
+	<-quit
+	fmt.Println("Stop Server")
 }
 
 func processF(idx int) {
@@ -71,4 +83,9 @@ func processF(idx int) {
 			fmt.Println(str)
 		}
 	}
+}
+
+func Random(min, max int) int {
+	rand.Seed(time.Now().UnixNano())
+	return rand.Intn(max-min) + min
 }
