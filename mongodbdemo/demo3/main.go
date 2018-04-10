@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"math"
 	"gopkg.in/mgo.v2/bson"
+	"strconv"
 )
 
 func main() {
@@ -16,8 +17,13 @@ func main() {
 	}
 	defer session.Close()
 
-	v_deci, err := bson.ParseDecimal128("10.3")
+	var input_num float64 = 10.3798
+	fv := strconv.FormatFloat(input_num, 'f', -1, 64)
+	//fv := strconv.FormatFloat(input_num, 'f', 2, 64)
+	v_deci, err := bson.ParseDecimal128(fv)
 	fmt.Println(v_deci, "  err: ", err, "  detail: ")
+	rv_float,_ := strconv.ParseFloat(v_deci.String(), 64)
+	fmt.Println(rv_float)
 
 	localc := session.DB("wakuangbao").C("user_coin_day")
 
