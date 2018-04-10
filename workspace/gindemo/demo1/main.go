@@ -9,7 +9,6 @@ import (
 	"go.uber.org/zap"
 	"github.com/mygotest/workspace/gindemo/demo1/interviewlogger"
 	"github.com/mygotest/workspace/gindemo/demo1/zaplogger"
-	"io/ioutil"
 )
 
 func main() {
