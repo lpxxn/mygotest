@@ -6,6 +6,10 @@ import (
 	"net/http"
 	"fmt"
 	gerr "github.com/go-errors/errors"
+	"go.uber.org/zap"
+	"github.com/mygotest/workspace/gindemo/demo1/interviewlogger"
+	"github.com/mygotest/workspace/gindemo/demo1/zaplogger"
+	"io/ioutil"
 )
 
 func main() {
@@ -15,6 +19,22 @@ func main() {
 	r.GET("hi", func(context *gin.Context) {
 		panic("error")
 	})
+
+	g := r.Group("t2")
+	g.Use(InterViewLog)
+	g.POST("u1", func(c *gin.Context) {
+		var obj interface{}
+		c.Bind(&obj)
+		// body is already read
+		// 如果提前读取，那么c.Bind()方法无效
+		//fmt.Println(obj)
+		//x, _ := ioutil.ReadAll(c.Request.Body)
+		//fmt.Printf("aaaaaaaaa %s", string(x))
+		c.JSON(http.StatusOK, gin.H{"ok": "ok"})
+	})
+	g.GET("u2", func(c *gin.Context) {
+		c.JSON(http.StatusOK, gin.H{"ok": "ok"})
+	})
 	if err := http.ListenAndServe(":9100", r); err != nil {
 		panic(err)
 	}
@@ -22,6 +42,34 @@ func main() {
 
 	select {}
 }
+
+
+func InterViewLog(c *gin.Context) {
+
+	defer interViewLogDetail(c)
+	c.Next()
+}
+
+func interViewLogDetail(c *gin.Context) {
+	defer func() {
+		if err:= recover(); err != nil {
+			zaplogger.Error("InterViewLogger Error:", zap.String("url", c.Request.RequestURI), zap.Error(err.(error)))
+		}
+	}()
+
+
+	param := c.Request.URL.String()
+
+	if c.Request.Method == "POST" {
+		var obj interface{}
+		c.Bind(&obj)
+		fmt.Println(obj)
+		interviewlogger.LogInterView("interview", zap.String("url", param), zap.String("value",string(x) ))
+	}
+	interviewlogger.LogInterView("interview", zap.String("url", param))
+
+}
+
 func globalRecover(c *gin.Context) {
 	defer func(c *gin.Context) {
 		if rec := recover(); rec != nil {
