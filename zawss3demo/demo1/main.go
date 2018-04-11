@@ -13,11 +13,12 @@ import (
 
 
 const (
-	regin = "us-east-2"
+	regin = "ap-northeast-1"
+	//regin = "us-east-2"
 	key_id = "AKIAIP65TRLVUOMNKALA"
 	secret_key = "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"
 )
-var bucket = "lpxxntestbucket"
+var bucket = "lpxxntestbucket3"
 var keyfile = "awstestkey"
 
 func main() {
@@ -43,6 +44,9 @@ func main() {
 		fmt.Println(aws.StringValue(bucket_item.Name), " : ", bucket_item.CreationDate)
 		names[aws.StringValue(bucket_item.Name)]= struct{}{}
 	}
+	// private | public-read | public-read-write | authenticated-read
+	// See https://docs.aws.amazon.com/AmazonS3/latest/dev/acl-overview.html#CannedACL for details
+	acl := "public-read"
 
 	if _, ok := names[bucket]; !ok {
 		_, err = svc.CreateBucket(&s3.CreateBucketInput{Bucket:&bucket})
@@ -53,12 +57,27 @@ func main() {
 		if err = svc.WaitUntilBucketExists(&s3.HeadBucketInput{Bucket:&bucket}); err != nil {
 			panic("failed to wait for bucket to exists")
 		}
+
+
+		//params := &s3.PutBucketAclInput{
+		//	Bucket: &bucket,
+		//	ACL: &acl,
+		//}
+		//
+		//// Set bucket ACL
+		//_, err := svc.PutBucketAcl(params)
+		//if err != nil {
+		//	panic(err)
+		//}
+		//
+		//fmt.Println("Bucket " + bucket + " is now public")
 	}
 
 	rev_Item, err := svc.PutObject(&s3.PutObjectInput{
 		Body: strings.NewReader("Hello World!"),
 		Bucket: &bucket,
 		Key: &keyfile,
+		ACL: &acl,
 	})
 
 	if err != nil {
