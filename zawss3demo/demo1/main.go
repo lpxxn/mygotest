@@ -33,6 +33,11 @@ func main() {
 
 	svc := s3.New(sess)
 
+	ov, err := svc.HeadBucket(&s3.HeadBucketInput{
+		Bucket:aws.String(bucket),
+	})
+	fmt.Println(ov.String(), " err")
+
 	result, err := svc.ListBuckets(&s3.ListBucketsInput{})
 	if err != nil {
 		panic("Failed to list buckets")

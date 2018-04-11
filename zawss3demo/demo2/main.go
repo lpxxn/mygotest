@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"github.com/gin-gonic/gin/json"
 )
 
 func main() {
@@ -38,4 +39,11 @@ func ReceiveFile(w http.ResponseWriter, r *http.Request) {
 	// do something else
 	// etc write header
 	return
+}
+
+
+func ResponseJson(w http.ResponseWriter, data interface{}) {
+		rdata, _ := json.Marshal(data)
+		w.Header().Set("Content-Type", "application/json")
+		w.Write(rdata)
 }
