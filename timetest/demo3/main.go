@@ -69,8 +69,6 @@ func processF(idx int) {
 		str, ok := <- chs[idx]
 		if ok {
 			fmt.Println(str)
-		} else {
-			fmt.Println("read channel false")
 		}
 	}
 }
