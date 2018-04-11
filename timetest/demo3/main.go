@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"strconv"
 	"time"
-	"os"
-	"os/signal"
+
+	"runtime"
 )
 
 var chs []chan string
@@ -40,20 +40,23 @@ func main() {
 		chs[i] <- strconv.Itoa(i)
 	}
 
-	stopSignal := make(chan os.Signal)
-	signal.Notify(stopSignal, os.Interrupt)
-	quit := make(chan bool)
+	runtime.Goexit()
 
-	go func() {
-		for _ = range stopSignal {
-			fmt.Println("Receive an interrup, Begin Stop.....")
-
-			quit <- true
-		}
-	}()
-	fmt.Println("Running Service ....")
-	<-quit
-	fmt.Println("Stop Server")
+	fmt.Println("Exit")
+	//stopSignal := make(chan os.Signal)
+	//signal.Notify(stopSignal, os.Interrupt)
+	//quit := make(chan bool)
+	//
+	//go func() {
+	//	for _ = range stopSignal {
+	//		fmt.Println("Receive an interrup, Begin Stop.....")
+	//
+	//		quit <- true
+	//	}
+	//}()
+	//fmt.Println("Running Service ....")
+	//<-quit
+	//fmt.Println("Stop Server")
 }
 
 func processF(idx int) {
@@ -66,6 +69,8 @@ func processF(idx int) {
 		str, ok := <- chs[idx]
 		if ok {
 			fmt.Println(str)
+		} else {
+			fmt.Println("read channel false")
 		}
 	}
 }
