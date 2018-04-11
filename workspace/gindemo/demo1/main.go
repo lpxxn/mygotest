@@ -34,6 +34,9 @@ func main() {
 	g.GET("u2", func(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{"ok": "ok"})
 	})
+	r.GET("u1", func(c *gin.Context) {
+		c.JSON(http.StatusOK, gin.H{"ok": "ok"})
+	})
 	if err := http.ListenAndServe(":9100", r); err != nil {
 		panic(err)
 	}
@@ -63,7 +66,7 @@ func interViewLogDetail(c *gin.Context) {
 		var obj interface{}
 		c.Bind(&obj)
 		fmt.Println(obj)
-		interviewlogger.LogInterView("interview", zap.String("url", param), zap.String("value",string(x) ))
+		interviewlogger.LogInterView("interview", zap.String("url", param))
 	}
 	interviewlogger.LogInterView("interview", zap.String("url", param))
 
