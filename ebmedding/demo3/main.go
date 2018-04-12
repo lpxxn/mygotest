@@ -38,6 +38,8 @@ func main() {
 	var u4 *U3 = &u3
 	fmt.Println(u.Get(), u2.Get(), u3.Get(), u4.Get())
 
+	fmt.Println("U3 call u2: ", u3.GetU2_1())
+	fmt.Println("U3 call u2 2: ", u3.GetU2_2())
 }
 
 
@@ -58,4 +60,15 @@ type U3 U2
 func (U3) Get() string {
 	return "U3"
 }
+
+func (u3 *U3) GetU2_1() string {
+ 	return (*U2)(u3).Get()
+}
+
+
+func (u3 U3) GetU2_2() string {
+	return (U2)(u3).Get()
+}
+
+
 
