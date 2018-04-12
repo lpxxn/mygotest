@@ -8,7 +8,7 @@ func (t *T) Get() T{
 	return *t + 1
 }
 
-
+// https://golang.org/ref/spec#Type_declarations
 // The type denoted by T is called the receiver base type; it must not be a pointer or interface type
 type P T
 // type P *T // error when as user receiver
