@@ -40,9 +40,7 @@ func main() {
 	if err := http.ListenAndServe(":9100", r); err != nil {
 		panic(err)
 	}
-	fmt.Println("server run port :", "9100")
 
-	select {}
 }
 
 
