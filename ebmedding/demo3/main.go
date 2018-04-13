@@ -63,6 +63,9 @@ func (U3) Get() string {
 
 func (u3 *U3) GetU2_1() string {
  	return (*U2)(u3).Get()
+ 	// error  type assertion works for interface only
+ 	//https://stackoverflow.com/questions/18691927/go-named-type-assertions-and-conversions
+ 	//return u3.(*U2).Get()
 }
 
 

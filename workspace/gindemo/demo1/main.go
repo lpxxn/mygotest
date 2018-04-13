@@ -34,6 +34,9 @@ func main() {
 	g.GET("u2", func(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{"ok": "ok"})
 	})
+	g.GET("u3", func(c *gin.Context) {
+		c.JSON(http.StatusOK, gin.H{"ok": "ok"})
+	})
 	r.GET("u1", func(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{"ok": "ok"})
 	})
