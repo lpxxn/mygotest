@@ -6,6 +6,7 @@ import (
 	"github.com/speps/go-hashids"
 	"github.com/mygotest/gohashdemo/demo4/ShortUrlGenerator"
 	"strconv"
+	"github.com/teris-io/shortid"
 )
 
 func main() {
@@ -33,5 +34,13 @@ func main() {
 	a_16 := strconv.FormatInt(a, 16)
 	fmt.Println(a_16)
 
+	//a = 160
+	a = 160
+	a_16 = strconv.FormatInt(a, 16)
+	fmt.Println(a_16)
+
+	sid, _ := shortid.New(1, shortid.DefaultABC, 2342)
+	ssid,e1 := sid.Generate()
+	fmt.Println(ssid, e1)
 }
 

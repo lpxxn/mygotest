@@ -8,6 +8,12 @@
   version = "v1.16.0"
 
 [[projects]]
+  name = "github.com/bsm/sarama-cluster"
+  packages = ["."]
+  revision = "cf455bc755fe41ac9bb2861e7a961833d9c2ecc3"
+  version = "v2.1.13"
+
+[[projects]]
   name = "github.com/davecgh/go-spew"
   packages = ["spew"]
   revision = "346938d642f2ec3594ed81d874461961cd0faa76"
@@ -53,11 +59,11 @@
   branch = "master"
   name = "github.com/rcrowley/go-metrics"
   packages = ["."]
-  revision = "8732c616f52954686704c8645fe1a9d59e9df7c1"
+  revision = "d932a24a8ccb8fcadc993e5c6c58f93dac168294"
 
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "cf37ff8448d0afe036182dec10ad14beed1cf6c41346eaac017e5278e2634e2f"
+  inputs-digest = "d42a267a86facdda4294314dbb8c2f22dca8f2b0e4ec29b08c53958b9ee2b85a"
   solver-name = "gps-cdcl"
   solver-version = 1
