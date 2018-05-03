@@ -6,6 +6,8 @@ import (
 )
 
 func main() {
+	fmt.Println(time.Now())
+	fmt.Println(Time_CN())
 	timer1 := time.NewTimer(time.Second * 2)
 	//timer1.Stop()
 
@@ -34,4 +36,9 @@ func main() {
 	select {
 
 	}
+}
+
+func Time_CN() time.Time {
+	loc, _ := time.LoadLocation("Asia/Shanghai")
+	return time.Now().In(loc)
 }

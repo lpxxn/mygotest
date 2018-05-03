@@ -6,8 +6,13 @@ import (
 )
 
 
-var addrs = []string{"192.168.105.240:9092"}
-const testTopic = "lptest2"
+//var addrs = []string{"192.168.105.240:9092"}
+//var addrs = []string{"172.31.34.98:9092"}
+var addrs = []string{"rr-kafka-0001:9092", "rr-kafka-0002:9092", "rr-kafka-0003:9092"}
+
+const testTopic = "uploadtradedata"
+//const testTopic = "createguild"
+//const testTopic = "lptest2"
 
 func main() {
 	//consumer, err := sarama.NewConsumer([]string{"192.168.105.27:9092"}, nil)
@@ -34,7 +39,7 @@ func main() {
 	// -1默认是放到队尾
 	offset := sarama.OffsetNewest
 	//var offset int64 = 0
-	partition_consumer, err := consumer.ConsumePartition(testTopic, 1, offset)
+	partition_consumer, err := consumer.ConsumePartition(testTopic, 0, offset)
 
 	if err != nil {
 		panic(err)

@@ -42,3 +42,8 @@ bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic test --f
 ```
 bin/kafka-topics.sh --describe --zookeeper localhost:2181 --topic test
 ```
+## delete topic
+```
+./kafka-topics.sh --delete --zookeeper rr-kafka-0001:2181 --topic test
+
+```
