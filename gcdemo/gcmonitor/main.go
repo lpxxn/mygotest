@@ -75,4 +75,7 @@ top 10
 web
 
  go tool pprof -web gcmonitor ./mem.prof
+
+trace
+Environment GODEBUG=gctrace=1
 */
