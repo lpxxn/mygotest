@@ -18,11 +18,13 @@ func mk2() {
 func mk1() { mk2() }
 
 func main() {
+	RM()
 	for i := 0; i < 10; i++ {
 		mk1()
 		RM()
 		runtime.GC()
 	}
+	RM()
 }
 
 func RM(){
