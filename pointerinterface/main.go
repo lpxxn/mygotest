@@ -61,15 +61,19 @@ func main() {
 	TestInterface(nil)
 }
 
-func TestInterface(it ITestBase) bool {
+func TestInterface(it ITestBase) {
 	fmt.Println("it typeof: ", reflect.TypeOf(it))
 	fmt.Println("it value: ", it)
+	fmt.Printf("it v: %v, type: %T \n", it, it)
 	if it == nil {
 		fmt.Println("is nil")
-		return true
+		return
+
 	} else {
 		fmt.Println("non nil")
 	}
 
-	return false
+	isnill := reflect.ValueOf(it).IsNil()
+	//rv := reflect.ValueOf(it)
+	fmt.Println("reflect is nil :", isnill)
 }
