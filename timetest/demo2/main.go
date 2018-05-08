@@ -32,5 +32,6 @@ func main() {
 	//fmt.Println(mascot.MascotBuddha)
 	color.Green(mascot.MascotAlpaca)
 	color.Yellow(mascot.MascotBuddha)
-	fmt.Println(mascot.MascotRabbit)
+	//fmt.Println(mascot.MascotRabbit)
+	color.Blue(mascot.MascotRabbit)
 }
