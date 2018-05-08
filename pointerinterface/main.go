@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"reflect"
 )
 
 type ITestBase interface {
@@ -54,4 +55,21 @@ func main() {
 	// var it3 ITestBase = &MyTestC{name: "lili", age:3}
 	fmt.Println(it3.GetName())
 	fmt.Println(it3.GetAge())
+
+	var myit *MyTestC = nil
+	TestInterface(myit)
+	TestInterface(nil)
+}
+
+func TestInterface(it ITestBase) bool {
+	fmt.Println("it typeof: ", reflect.TypeOf(it))
+	fmt.Println("it value: ", it)
+	if it == nil {
+		fmt.Println("is nil")
+		return true
+	} else {
+		fmt.Println("non nil")
+	}
+
+	return false
 }

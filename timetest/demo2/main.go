@@ -3,6 +3,9 @@ package main
 import (
 	"time"
 	"fmt"
+
+	"github.com/fatih/color"
+
 	"github.com/mygotest/timetest/mascot"
 )
 
@@ -25,6 +28,9 @@ func main() {
 	fmt.Println("du3 : ", du3)
 	d := time.Duration(3)
 	fmt.Println(d)
-	fmt.Println(mascot.MascotAlpaca)
-	fmt.Println(mascot.MascotBuddha)
+	//fmt.Println(mascot.MascotAlpaca)
+	//fmt.Println(mascot.MascotBuddha)
+	color.Green(mascot.MascotAlpaca)
+	color.Yellow(mascot.MascotBuddha)
+	fmt.Println(mascot.MascotRabbit)
 }
