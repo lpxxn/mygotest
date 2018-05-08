@@ -3,6 +3,7 @@ package main
 import (
 	"time"
 	"fmt"
+	"github.com/mygotest/timetest/mascot"
 )
 
 func main() {
@@ -22,4 +23,8 @@ func main() {
 
 	du3 := curTime.Sub(parTime)
 	fmt.Println("du3 : ", du3)
+	d := time.Duration(3)
+	fmt.Println(d)
+	fmt.Println(mascot.MascotAlpaca)
+	fmt.Println(mascot.MascotBuddha)
 }
