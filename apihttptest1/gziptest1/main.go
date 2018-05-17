@@ -11,6 +11,7 @@ import (
 )
 
 func main() {
+	Test()
 	client := new(http.Client)
 	url := "http://13.124.215.155:9002/act/wlgroups"
 	payload := strings.NewReader(`{"uid": 1001}`)
@@ -48,4 +49,9 @@ func main() {
 	enc := mahonia.NewEncoder("GBK")
 	message := enc.ConvertString(string(body2))
 	fmt.Println(message)
+}
+
+func Test() {
+	a := "abcde"
+	fmt.Print(a)
 }
