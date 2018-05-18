@@ -30,8 +30,30 @@ func main() {
 	fmt.Print(datas)
 
 	for _, v := range datas {
-		fmt.Print(v)
+		fmt.Println(v)
 	}
+
+	coll2 := session.DB("mytest").C("shorturls")
+
+	for _, v := range datas {
+		sele := bson.M{
+			"longurl" : v["longurl"],
+		}
+		change := mgo.Change{
+			Update: bson.M{"$set": bson.M{"shorturl": v["shorturl"].(string)+ "abc"}},
+			ReturnNew: true,
+		}
+		var rev bson.M
+		_, err := coll2.Find(sele).Apply(change, &rev)
+
+
+		//err := coll2.Insert(v)
+		if nil != err {
+			fmt.Println("insert have err")
+			fmt.Println(err)
+		}
+	}
+
 //	5.4
 // 5.15
 
