@@ -23,7 +23,7 @@ func main() {
 	fmt.Println(runner1, runner2)
 
 	if err1 != nil || err2 != nil {
-		fmt.Print("have error")
+		fmt.Print("have error error info")
 		err3 := runner1.Resume(id)
 		err4 :=runner2.Resume(id)
 		fmt.Println(err3, " err4 ", err4)
