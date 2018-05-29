@@ -53,6 +53,7 @@ func main() {
 	)
 
 	service.Init()
+	micro.NewFunction()
 
 	greeter.RegisterGreeterHandler(service.Server(), new(TestGreeter))
 

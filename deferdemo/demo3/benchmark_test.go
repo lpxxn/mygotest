@@ -27,4 +27,5 @@ func BenchmarkDefer3(b *testing.B) {
 /*
 go test -v -bench BenchmarkDefer1 -benchmem
 go test -test.bench=".*"
+go test -test.bench=".*" -count=5
  */
