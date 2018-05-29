@@ -9,6 +9,7 @@ import (
 	"github.com/micro/go-micro/registry"
 	"context"
 	"github.com/mygotest/gomicrodemo/demo2/proto"
+	"time"
 )
 
 // we can open more service by modify the Hello Response
@@ -50,6 +51,11 @@ func main() {
 		micro.Name("greeter"),
 		// Set service registry
 		micro.Registry(registry),
+
+		// TTL 发现服务信息存多长时间，过期后被删除
+		micro.RegisterTTL(time.Second * 30),
+		// 时间间隔是服务应该重新注册的时候，以保留在服务发现中的注册信息
+		micro.RegisterInterval(time.Second * 15),
 	)
 
 	service.Init()
