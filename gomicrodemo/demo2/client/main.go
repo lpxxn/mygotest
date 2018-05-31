@@ -39,7 +39,7 @@ func main() {
 	})
 
 	// Create a new service. Optionally include some options here.
-	service := micro.NewService(micro.Name("greeter.client"), micro.Registry(registry))
+	service := micro.NewService(micro.Name("test.client"), micro.Registry(registry))
 	service.Init()
 
 	service.Client().Init(
@@ -47,19 +47,30 @@ func main() {
 		client.Selector(cache.NewSelector(selector.Registry(registry),)),
 	)
 	// Create new greeter client
-	gr := greeter.NewGreeterService("greeter", service.Client())
+	hello := proto.NewSayService("tstmicroservice", service.Client())
 
-
+	person := proto.NewPersonService("tstmicroservice", service.Client())
 
 	ticker := time.NewTicker(time.Second)
 	for{
-		// Call the greeter
-		rsp, err := gr.Hello(context.TODO(), &greeter.HelloRequest{Name: "lp !!!"})
+		// Call the function
+		rsp, err := hello.SaySomeThing(context.TODO(), &proto.HelloRequest{Name: "lp !!!"})
 		if err != nil {
 			fmt.Println(err)
 		}
 		// Print response
-		fmt.Println(rsp.Greeting)
+		fmt.Println(rsp.RespDesc)
+
+
+		// Call the function
+		rsp, err = person.DoAction(context.TODO(), &proto.HelloRequest{Name: "Running !!!"})
+		if err != nil {
+			fmt.Println(err)
+		}
+		// Print response
+		fmt.Println(rsp.RespDesc)
+
+
 		<- ticker.C
 	}
 

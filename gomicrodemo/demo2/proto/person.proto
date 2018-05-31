@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package proto;
+
+import "model.proto";
+
+service Person {
+    rpc DoAction(HelloRequest) returns (HelloResponse) {}
+}
+
+

@@ -13,10 +13,15 @@ import (
 )
 
 // we can open more service by modify the Hello Response
-type TestGreeter struct{}
+type TestHello struct{}
 
-func (g *TestGreeter) Hello(ctx context.Context, req *greeter.HelloRequest, rsp *greeter.HelloResponse) error {
-	rsp.Greeting = "Hello 1 " + req.Name
+func (g *TestHello) DoAction(ctx context.Context, req *proto.HelloRequest, rsp *proto.HelloResponse) error {
+	rsp.RespDesc = "do action: 2 " + req.Name
+	return nil
+}
+
+func (g *TestHello)SaySomeThing(ctx context.Context, req *proto.HelloRequest, rsp *proto.HelloResponse) error {
+	rsp.RespDesc = "say something to 2: " + req.Name
 	return nil
 }
 
@@ -55,7 +60,7 @@ func main() {
 
 	service := micro.NewService(
 		// Set service name
-		micro.Name("greeter"),
+		micro.Name("tstmicroservice"),
 		// Set service registry
 		micro.Registry(registry),
 
@@ -67,8 +72,9 @@ func main() {
 
 	service.Init()
 	micro.NewFunction()
-
-	greeter.RegisterGreeterHandler(service.Server(), new(TestGreeter))
+	tsv := new(TestHello)
+	proto.RegisterPersonHandler(service.Server(), tsv)
+	proto.RegisterSayHandler(service.Server(), tsv)
 
 	if err := service.Run(); err != nil {
 		fmt.Println(err)

@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+package proto;
+
+import "model.proto";
+
+service Say {
+    rpc SaySomeThing(HelloRequest) returns (HelloResponse) {}
+}
+
