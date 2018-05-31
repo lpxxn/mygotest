@@ -16,7 +16,7 @@ import (
 type TestGreeter struct{}
 
 func (g *TestGreeter) Hello(ctx context.Context, req *greeter.HelloRequest, rsp *greeter.HelloResponse) error {
-	rsp.Greeting = "Hello 3" + req.Name
+	rsp.Greeting = "Hello 1 " + req.Name
 	return nil
 }
 
@@ -34,6 +34,13 @@ func main() {
 	if err != nil {
 		fmt.Println(err)
 	}
+
+	/*
+			"https://192.168.3.34:2379",
+		"https://192.168.3.18:2379",
+		"https://192.168.3.110:2379",
+
+ */
 
 	registry := etcdv3.NewRegistry(func(op *registry.Options){
 		op.Addrs = []string{

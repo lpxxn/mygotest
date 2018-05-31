@@ -9,6 +9,9 @@ import (
 	"github.com/micro/go-plugins/registry/etcdv3"
 	"github.com/coreos/etcd/pkg/transport"
 	"github.com/micro/go-micro/registry"
+	"github.com/micro/go-micro/client"
+	"github.com/micro/go-micro/selector"
+	"github.com/micro/go-plugins/selector/cache"
 )
 
 func main() {
@@ -39,8 +42,14 @@ func main() {
 	service := micro.NewService(micro.Name("greeter.client"), micro.Registry(registry))
 	service.Init()
 
+	service.Client().Init(
+		client.Retries(3),
+		client.Selector(cache.NewSelector(selector.Registry(registry),)),
+	)
 	// Create new greeter client
 	gr := greeter.NewGreeterService("greeter", service.Client())
+
+
 
 	ticker := time.NewTicker(time.Second)
 	for{
