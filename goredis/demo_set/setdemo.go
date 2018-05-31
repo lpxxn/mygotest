@@ -15,6 +15,9 @@ func main(){
 	client, _ := RClient()
 	//testSetAdd(client)
 	testSetRemove(client, []string{"UqLKGhSm", "eiYyy"})
+
+	l, err := client.SCard("t").Result()
+	fmt.Println("len : ", l, "  err: ", err)
 }
 
 func RClient() (*redis.Client, error) {

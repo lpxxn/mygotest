@@ -33,6 +33,8 @@ func main() {
 
 	fmt.Println(err, r)
 
+	l, err := client.LLen("a").Result()
+	fmt.Println(l)
 
 
 }
