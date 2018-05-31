@@ -20,9 +20,20 @@ func main() {
 	cmd := client.LPush("a", byteValue)
 
 	i, err := cmd.Result()
-	fmt.Print(i, err)
+	fmt.Println(i, err)
 
-	client.RPush("a", "aaaa")
-	client.RPush("b", "aaaa", "ccccc", "ddddd")
+	//client.RPush("a", "aaaa")
+	//client.RPush("b", "aaaa", "ccccc", "ddddd")
+
+
+	r, err := client.LPop("b").Result()
+	if err == redis.Nil {
+		fmt.Println("not find")
+	}
+
+	fmt.Println(err, r)
+
+
+
 }
 
