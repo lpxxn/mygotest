@@ -39,8 +39,16 @@ func main() {
 	fmt.Println(it1.GetName())
 	fmt.Println(it1.GetAge())
 
+	var itn *ITestBase
+	if itn == nil {
+		fmt.Println("itn is nil", itn)
+	}
 	// you can do this
 	var it *ITestBase = new(ITestBase)
+
+	if it == nil {
+		fmt.Println("it is nil ", it)
+	}
 	var tc = &MyTestC{"li", 2}
 	*it = tc
 	//it.GetName() //error
