@@ -14,6 +14,12 @@ func AppendIvs(s Ivs1, d ...int) {
 	s = append(s, d...)
 }
 
+func AppendIvsPointer(s *Ivs1, d ...int) {
+	slice1 := *s
+	slice1 = append(slice1, d...)
+	*s = slice1
+}
+
 func changeIvs(s Ivs1) {
 	s[0] = 111111
 }
@@ -23,6 +29,9 @@ func main() {
 	fmt.Println(i1)
 
 	AppendIvs(i1, 2, 2, 2 ,2)
+	fmt.Println(i1)
+
+	AppendIvsPointer(&i1, 3, 3, 3 ,3)
 	fmt.Println(i1)
 
 	changeIvs(i1)
