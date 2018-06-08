@@ -10,7 +10,7 @@ import (
 	"github.com/coreos/etcd/mvcc/mvccpb"
 )
 
-var kRoot = "service"
+var kRoot = "imservice"
 
 type Service struct {
 	sync.RWMutex
@@ -21,7 +21,7 @@ type Service struct {
 	active bool
 }
 
-func NewMaster(serviceName string, endpoints []string) (*Service, error) {
+func NewService(serviceName string, endpoints []string) (*Service, error) {
 	cfg := client.Config{
 		Endpoints:               endpoints,
 		DialKeepAliveTimeout: time.Second * 2,

@@ -8,7 +8,7 @@ import (
 )
 
 func main() {
-	m, err := sd.NewMaster("sd-test", []string{
+	m, err := sd.NewService("sd-test", []string{
 		"http://192.168.3.34:2379",
 		"http://192.168.3.18:2379",
 		"http://192.168.3.110:2379",
