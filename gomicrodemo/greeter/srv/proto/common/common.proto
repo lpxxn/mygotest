@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+package a.b.common;
+
+import "google/protobuf/any.proto";
+
+
+message Request {
+    string name = 1;
+    repeated int32 values = 2;
+    map<string, Pair> header = 3;
+    RespType type = 4;
+    google.protobuf.Any content = 5;
+}
+
+message Pair {
+    string key = 1;
+    repeated string values = 2;
+}
+
+message Response {
+    string msg = 1;
+    repeated string values = 2;
+    map<string, Pair> header = 3;
+    RespType type = 4;
+}
+
+
+enum RespType {
+    NONE = 0; // default, no sorting
+    ASCEND = 1; // lowest target value first
+    DESCEND = 2; // highest target value first
+}
