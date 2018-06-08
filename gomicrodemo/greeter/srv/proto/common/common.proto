@@ -23,6 +23,7 @@ message Response {
     repeated string values = 2;
     map<string, Pair> header = 3;
     RespType type = 4;
+    string msg2 = 5;
 }
 
 

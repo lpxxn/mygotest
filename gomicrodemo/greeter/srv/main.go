@@ -70,4 +70,16 @@ func main() {
 //
 consul agent -dev
 
+
+/Users/li/go/src/github.com/mygotest/gomicrodemo/greeter/srv/proto
+
+protoc --proto_path=$GOPATH/src:. --micro_out=. --go_out=. ./hello/*.proto
+
+protoc --proto_path=$GOPATH/src:. --micro_out=. --go_out=. ./common/*.proto
+protoc --proto_path=$GOPATH/src:. --go_out=. ./common/*.proto
+
+因为common里没有micro的接口，可以不用输出 micro_out
+
+--proto_path 是根目录，import的文件将从要目录下开如寻找
+
  */

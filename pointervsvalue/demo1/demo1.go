@@ -10,6 +10,11 @@ type TestS struct {
 	body        string
 	msg         *string
 	intValue    *int
+	Son 		TestSon
+	Son2 		*TestSon
+}
+type TestSon struct {
+	SonName string
 }
 
 func (t TestS) validResponse() bool {
@@ -61,8 +66,24 @@ func (t *TestS) updateIntP(value int) {
 	*t.intValue = value
 }
 
+func (t TestS) UpSonNameV(n string) {
+	t.Son.SonName = n
+}
+
+func (t *TestS) UpSonNameP(n string) {
+	t.Son.SonName = n
+}
+
+func (t TestS) UpSon2NameV(n string) {
+	t.Son2.SonName = n
+}
+
+func (t *TestS) UpSon2NameP(n string) {
+	t.Son2.SonName = n
+}
+
 func main() {
-	value1 := TestS{headers: make(map[string]string), intValue: new(int), msg: new(string)}
+	value1 := TestS{headers: make(map[string]string), intValue: new(int), msg: new(string), Son:TestSon{}, Son2: &TestSon{}}
 	value1.updateStatusP(123)
 	fmt.Println(value1.status_code)
 
@@ -83,9 +104,21 @@ func main() {
 	fmt.Println("intValue P: ", *value1.intValue)
 	value1.updateIntV(222222222222)
 	fmt.Println("intValue V: ", *value1.intValue)
+
+	value1.UpSonNameV("li")
+	fmt.Println("son name V", value1.Son.SonName)
+
+	value1.UpSonNameP("peng")
+	fmt.Println("son name P", value1.Son.SonName)
+
+	value1.UpSon2NameV("li")
+	fmt.Println("son2 name V", value1.Son2.SonName)
+
+	value1.UpSon2NameP("peng")
+	fmt.Println("son2 name P", value1.Son2.SonName)
 	fmt.Println("------------------")
 
-	value2 := &TestS{headers: make(map[string]string), msg:new(string)}
+	value2 := &TestS{headers: make(map[string]string), msg:new(string), Son:TestSon{}, Son2: &TestSon{}}
 	value2.updateStatusP(1111)
 	fmt.Println(value2.status_code)
 
@@ -105,6 +138,20 @@ func main() {
 	value2.updateMsgV("li-msg")
 	fmt.Println("msg2 V : ", *value2.msg)
 
+	value2.UpSonNameV("li")
+	fmt.Println("son name V", value2.Son.SonName)
+
+	value2.UpSonNameP("peng")
+	fmt.Println("son name P", value2.Son.SonName)
+
+
+	value2.UpSon2NameV("li")
+	fmt.Println("son2 name V", value2.Son2.SonName)
+
+	value2.UpSon2NameP("peng")
+	fmt.Println("son2 name P", value2.Son2.SonName)
+	fmt.Println("------------------")
+
 
 	var a *int = new(int)
 	*a = 123123123
@@ -118,5 +165,7 @@ func main() {
 	// valuP.headers["aa"] = "aa"// error
 	valuP.headers = make(map[string]string)
 	valuP.headers["aa"] = "aa"
+
+
 
 }
