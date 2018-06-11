@@ -6,6 +6,7 @@ import (
 	"context"
 
 	hello "github.com/mygotest/gomicrodemo/greeter/srv/proto/hello"
+	"github.com/mygotest/gomicrodemo/greeter/srv/proto/common"
 	"github.com/micro/go-micro"
 	"log"
 	"time"
@@ -13,7 +14,7 @@ import (
 
 type Say struct{}
 
-func (s *Say) Hello(ctx context.Context, req *hello.Request, rsp *hello.Response) error {
+func (s *Say) Hello(ctx context.Context, req *a_b_common.Request, rsp *a_b_common.Response) error {
 	log.Print("Received Say.Hello request")
 	rsp.Msg = "Hello " + req.Name
 	return nil
