@@ -11,6 +11,7 @@ message Request {
     map<string, Pair> header = 3;
     RespType type = 4;
     google.protobuf.Any content = 5;
+    bytes msg = 6;
 }
 
 message Pair {
