@@ -5,6 +5,7 @@ import (
 	"time"
 	"fmt"
 	"math"
+	"strconv"
 )
 
 func main() {
@@ -18,8 +19,10 @@ func main() {
 			fmt.Println(v)
 			total += v
 		}
-		//fmt.Println("Total Money", total)
-		fmt.Printf("Total Money %f", total)
+
+		fmt.Println("Total Money", total)
+		fmt.Println("Total Money", total == 3)
+		fmt.Println("Total Money", strconv.FormatFloat(float64(total), 'f', -1, 64))
 	}
 }
 
@@ -39,14 +42,15 @@ func TestRTotalM(totalMoney, minMoney float32, nums int) []float32 {
 		//fmt.Println("random rNum: ", rNum)
 
 		individualMoney := rNum * topMoney + minMoney
-		individualMoney = float32(math.Floor(float64(individualMoney * 1000)) / 1000)
-		totalMoney -= individualMoney
+		individualMoney = float32(int(individualMoney * 1000)) / 1000
+		totalMoney = totalMoney - individualMoney
 		rev = append(rev, individualMoney)
 		//fmt.Printf("第 %f 个红包: %f 元， 剩下 %f 元 \n", i, individualMoney, totalMoney)
 
 	}
 
-	rev = append(rev, float32(math.Round(float64(totalMoney * 1000)) / 1000))
+	//rev = append(rev, totalMoney)
+	rev = append(rev, totalMoney)
 	//fmt.Printf("第 %f 个红包:  %f 元 \n", i, totalMoney)
 	return rev
 }
