@@ -8,17 +8,19 @@ import (
 )
 
 func main() {
-	rand.Seed(time.Now().UnixNano())
-	//
-	rev := TestRTotalM(3, 0.01, 5)
-	var total float32
-	for _, v := range rev {
-		fmt.Println(v)
-		total += v
-	}
-	//fmt.Println("Total Money", total)
-	fmt.Printf("Total Money %f", total)
+	for i := 0; i < 10; i ++ {
 
+		rand.Seed(time.Now().UnixNano())
+		//
+		rev := TestRTotalM(3, 0.01, 5)
+		var total float32
+		for _, v := range rev {
+			fmt.Println(v)
+			total += v
+		}
+		//fmt.Println("Total Money", total)
+		fmt.Printf("Total Money %f", total)
+	}
 }
 
 
@@ -28,24 +30,24 @@ func TestRTotalM(totalMoney, minMoney float32, nums int) []float32 {
 	for ;i < nums; i++ {
 		remainsNum := float32(nums - (i - 1))
 		averageMoney := (totalMoney -  (remainsNum * minMoney)) / remainsNum
-		fmt.Println("averageMoney :----", averageMoney)
+		//fmt.Println("averageMoney :----", averageMoney)
 		topMoney := averageMoney * 2;
 
 		rNum := float32(rand.Intn(100) + 1)/100
 		//rNum := rand.Float32()
 
-		fmt.Println("random rNum: ", rNum)
+		//fmt.Println("random rNum: ", rNum)
 
 		individualMoney := rNum * topMoney + minMoney
 		individualMoney = float32(math.Floor(float64(individualMoney * 1000)) / 1000)
 		totalMoney -= individualMoney
 		rev = append(rev, individualMoney)
-		fmt.Printf("第 %f 个红包: %f 元， 剩下 %f 元 \n", i, individualMoney, totalMoney)
+		//fmt.Printf("第 %f 个红包: %f 元， 剩下 %f 元 \n", i, individualMoney, totalMoney)
 
 	}
 
 	rev = append(rev, float32(math.Round(float64(totalMoney * 1000)) / 1000))
-	fmt.Printf("第 %f 个红包:  %f 元 \n", i, totalMoney)
+	//fmt.Printf("第 %f 个红包:  %f 元 \n", i, totalMoney)
 	return rev
 }
 
