@@ -3,26 +3,37 @@ package main
 import (
 	"flag"
 	"log"
-	"net/url"
 	"os"
 	"os/signal"
-	"github.com/gorilla/websocket"
 	"math/rand"
 	"time"
+	"github.com/gorilla/websocket"
+	"net/url"
 	"fmt"
 )
 
 //var addr = flag.String("addr", "localhost:8080", "http service address")
 //var addr = flag.String("addr", "localhost:8101", "http service address")
 var addr = flag.String("addr", "192.168.3.34:8101", "http service address")
-
 func main() {
 	flag.Parse()
 	log.SetFlags(0)
 	rand.Seed(time.Now().UnixNano())
-	interrupt := make(chan os.Signal, 1)
+	interrupt := make(chan os.Signal)
 	signal.Notify(interrupt, os.Interrupt)
+	for i:=0; i < 100; i++ {
+		go testclients()
+	}
 
+	<-interrupt
+
+	//select {
+	//
+	//}
+
+}
+
+func testclients() {
 	u := url.URL{Scheme: "ws", Host: *addr, Path: "/ws"}
 	log.Printf("connecting to %s", u.String())
 
@@ -66,32 +77,12 @@ func main() {
 		select {
 		case <-done:
 			return
-		case  <-ticker.C:
+		case <-ticker.C:
 			err := c.WriteMessage(websocket.TextMessage, send_data)
 			if err != nil {
 				log.Println("write:", err)
 				return
 			}
-		case <-interrupt:
-			log.Println("interrupt")
-
-			// Cleanly close the connection by sending a close message and then
-			// waiting (with timeout) for the server to close the connection.
-			err := c.WriteMessage(websocket.CloseMessage, websocket.FormatCloseMessage(websocket.CloseNormalClosure, ""))
-			if err != nil {
-				log.Println("write close:", err)
-				return
-			}
-			select {
-			case <-done:
-			case <-time.After(time.Second):
-			}
-			return
 		}
 	}
-
-	//select {
-	//
-	//}
-
 }

@@ -11,7 +11,8 @@ import (
 	"github.com/gorilla/websocket"
 )
 
-var addr = flag.String("addr", "localhost:8100", "http service address")
+var addr = flag.String("addr", "192.168.3.34:8101", "http service address")
+//var addr = flag.String("addr", "localhost:8101", "http service address")
 //var addr = flag.String("addr", "localhost:8080", "http service address")
 
 func main() {
@@ -53,7 +54,7 @@ func main() {
 		return
 	}
 
-	ticker := time.NewTicker(time.Millisecond * 20)
+	ticker := time.NewTicker(time.Millisecond * 50)
 
 
 	defer ticker.Stop()
