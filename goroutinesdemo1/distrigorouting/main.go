@@ -44,6 +44,7 @@ func  main() {
 				rand.Seed(time.Now().UnixNano())
 				l := rand.Intn(10)
 				str := RandCode("c", l)
+				// consistent hash modular get the index
 				BehaviorCh[GetCrc(str) % uint32(BehCount)] <- str
 
 		}
