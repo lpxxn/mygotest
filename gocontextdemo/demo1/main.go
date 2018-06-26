@@ -10,7 +10,9 @@ func main() {
 	timeOut := 5 * time.Second
 	deadline := time.Now().Add(4 * time.Hour)
 	timeOutCtx, timeCancel := context.WithTimeout(context.Background(), timeOut)
+	// if call timeCancel() will done
 	defer timeCancel()
+
 
 	cancelCtx, cancelFunc := context.WithCancel(context.Background())
 
@@ -56,3 +58,9 @@ func contextDemo(name string, ctx context.Context) {
 		time.Sleep(time.Second)
 	}
 }
+
+
+/*
+https://code.tutsplus.com/tutorials/context-based-programming-in-go--cms-29290
+
+ */
