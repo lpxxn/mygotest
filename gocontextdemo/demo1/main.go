@@ -25,9 +25,10 @@ func main() {
 	go contextDemo("[deadlineContext]", deadlineCtx)
 
 
+	// Done() will block until it's closed
 	// wait for the timeout to expire
 	<- timeOutCtx.Done()
-
+	// after 5s the timeOutCtx done. the main function will calls the cancelFunc()
 
 	//go contextDemo("[cancelContext]", cancelCtx)
 	//
