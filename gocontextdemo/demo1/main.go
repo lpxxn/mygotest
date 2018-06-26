@@ -20,14 +20,16 @@ func main() {
 
 	go contextDemo("[timecount]", timeOutCtx)
 
-	go contextDemo("[cancelContext]", cancelCtx)
 
-	go contextDemo("[deadlineContext]", deadlineCtx)
+	//go contextDemo("[cancelContext]", cancelCtx)
+	//
+	//go contextDemo("[deadlineContext]", deadlineCtx)
 
 
 	// Done() will block until it's closed
 	// wait for the timeout to expire
 	<- timeOutCtx.Done()
+	fmt.Println(time.Now())
 	// after 5s the timeOutCtx done. the main function will calls the cancelFunc()
 
 	//go contextDemo("[cancelContext]", cancelCtx)
@@ -59,6 +61,7 @@ func contextDemo(name string, ctx context.Context) {
 		time.Sleep(time.Second)
 	}
 }
+
 
 
 /*
