@@ -54,7 +54,7 @@ func main() {
 		return
 	}
 
-	ticker := time.NewTicker(time.Millisecond * 20)
+	ticker := time.NewTicker(time.Millisecond * 100)
 
 
 	defer ticker.Stop()

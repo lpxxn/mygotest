@@ -21,7 +21,8 @@ func main() {
 	rand.Seed(time.Now().UnixNano())
 	interrupt := make(chan os.Signal)
 	signal.Notify(interrupt, os.Interrupt)
-	for i:=0; i < 100; i++ {
+	for i:=0; i < 500; i++ {
+		time.Sleep(time.Millisecond * 50)
 		go testclients()
 	}
 
