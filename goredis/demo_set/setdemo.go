@@ -18,13 +18,21 @@ func main(){
 
 	l, err := client.SCard("t").Result()
 	fmt.Println("len : ", l, "  err: ", err)
+
+	a, err := RoomAdminExit(client, "1111", "aa")
+	if err == redis.Nil {
+		//"a is 0"
+		fmt.Println("nil")
+	}
+	fmt.Println(a, err)
 }
 
 func RClient() (*redis.Client, error) {
 	client := redis.NewClient(&redis.Options{
-		Addr:     "localhost:6379",
+		//Addr:     "localhost:6379",
+		Addr:     "192.168.3.212:6379",
 		Password: "", // no password set
-		DB:       2,  // use default DB
+		DB:       5,  // use default DB
 	})
 
 	pong, err := client.Ping().Result()
@@ -51,6 +59,13 @@ func testSetRemove(client *redis.Client, m []string) {
 	if err != nil {
 		panic(err)
 	}
+}
+
+
+func RoomAdminExit(client *redis.Client, roomId string, member string) (float64, error){
+	roomName := "test" + roomId
+
+	return client.ZScore(roomName, member).Result()
 }
 
 
