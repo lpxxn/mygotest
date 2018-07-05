@@ -18,6 +18,9 @@ func main() {
 	fmt.Println(quantity1)
 	qu2, _ := decimal.NewFromString(strconv.FormatFloat(3.9999, 'f', -1, 64))
 	fmt.Println(qu2)
+	fa := 3.9999
+	qu3 := decimal.NewFromFloat(fa)
+	fmt.Println("qu3", qu3)
 	//quantity := decimal.NewFromFloatWithExponent(3.9999, -4)
 	quantity, _ := decimal.NewFromString("3.9999")
 	fmt.Println(quantity)
