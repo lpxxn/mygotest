@@ -31,5 +31,8 @@ func main() {
 	fmt.Println("Total:", total)                            // Total: 459.824961375
 	fmt.Println("Tax rate:", total.Sub(preTax).Div(preTax)) // Tax rate: 0.08875
 
+	d5 := decimal.NewFromFloat(12.9999).Truncate(2)
 
+ 	d5f, _ := d5.Float64()
+	fmt.Println(d5, " ", d5f)
 }
