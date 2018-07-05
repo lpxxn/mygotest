@@ -3,6 +3,8 @@ package main
 import (
 	"fmt"
 	"github.com/shopspring/decimal"
+	"strconv"
+	"strings"
 )
 
 func main() {
@@ -11,8 +13,11 @@ func main() {
 		panic(err)
 	}
 
+
 	quantity1 := decimal.NewFromFloat(3.9999)
 	fmt.Println(quantity1)
+	qu2, _ := decimal.NewFromString(strconv.FormatFloat(3.9999, 'f', -1, 64))
+	fmt.Println(qu2)
 	//quantity := decimal.NewFromFloatWithExponent(3.9999, -4)
 	quantity, _ := decimal.NewFromString("3.9999")
 	fmt.Println(quantity)
@@ -43,4 +48,14 @@ func main() {
  	d5f, _ := d5.Float64()
 	fmt.Println(d5, " ", d5f)
  	fmt.Println(decimal.NewFromFloat(123).Truncate(2))
+}
+
+
+func NumDecPlaces(v float64) int {
+	s := strconv.FormatFloat(v, 'f', -1, 64)
+	i := strings.IndexByte(s, '.')
+	if i > -1 {
+		return len(s) - i - 1
+	}
+	return 0
 }
