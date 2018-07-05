@@ -35,4 +35,5 @@ func main() {
 
  	d5f, _ := d5.Float64()
 	fmt.Println(d5, " ", d5f)
+ 	fmt.Println(decimal.NewFromFloat(123).Truncate(2))
 }
