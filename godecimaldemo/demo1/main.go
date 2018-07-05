@@ -11,21 +11,28 @@ func main() {
 		panic(err)
 	}
 
-	//quantity := decimal.NewFromFloat(3)
-	quantity := decimal.NewFromFloat(3.9999)
-
+	quantity1 := decimal.NewFromFloat(3.9999)
+	fmt.Println(quantity1)
+	//quantity := decimal.NewFromFloatWithExponent(3.9999, -4)
+	quantity, _ := decimal.NewFromString("3.9999")
+	fmt.Println(quantity)
+	//quantity = quantity.Truncate(4)
+	//fmt.Println(quantity)
 	fee, _ := decimal.NewFromString(".035")
+	fee = fee.Truncate(3)
+
 	taxRate, _ := decimal.NewFromString(".08875")
 
-	decimal.DivisionPrecision= 2
 	subtotal := price.Mul(quantity).Truncate(2)
 	s1 := price.Mul(quantity).Round(2)
+	s2 := price.Mul(quantity)
 
 	preTax := subtotal.Mul(fee.Add(decimal.NewFromFloat(1)))
 
 	total := preTax.Mul(taxRate.Add(decimal.NewFromFloat(1)))
 
 	fmt.Println("Subtotal:", subtotal, s1)                      // Subtotal: 408.06
+	fmt.Println("s2", s2)
 	fmt.Println("Pre-tax:", preTax)                         // Pre-tax: 422.3421
 	fmt.Println("Taxes:", total.Sub(preTax))                // Taxes: 37.482861375
 	fmt.Println("Total:", total)                            // Total: 459.824961375
