@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"math/rand"
 	"time"
+	"math/big"
 )
 
 func init() {
@@ -12,6 +13,12 @@ func init() {
 }
 
 func main(){
+
+	fmt.Printf("%.2f\n", 100.289999)
+	fmt.Println(big.NewFloat(100.289999).Text('f', 2))
+	f1 := 100.28999
+	v := int64(f1 * 100)
+	fmt.Println(float64(v)/100)
 	client, _ := RClient()
 	//testSetAdd(client)
 	testSetRemove(client, []string{"UqLKGhSm", "eiYyy"})
