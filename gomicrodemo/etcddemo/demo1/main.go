@@ -9,6 +9,8 @@ import (
 	"log"
 )
 
+// 这个是git 上有问题的。
+// demo2 做了修改，要释放session才行
 func main() {
 
 	endpoints := []string{"http://192.168.3.34:2379", "http://192.168.3.18:2379", "http://192.168.3.110:2379"}
