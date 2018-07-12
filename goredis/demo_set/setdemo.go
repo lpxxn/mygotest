@@ -20,6 +20,12 @@ func main(){
 	v := int64(f1 * 100)
 	fmt.Println(float64(v)/100)
 	client, _ := RClient()
+
+	ttl, err := RoomDisableUidExpire(client, "111", "333")
+	fmt.Println("aa", ttl, err)
+
+	u, err := RoomUidExist(client, "111", "333_lipeng")
+	fmt.Println("RoomUidExist", u, err)
 	//testSetAdd(client)
 	testSetRemove(client, []string{"UqLKGhSm", "eiYyy"})
 
@@ -39,7 +45,7 @@ func RClient() (*redis.Client, error) {
 		//Addr:     "localhost:6379",
 		Addr:     "192.168.3.212:6379",
 		Password: "", // no password set
-		DB:       5,  // use default DB
+		DB:       2,  // use default DB
 	})
 
 	pong, err := client.Ping().Result()
@@ -75,7 +81,16 @@ func RoomAdminExit(client *redis.Client, roomId string, member string) (float64,
 	return client.ZScore(roomName, member).Result()
 }
 
+func RoomUidExist(client *redis.Client, roomId string, members ...interface{}) (int64, error){
+	roomName := "roominfo:" + roomId
 
+	return client.ZRem(roomName, members...).Result()
+}
+
+func RoomDisableUidExpire(client *redis.Client, roomId, uid string) (time.Duration, error){
+	name := "roomdisuid:" + roomId + ":" + uid
+	return client.TTL(name).Result()
+}
 
 var letters = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")
 
