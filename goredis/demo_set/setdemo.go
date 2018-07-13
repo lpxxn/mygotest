@@ -13,7 +13,8 @@ func init() {
 }
 
 func main(){
-
+	y, w := time.Now().ISOWeek()
+	fmt.Println(time.Now().Weekday(), "  ", y, w)
 	fmt.Printf("%.2f\n", 100.289999)
 	fmt.Println(big.NewFloat(100.289999).Text('f', 2))
 	f1 := 100.28999
