@@ -16,6 +16,12 @@ func main() {
 	if err != nil {
 		fmt.Println(err)
 	}
+
+	ctx = context.Background()
+	_, err = DoSomeThing(ctx)
+	if err != nil {
+		fmt.Println(err)
+	}
 }
 
 func DoSomeThing(ctx context.Context) (bool, error){
@@ -23,7 +29,7 @@ func DoSomeThing(ctx context.Context) (bool, error){
 	workFinish := make(chan struct{})
 	go func(ch chan struct{}) {
 		time.Sleep(time.Second * 10)
-		fmt.Print("DoSomeThing end.....")
+		fmt.Println("DoSomeThing end.....")
 		workFinish <- struct{}{}
 	}(workFinish)
 
