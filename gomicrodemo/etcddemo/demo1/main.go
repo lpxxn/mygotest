@@ -22,7 +22,7 @@ func main() {
 
 	// get a grant
 	ctxc, cancelc := context.WithTimeout(context.Background(), 1*time.Second)
-	lresp, err := cli.Grant(ctxc, 2)
+	lresp, err := cli.Grant(ctxc, 3)
 	if err != nil {
 		log.Fatal(err)
 	}
