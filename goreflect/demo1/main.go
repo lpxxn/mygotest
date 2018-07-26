@@ -32,4 +32,10 @@ func main() {
 	fmt.Printf("%v\n", m1)
 	fmt.Printf("%+v\n", m1)
 	fmt.Printf("%#v\n", m1)
+
+
+	m2 := map[*User]string{}
+	m2[&User{Name: "li"}] =  "lili"
+	m2[&User{Name: "li"}] = "peng"
+	fmt.Printf("%+v", m2)
 }
