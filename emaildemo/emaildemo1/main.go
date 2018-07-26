@@ -9,12 +9,12 @@ import (
 )
 
 func main() {
-	d := gomail.NewDialer("smtp.exmail.qq.com", 465, "p.li@angaomeng.com", "AgmLip123p.li")
+	d := gomail.NewDialer("smtp.mxhichina.com", 465, "lipeng@rrzhuan.com", "")
 	d.TLSConfig = &tls.Config{InsecureSkipVerify: true}
 
 	m := gomail.NewMessage()
-	m.SetHeader("From", "p.li@angaomeng.com")
-	m.SetHeader("To", "lpxxn@foxmail.com", "mi_duo@126.com", "p.li@angaomeng.com")
+	m.SetHeader("From", "lipeng@rrzhuan.com")
+	m.SetHeader("To", "lpxxn@foxmail.com", "mi_duo@126.com", "zhangyanan@rrzhuan.com", "yejiani@rrzhuan.com")
 	m.SetHeader("Subject", "Test")
 	m.SetBody("text/html", "Hello <b>你好</b> and <i>我是李鹏</i>测试成功!")
 

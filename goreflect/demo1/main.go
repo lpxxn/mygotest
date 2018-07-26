@@ -26,4 +26,10 @@ func main() {
 	f3 := s2.Field(2)
 	fmt.Println(f3.Tag.Get("weight"), "  n ", f3.Tag.Get("n"))
 
+	m1 := map[User]string{}
+	m1[User{Name: "li"}] = "lili"
+	m1[User{Name: "li"}] = "peng"
+	fmt.Printf("%v\n", m1)
+	fmt.Printf("%+v\n", m1)
+	fmt.Printf("%#v\n", m1)
 }

@@ -10,9 +10,13 @@ import (
 	"github.com/coreos/etcd/pkg/transport"
 	"github.com/micro/go-micro/registry"
 	"github.com/micro/go-micro/client"
-	"github.com/micro/go-micro/selector"
-	"github.com/micro/go-plugins/selector/cache"
 )
+
+type Tree struct {
+	Name string
+
+	Node *Tree
+}
 
 func main() {
 
@@ -44,7 +48,7 @@ func main() {
 
 	service.Client().Init(
 		client.Retries(3),
-		client.Selector(cache.NewSelector(selector.Registry(registry),)),
+		//client.Selector(cache.NewSelector(selector.Registry(registry),)),
 	)
 	// Create new greeter client
 	hello := proto.NewSayService("tstmicroservice", service.Client())
