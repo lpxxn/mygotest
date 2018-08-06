@@ -10,7 +10,7 @@ import (
 )
 
 func main() {
-	for i := 0; i < 10000; i ++ {
+	for i := 0; i < 1000; i ++ {
 
 		rand.Seed(time.Now().UnixNano())
 		//
@@ -28,7 +28,11 @@ func main() {
 		//
 		fmt.Println("----------")
 
-		rev2 := TestRTotalM2(decimal.New(30, 0), decimal.NewFromFloatWithExponent(0.00001, -5), 30)
+		//rev2 := TestRTotalM2(decimal.New(30, 0), decimal.NewFromFloatWithExponent(0.00001, -5), 3)
+		//rev2 := TestRTotalM2(decimal.New(30, 0), decimal.NewFromFloatWithExponent(0.0001, -4), 4)
+
+		rev2 := TestRTotalM2(decimal.New(100, 0), decimal.NewFromFloatWithExponent(0.01, -2), 10)
+		//rev2 := TestRandomM3(decimal.New(300, 0), decimal.NewFromFloatWithExponent(0.1, -1), 5)
 		total2 := decimal.New(0, 0)
 		for _, v := range rev2 {
 			fmt.Print(v, ",")
@@ -84,17 +88,19 @@ func TestRTotalM2(totalMoney, minMoney decimal.Decimal, nums int64) []decimal.De
 	if len(precisionStr) > 1 {
 		precison = int32(len(precisionStr[1]))
 	}
-	for ;i < nums; i++ {
+	for ;i < nums - 1; i++ {
 
-		remainsNum := decimal.New(nums - (i - 1), 0)
+		remainsNum := decimal.New(nums - i , 0)
 		//averageMoney := (totalMoney -  (remainsNum * minMoney)) / remainsNum
 		averageMoney := totalMoney.Sub(remainsNum.Mul(minMoney)).Div(remainsNum)
 		//fmt.Println("averageMoney :----", averageMoney)
 		topMoney := averageMoney.Mul(decimal.NewFromFloat(2))
 
-		rNum := decimal.NewFromFloatWithExponent(float64(rand.Intn(100) + 1)/100, -2)
+		rNum := decimal.NewFromFloatWithExponent(float64(rand.Intn(101))/100, -2)
 
+		//individualMoney := rNum.Mul(topMoney).Add(minMoney).Truncate(precison)
 		individualMoney := rNum.Mul(topMoney).Add(minMoney).Truncate(precison)
+
 		//individualMoney = float32(int(individualMoney * 1000)) / 1000
 		totalMoney = totalMoney.Sub(individualMoney)
 		rev = append(rev, individualMoney)
@@ -104,5 +110,30 @@ func TestRTotalM2(totalMoney, minMoney decimal.Decimal, nums int64) []decimal.De
 	//rev = append(rev, totalMoney)
 	rev = append(rev, totalMoney)
 	//fmt.Printf("第 %f 个红包:  %f 元 \n", i, totalMoney)
+	return rev
+}
+
+func TestRandomM3(totalMoney, minMoney decimal.Decimal, nums int64) []decimal.Decimal {
+	minFloat, _ := minMoney.Float64()
+	var precison int64 = 1
+	precisionStr := strings.Split(strconv.FormatFloat(minFloat, 'f', -1, 64), ".")
+	if len(precisionStr) > 1 {
+		precison = int64(len(precisionStr[1]))
+	}
+	// 一共多少份
+	allPiece := totalMoney.Div(decimal.NewFromFloat(float64(precison) * 0.1)).IntPart() - nums
+	fmt.Println(allPiece)
+
+	rev := make([]decimal.Decimal, nums)
+	for ele := range rev {
+		rev[ele] = minMoney
+	}
+	var i int64 = 0
+	for ; i < allPiece; i++ {
+		r := rand.Intn(int(nums))
+		rev[r] = rev[r].Add(minMoney)
+	}
+
+
 	return rev
 }
