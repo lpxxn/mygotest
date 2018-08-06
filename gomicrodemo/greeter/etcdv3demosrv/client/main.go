@@ -36,6 +36,15 @@ func main(){
 	stopCh := make(chan os.Signal)
 	signal.Notify(stopCh, os.Interrupt)
 
+	rsp, err := cl.Hello(context.Background(), &a_b_common.Request{
+		Name: "test",
+	})
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	fmt.Println(rsp)
 
 	tick := time.Tick(time.Second * 3)
 

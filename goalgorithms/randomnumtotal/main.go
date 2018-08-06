@@ -4,25 +4,44 @@ import (
 	"math/rand"
 	"time"
 	"fmt"
-	"math"
 	"strconv"
+	"github.com/shopspring/decimal"
+	"strings"
 )
 
 func main() {
-	for i := 0; i < 10; i ++ {
+	for i := 0; i < 10000; i ++ {
 
 		rand.Seed(time.Now().UnixNano())
 		//
-		rev := TestRTotalM(3, 0.01, 5)
-		var total float32
-		for _, v := range rev {
-			fmt.Println(v)
-			total += v
-		}
+		//rev := TestRTotalM(3, 0.01, 5)
+		//var total float32
+		//for _, v := range rev {
+		//	fmt.Println(v)
+		//	total += v
+		//}
+		//
+		//fmt.Println("Total Money", total)
+		//fmt.Println("Total Money", total == 3)
+		//fmt.Println("Total Money", strconv.FormatFloat(float64(total), 'f', -1, 64))
+		//
+		//
+		fmt.Println("----------")
 
-		fmt.Println("Total Money", total)
-		fmt.Println("Total Money", total == 3)
-		fmt.Println("Total Money", strconv.FormatFloat(float64(total), 'f', -1, 64))
+		rev2 := TestRTotalM2(decimal.New(30, 0), decimal.NewFromFloatWithExponent(0.00001, -5), 30)
+		total2 := decimal.New(0, 0)
+		for _, v := range rev2 {
+			fmt.Print(v, ",")
+			f, _ := v.Float64()
+			if f == 0 {
+				panic(f)
+			}
+			total2 = total2.Add(v)
+		}
+		fmt.Println()
+		f, _ := total2.Float64()
+		fmt.Println("Total Money", f)
+		fmt.Println("Total Money", strconv.FormatFloat(f, 'f', -1, 64))
 	}
 }
 
@@ -56,28 +75,34 @@ func TestRTotalM(totalMoney, minMoney float32, nums int) []float32 {
 }
 
 
-func TestRTotalM2(totalMoney, minMoney float32, nums int) []float32 {
-	rev := []float32{}
-	i := 0
+func TestRTotalM2(totalMoney, minMoney decimal.Decimal, nums int64) []decimal.Decimal {
+	rev := []decimal.Decimal{}
+	var i int64 = 0
+	minFloat, _ := minMoney.Float64()
+	var precison int32 = 0
+	precisionStr := strings.Split(strconv.FormatFloat(minFloat, 'f', -1, 64), ".")
+	if len(precisionStr) > 1 {
+		precison = int32(len(precisionStr[1]))
+	}
 	for ;i < nums; i++ {
-		remainsNum := float32(nums - (i - 1))
-		max := totalMoney/(remainsNum) * 2
-		fmt.Println("max :----", max)
 
-		individualMoney := rand.Float32() * max
-		if individualMoney <= minMoney {
-			individualMoney = minMoney
-		} else {
-			individualMoney = float32(math.Floor(float64(individualMoney * 100)) / 100)
-		}
+		remainsNum := decimal.New(nums - (i - 1), 0)
+		//averageMoney := (totalMoney -  (remainsNum * minMoney)) / remainsNum
+		averageMoney := totalMoney.Sub(remainsNum.Mul(minMoney)).Div(remainsNum)
+		//fmt.Println("averageMoney :----", averageMoney)
+		topMoney := averageMoney.Mul(decimal.NewFromFloat(2))
 
-		totalMoney -= individualMoney
+		rNum := decimal.NewFromFloatWithExponent(float64(rand.Intn(100) + 1)/100, -2)
+
+		individualMoney := rNum.Mul(topMoney).Add(minMoney).Truncate(precison)
+		//individualMoney = float32(int(individualMoney * 1000)) / 1000
+		totalMoney = totalMoney.Sub(individualMoney)
 		rev = append(rev, individualMoney)
-		fmt.Printf("第 %f 个红包: %f 元， 剩下 %f 元 \n", i, individualMoney, totalMoney)
-
+		//fmt.Printf("第 %f 个红包: %s 元， 剩下 %s 元 \n", i, individualMoney.String(), totalMoney.String())
 	}
 
-	rev = append(rev, float32(math.Floor(float64(totalMoney * 100)) / 100))
-	fmt.Printf("第 %f 个红包: 剩下 %f 元 \n", i, totalMoney)
+	//rev = append(rev, totalMoney)
+	rev = append(rev, totalMoney)
+	//fmt.Printf("第 %f 个红包:  %f 元 \n", i, totalMoney)
 	return rev
 }
