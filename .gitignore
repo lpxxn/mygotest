@@ -18,6 +18,7 @@
 .glide/
 .idea/
 # End of https://www.gitignore.io/api/go
+/.DS_Store
 /.idea
 /.vscode
 vendor/
