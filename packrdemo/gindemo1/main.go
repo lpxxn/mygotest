@@ -1,12 +1,20 @@
 package main
 
 import (
+	"fmt"
+
 	"github.com/gin-contrib/static"
 	"github.com/gin-gonic/gin"
 )
 
+var a = "aaa"
+var b = []string{"a", "b", "c"}
+
 func main() {
 	r := gin.Default()
+	fmt.Println(b)
+	a = "bvb"
+	fmt.Println(a)
 	// if Allow DirectoryIndex
 	//r.Use(static.Serve("/", static.LocalFile("/tmp", true)))
 	// set prefix
