@@ -2,9 +2,9 @@ package main
 
 import (
 	"fmt"
-
-	"github.com/gin-contrib/static"
 	"github.com/gin-gonic/gin"
+	"github.com/mygotest/packrdemo/gindemo1/utils"
+	"github.com/gobuffalo/packr"
 )
 
 var a = "aaa"
@@ -19,8 +19,8 @@ func main() {
 	//r.Use(static.Serve("/", static.LocalFile("/tmp", true)))
 	// set prefix
 	//r.Use(static.Serve("/static", static.LocalFile("/tmp", true)))
-
-	r.Use(static.Serve("/", static.LocalFile("./tmpfs", true)))
+	box := packr.NewBox("./tmpfs")
+	r.Use(utils.Serve("/", box))
 	r.GET("/ping", func(c *gin.Context) {
 		c.String(200, "test")
 	})
