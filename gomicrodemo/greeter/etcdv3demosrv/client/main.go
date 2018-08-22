@@ -18,7 +18,7 @@ func main(){
 
 	registry := etcdv3.NewRegistry(func(op *registry.Options){
 		op.Addrs = []string{
-			"http://192.168.3.34:2379",
+			"http://192.168.3.34:2379", "http://192.168.3.18:2379", "http://192.168.3.110:2379",
 		}
 	})
 	// create a new service

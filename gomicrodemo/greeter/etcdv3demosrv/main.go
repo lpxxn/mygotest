@@ -10,6 +10,7 @@ import (
 	"github.com/micro/go-micro"
 	"log"
 	"time"
+	"fmt"
 )
 
 type Say struct{}
@@ -21,9 +22,11 @@ func (s *Say) Hello(ctx context.Context, req *a_b_common.Request, rsp *a_b_commo
 }
 
 func main() {
+	s1 := string("start...")
+	fmt.Println(s1)
 	registry := etcdv3.NewRegistry(func(op *registry.Options){
 		op.Addrs = []string{
-			"http://192.168.3.34:2379",
+			"http://192.168.3.34:2379", "http://192.168.3.18:2379", "http://192.168.3.110:2379",
 		}
 	})
 
