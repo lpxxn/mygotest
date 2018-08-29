@@ -7,6 +7,8 @@ import (
 	"hash/crc32"
 )
 
+// channel 组， 每一个组里都是buffered channel 3000个
+// 这样做一致性哈希后，每个buffered channel 去处理真实的数据。
 var BehaviorCh []chan string
 const BehCount int = 32
 
@@ -22,7 +24,7 @@ func ProcessTask(i int) {
 		value, ok := <- BehaviorCh[i]
 		fmt.Printf("index : %d , value: %s \n", i, value)
 		if ok {
-			fmt.Printf("index : %d ok \n", i)
+			fmt.Printf("channel index : %d process \n", i)
 		}
 	}
 }
@@ -37,13 +39,13 @@ func  main() {
 	}
 
 	//
-	dTicker := time.NewTicker(time.Millisecond * 100)
+	dTicker := time.NewTicker(time.Millisecond * 1000)
 	for {
 		select {
 			case <- dTicker.C:
 				rand.Seed(time.Now().UnixNano())
 				l := rand.Intn(10)
-				str := RandCode("c", l)
+				str := RandStringRunes( l)
 				// consistent hash modular get the index
 				BehaviorCh[GetCrc(str) % uint32(BehCount)] <- str
 
@@ -63,25 +65,16 @@ func GetCrc(key string) uint32 {
 	return crc32.ChecksumIEEE([]byte(key))
 }
 
-// RandCode ...
-func RandCode(ty string, l int) string {
-	model := map[string]string{
-		"d":   "0123456789",
-		"c":   "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ",
-		"s":   "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ",
-		"mix": "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^",
-	}
-
-	return GetRandomString(model[ty], l)
+func init()  {
+	rand.Seed(time.Now().UnixNano())
 }
 
-// GetRandomString ...
-func GetRandomString(str string, l int) string {
-	bytes := []byte(str)
-	result := []byte{}
-	r := rand.New(rand.NewSource(time.Now().UnixNano()))
-	for i := 0; i < l; i++ {
-		result = append(result, bytes[r.Intn(len(bytes))])
+var letterRuns = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")
+
+func RandStringRunes(n int) string {
+	b := make([]rune, n)
+	for i := range b {
+		b[i] = letterRuns[rand.Intn(len(letterRuns))]
 	}
-	return string(result)
+	return string(b)
 }
