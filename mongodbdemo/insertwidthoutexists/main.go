@@ -19,8 +19,8 @@ func main() {
 
 	update := bson.M{
 		"$setOnInsert": bson.M{
-			"name": "li",
-			"age": 189,
+			"name": "peng",
+			"age": 20,
 		},
 	}
 
