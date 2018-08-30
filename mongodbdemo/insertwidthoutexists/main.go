@@ -15,31 +15,35 @@ func main() {
 	defer session.Close()
 
 	coll := session.DB("mytest").C("products2")
-	selecter := bson.M{"no": 1210}
+	selecter := bson.M{"no": 1212}
 
 	update := bson.M{
 		"$setOnInsert": bson.M{
 			"name": "li",
-			"age": 18,
+			"age": 189,
 		},
 	}
+
 	change := mgo.Change{
 		Update: update,
 		ReturnNew: true,
 		Upsert: true,
 	}
 
+	err = coll.Update(selecter, update)
+	fmt.Println("insert err:", err)
+
 	doc := bson.M{}
-	rev ,err := coll.Find(selecter).Apply(change, &doc)
+	changeInfo ,err := coll.Find(selecter).Apply(change, &doc)
 	if nil != err {
 		panic(err)
 	}
-	fmt.Println(rev, doc)
+	fmt.Printf(" changeInfo: %#v \n doc: %#v \n", changeInfo, doc)
 
 	q := coll.Find(nil)//.Select(bson.M{})
 	m_data := make([]map[string]interface{}, 0)
 
 	q.All(&m_data)
-	fmt.Printf("data :%#v \n", m_data)
+	fmt.Printf("data len: %d \n data :%#v \n", len(m_data), m_data)
 
 }
