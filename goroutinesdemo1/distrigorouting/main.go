@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"hash/crc32"
 )
-
+// consistent hashing
 // channel 组， 每一个组里都是buffered channel 3000个
 // 这样做一致性哈希后，每个buffered channel 去处理真实的数据。
 var BehaviorCh []chan string
