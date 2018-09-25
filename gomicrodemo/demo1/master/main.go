@@ -24,7 +24,6 @@ func main() {
 
 
 
-
 	m, err := lib.NewMaster([]string{
 		"https://127.0.0.1:2379",
 		"https://127.0.0.1:22379",
