@@ -15,9 +15,9 @@ func GormInit() *gorm.DB {
 	sqlonce.Do(func() {
 
 		//connStr := fmt.Sprintf("server=%s;password=%s;port=%d;database=%s;", "192.168.0.105", "12qwaszx", 3306, "GoOrmTest")
-		connStr := fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=utf8&parseTime=True&loc=Local", "max", "limJvl86Ub6EPb7dfjaw", "172.31.33.154:3306", "test")
+		//connStr := fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=utf8&parseTime=True&loc=Local", "max", "limJvl86Ub6EPb7dfjaw", "172.31.33.154:3306", "test")
 		//connStr := fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=utf8&parseTime=True&loc=Local", "root", "12qwaszx", "192.168.0.105:3306", "GoOrmTest")
-		//connStr := fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=utf8&parseTime=True&loc=Local", "root", "1234", "127.0.0.1:3306", "testdb")
+		connStr := fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=utf8&parseTime=True&loc=Local", "root", "123456", "127.0.0.1:3306", "testdb")
 		fmt.Println(connStr)
 
 		var err error
