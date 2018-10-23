@@ -27,6 +27,7 @@ func main() {
 	cron1.AddFunc("0 0 * * * ?", func() {
 		fmt.Println("hour 1 ", time.Now(), " hour: ", time.Now().Hour())
 	})
+	
 	// 晚上0点
 	cron1.AddFunc("0 0 0 * * ?", func() {
 		fmt.Println("zero")
