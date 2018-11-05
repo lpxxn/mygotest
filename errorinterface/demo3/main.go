@@ -52,8 +52,9 @@ func main() {
 		fmt.Println("err3 is not nil", err3)
 	}
 
+	// 这时的err4是error 接口类型
 	err4 := TestNormalError()
-
+	// 再给err4赋值，err4是error接口，指向MyError的空类型
 	s, err4 := t1.Err2()
 	if err4 != nil {
 		fmt.Println("err4 is not nil", err4)
