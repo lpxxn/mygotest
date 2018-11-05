@@ -59,4 +59,11 @@ func main() {
 		fmt.Println("err4 is not nil", err4)
 	}
 	fmt.Println(s)
+	//下面 类型错误，err3已经是 MyError
+	//err3, str := TestEStr()
+	//fmt.Println(err3, str)
+}
+
+func TestEStr() (string, string) {
+	return "a", "b"
 }
