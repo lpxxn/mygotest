@@ -14,7 +14,6 @@ type B struct {
 	T1 int `json:"t1"`
 }
 
-
 type Rsp struct {
 	Code int `json:"code"`
 	Data interface{} `json:"data"`
@@ -63,31 +62,6 @@ func main() {
 	}
 	fmt.Printf("%+v\n", revB)
 
-	UnmarshalB1(revRsp, revB)
 
-	UnmarshalB2(revRsp, revB)
 }
 
-func UnmarshalB1(rsp []byte, b *B) {
-	byt, err := json.Marshal(rsp)
-	if err != nil {
-		panic(err)
-	}
-	err = json.Unmarshal(byt, b)
-	if err != nil {
-		panic(err)
-	}
-	fmt.Printf("%+v\n", b)
-}
-
-func UnmarshalB2(rsp []byte, s interface{}) {
-	byt, err := json.Marshal(rsp)
-	if err != nil {
-		panic(err)
-	}
-	err = json.Unmarshal(byt, s)
-	if err != nil {
-		panic(err)
-	}
-	fmt.Printf("%+v\n", s)
-}
