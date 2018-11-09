@@ -21,19 +21,21 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	revB2 := &B{}
-	// panic
-	UnmarshalB1(jsonB, revB2)
-
+	revB := &B{}
+	UnmarshalB1(jsonB, revB)
+	UnmarshalB2(jsonB, revB)
 }
 
 func UnmarshalB1(rsp []byte, b *B) {
-	byt, err := json.Marshal(rsp)
+	err := json.Unmarshal(rsp, b)
 	if err != nil {
 		panic(err)
 	}
-	// have error! why
-	err = json.Unmarshal(byt, b)
+	fmt.Printf("%+v\n", b)
+}
+
+func UnmarshalB2(rsp []byte, b interface{}) {
+	err := json.Unmarshal(rsp, b)
 	if err != nil {
 		panic(err)
 	}

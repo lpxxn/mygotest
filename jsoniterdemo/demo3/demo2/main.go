@@ -40,13 +40,17 @@ func main() {
 	}
 	fmt.Println("byt : ", string(byt))
 	revB := &B{}
-	UnmarshalB1(byt, revB)
+	UnmarshalB1(revRsp, revB)
 
-	UnmarshalB2(byt, revB)
+	UnmarshalB2(revRsp, revB)
 }
 
 func UnmarshalB1(rsp []byte, b *B) {
-	byt, err := json.Marshal(rsp)
+	jResp := Rsp{}
+	if err := json.Unmarshal(rsp, &jResp); err != nil {
+		panic(err)
+	}
+	byt, err := json.Marshal(jResp.Data)
 	if err != nil {
 		panic(err)
 	}
@@ -58,7 +62,11 @@ func UnmarshalB1(rsp []byte, b *B) {
 }
 
 func UnmarshalB2(rsp []byte, s interface{}) {
-	byt, err := json.Marshal(rsp)
+	jResp := Rsp{}
+	if err := json.Unmarshal(rsp, &jResp); err != nil {
+		panic(err)
+	}
+	byt, err := json.Marshal(jResp.Data)
 	if err != nil {
 		panic(err)
 	}
