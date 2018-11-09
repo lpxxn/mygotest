@@ -20,6 +20,7 @@ func (a Atest) String() string {
 }
 
 func main() {
+	fmt.Println(encode("1386"))
 	a := Atest{Name: "li", Age: 18}
 	s := fmt.Sprintf("%v", a)
 	fmt.Println(s)
