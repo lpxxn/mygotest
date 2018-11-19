@@ -25,7 +25,9 @@ func main() {
 	fmt.Println(du2)
 
 	du3 := curTime.Sub(parTime)
-	fmt.Println("du3 : ", du3)
+	fmt.Println("du3 : ", du3, "parTime: ", parTime, "is great :", du3 > 0)
+	du4 := parTime.Sub(curTime)
+	fmt.Println("du4 : ", du4, "parTime: ", parTime, "is great :", du4 > 0)
 	d := time.Duration(3)
 	fmt.Println(d)
 	//fmt.Println(mascot.MascotAlpaca)
