@@ -34,18 +34,20 @@ func NameHandler(p PersonInfo) http.HandlerFunc {
 
 func SetName(p PersonInfo) http.HandlerFunc {
 	return func(w http.ResponseWriter,r *http.Request){
-		name := r.URL.Query().Get("name")
+		name := r.FormValue("name")
 		p.SetName(name)
 		fmt.Fprintf(w, "name is update to %s", name)
 	}
 }
 
-//func SetNameHandler(p PersonInfo) http.HandlerFunc
-
-func main() {
+func InitHttpHandle() {
 	student := NewStudent("li")
 	http.HandleFunc("/name", NameHandler(student))
 	http.HandleFunc("/setName", SetName(student))
+}
+
+func main() {
+	InitHttpHandle()
 	err := http.ListenAndServe(":5000", nil)
 	if err != nil {
 		panic(err)
