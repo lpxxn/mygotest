@@ -10,20 +10,20 @@ type PersonInfo interface {
 	SetName(name string)
 }
 
-type Student struct {
+type StudentTable struct {
 	name string
 }
 
-func (s *Student) Name() string {
+func (s *StudentTable) Name() string {
 	return s.name
 }
 
-func (s *Student) SetName(name string) {
+func (s *StudentTable) SetName(name string) {
 	s.name = name
 }
 
-func NewStudent(name string) *Student {
-	return &Student{name: name}
+func NewStudent(name string) *StudentTable {
+	return &StudentTable{name: name}
 }
 
 func NameHandler(p PersonInfo) http.HandlerFunc {
