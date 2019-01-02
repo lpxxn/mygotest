@@ -72,6 +72,10 @@ var Test1TableDescription = dynamodb.TableDescription{
 					AttributeName: aws.String(Table1KVSecondaryKey1),
 					KeyType:       aws.String("HASH"),
 				},
+				{
+					AttributeName: aws.String(Table1KvPrimaryRange),
+					KeyType:       aws.String("RANGE"),
+				},
 			},
 			Projection: &dynamodb.Projection{
 				ProjectionType: aws.String(dynamodb.ProjectionTypeAll),
@@ -156,6 +160,9 @@ const (
 	expressionAttributeNameKey1  = "#key1"
 	expressionAttributeValueKey1 = ":key1"
 
+	expressionAttributeTypeNameKey1  = "#type"
+	expressionAttributeTypeValueKey1 = ":type"
+
 	expressionAttributeNameKey2  = "#key2"
 	expressionAttributeValueKey2 = ":key2"
 )
@@ -179,6 +186,7 @@ func QueryBySkey(db *dynamodb.DynamoDB, idx1Val string, idx2Val string, dist int
 	g2Key2 := RetrieveTable1GlobalSecondaryIndexDescription(idx2Name)
 
 	/// query 只能查询一个指定的分区键
+	/// range 可以不用传
 	qInput := &dynamodb.QueryInput{
 		IndexName: aws.String(idx1Name),
 		//KeyConditionExpression: aws.String(fmt.Sprintf("%s = %s and %s = %s", expressionAttributeNameKey1, expressionAttributeValueKey1, expressionAttributeNameKey2, expressionAttributeValueKey2)),
@@ -214,6 +222,58 @@ func QueryBySkey(db *dynamodb.DynamoDB, idx1Val string, idx2Val string, dist int
 		return err
 	}
 	return dynamodbattribute.UnmarshalListOfMaps(sResult.Items, dist)
+}
+
+func QueryBySkey2(db *dynamodb.DynamoDB, idx1Val string, typeVal string, dist interface{}) error {
+	idx1Name := Table1KVSecondaryKey1
+	g2Key1 := RetrieveTable1GlobalSecondaryIndexDescription(idx1Name)
+
+	/// query 只能查询一个指定的分区键
+	/// range 可以不用传
+	qInput := &dynamodb.QueryInput{
+		IndexName: aws.String(idx1Name),
+		KeyConditionExpression: aws.String(fmt.Sprintf("%s = %s and %s = %s", expressionAttributeNameKey1, expressionAttributeValueKey1, expressionAttributeTypeNameKey1, expressionAttributeTypeValueKey1)),
+		ExpressionAttributeNames: map[string]*string{
+			expressionAttributeNameKey1: g2Key1.KeySchema[0].AttributeName,
+			expressionAttributeTypeNameKey1: aws.String(Table1KvPrimaryRange),
+		},
+		ExpressionAttributeValues: map[string]*dynamodb.AttributeValue{
+			expressionAttributeValueKey1: MakeAttributeValue(RetrieveGlobalSecondaryIndexDefinition(idx1Name), idx1Val),
+			expressionAttributeTypeValueKey1: MakeAttributeValue(RetrieveGlobalSecondaryIndexDefinition(Table1KvPrimaryRange), typeVal),
+		},
+		TableName: aws.String(TestTable1Name),
+	}
+	result, err := db.Query(qInput)
+	if err != nil {
+		return err
+	}
+	return dynamodbattribute.UnmarshalListOfMaps(result.Items, dist)
+}
+
+func QueryBySkey3(db *dynamodb.DynamoDB, idx1Val string, typeVal string, dist interface{}) error {
+	idx1Name := Table1KVSecondaryKey1
+	g2Key1 := RetrieveTable1GlobalSecondaryIndexDescription(idx1Name)
+
+	/// query 只能查询一个指定的分区键
+	/// range 可以不用传
+	qInput := &dynamodb.QueryInput{
+		IndexName: aws.String(idx1Name),
+		KeyConditionExpression: aws.String(fmt.Sprintf("%s = %s", expressionAttributeNameKey1, expressionAttributeValueKey1)),
+		ExpressionAttributeNames: map[string]*string{
+			expressionAttributeNameKey1: g2Key1.KeySchema[0].AttributeName,
+			//expressionAttributeTypeNameKey1: aws.String(Table1KvPrimaryRange),
+		},
+		ExpressionAttributeValues: map[string]*dynamodb.AttributeValue{
+			expressionAttributeValueKey1: MakeAttributeValue(RetrieveGlobalSecondaryIndexDefinition(idx1Name), idx1Val),
+			//expressionAttributeTypeValueKey1: MakeAttributeValue(RetrieveGlobalSecondaryIndexDefinition(Table1KvPrimaryRange), typeVal),
+		},
+		TableName: aws.String(TestTable1Name),
+	}
+	result, err := db.Query(qInput)
+	if err != nil {
+		return err
+	}
+	return dynamodbattribute.UnmarshalListOfMaps(result.Items, dist)
 }
 
 func primaryPartitionKeyDefinition() *dynamodb.AttributeDefinition {

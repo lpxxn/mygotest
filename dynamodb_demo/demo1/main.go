@@ -23,6 +23,12 @@ func main() {
 		panic(err)
 	}
 	DB = svc
+	p0 := &dynamodb_utils.Table1DataInfo{Key: "0", Sky1: "k1", Sky2: "k2", Sky3: "k3", Name: "li", Type: "t1"}
+	_, err = dynamodb_utils.Put(DB, p0)
+	if err != nil {
+		panic(err)
+	}
+
 	p1 := &dynamodb_utils.Table1DataInfo{Key: "1", Sky1: "k1", Sky2: "k2", Sky3: "k3", Name: "li", Type: "t1"}
 	_, err = dynamodb_utils.Put(DB, p1)
 	if err != nil {
@@ -46,8 +52,20 @@ func main() {
 		panic(err)
 	}
 
+	dis2 := make([]dynamodb_utils.Table1DataInfo, 0)
+	err = dynamodb_utils.QueryBySkey2(DB, "2k1", "t1", &dis2)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	dis3 := make([]dynamodb_utils.Table1DataInfo, 0)
+	err = dynamodb_utils.QueryBySkey3(DB, "k1", "", &dis3)
+	if err != nil {
+		fmt.Println(err)
+	}
+
 	disItem := new(dynamodb_utils.Table1DataInfo)
-	// 定义中有ragne 在查询的时候就要给上
+	// 定义中有range 在查询的时候就要给上
 	f := func(input *dynamodb.GetItemInput) {
 		input.Key[dynamodb_utils.Table1KvPrimaryRange] = &dynamodb.AttributeValue{
 			S: aws.String("t2"),
