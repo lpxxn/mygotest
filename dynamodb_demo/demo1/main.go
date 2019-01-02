@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/service/dynamodb"
 	"github.com/mygotest/dynamodb_demo/dynamodb_utils"
@@ -22,14 +23,20 @@ func main() {
 		panic(err)
 	}
 	DB = svc
-	p1 := &dynamodb_utils.Table1DataInfo{Key: "1", Sky1: "k1", Sky2: "k2", Sky3: "k3", Name: "li"}
+	p1 := &dynamodb_utils.Table1DataInfo{Key: "1", Sky1: "k1", Sky2: "k2", Sky3: "k3", Name: "li", Type: "t1"}
 	_, err = dynamodb_utils.Put(DB, p1)
 	if err != nil {
 		panic(err)
 	}
 
-	p2 := &dynamodb_utils.Table1DataInfo{Key: "2", Sky1: "2k1", Sky2: "2k2", Sky3: "2k3", Name: "peng"}
+	p2 := &dynamodb_utils.Table1DataInfo{Key: "2", Sky1: "2k1", Sky2: "2k2", Sky3: "2k3", Name: "peng", Type: "t1"}
 	_, err = dynamodb_utils.Put(DB, p2)
+	if err != nil {
+		panic(err)
+	}
+	p3 := &dynamodb_utils.Table1DataInfo{Key: "3", Sky1: "3k1", Sky2: "3k2", Sky3: "3k3", Name: "Abc", Type: "t2"}
+
+		_, err = dynamodb_utils.Put(DB, p3)
 	if err != nil {
 		panic(err)
 	}
@@ -39,5 +46,19 @@ func main() {
 		panic(err)
 	}
 
+	disItem := new(dynamodb_utils.Table1DataInfo)
+	// 定义中有ragne 在查询的时候就要给上
+	f := func(input *dynamodb.GetItemInput) {
+		input.Key[dynamodb_utils.Table1KvPrimaryRange] = &dynamodb.AttributeValue{
+			S: aws.String("t2"),
+		}
+	}
+	if err := dynamodb_utils.GetItemByKey(DB, "3", disItem, f); err != nil {
+		fmt.Println(err)
+	}
+	if err := dynamodb_utils.GetItemByKey(DB, "2", disItem, f); err != nil {
+		// not found
+		fmt.Println(err)
+	}
 }
 

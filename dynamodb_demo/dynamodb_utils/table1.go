@@ -25,6 +25,7 @@ func setTestTable1Dao(db *dynamodb.DynamoDB, tableName string) {
 const (
 	TestTable1Name        = "testTable1Name"
 	Table1KVPrimaryKey    = "key"
+	Table1KvPrimaryRange  = "type"
 	Table1KVSecondaryKey1 = "skey1"
 	Table1KVSecondaryKey2 = "skey2"
 	Table1KVSecondaryKey3 = "skey3"
@@ -32,6 +33,7 @@ const (
 
 type Table1DataInfo struct {
 	Key  string `json:"key" dynamodbav:"key"`
+	Type string `json:"type" dynamodbav:"type"`
 	Sky1 string `json:"sky1" dynamodbav:"skey1"`
 	Sky2 string `json:"sky2" dynamodbav:"skey2"`
 	Sky3 string `json:"sky3" dynamodbav:"skey3"`
@@ -39,9 +41,14 @@ type Table1DataInfo struct {
 }
 
 var Test1TableDescription = dynamodb.TableDescription{
+	TableName: aws.String(TestTable1Name),
 	AttributeDefinitions: []*dynamodb.AttributeDefinition{
 		{
 			AttributeName: aws.String(Table1KVPrimaryKey),
+			AttributeType: aws.String("S"),
+		},
+		{
+			AttributeName: aws.String(Table1KvPrimaryRange),
 			AttributeType: aws.String("S"),
 		},
 		{
@@ -100,6 +107,10 @@ var Test1TableDescription = dynamodb.TableDescription{
 			AttributeName: aws.String(Table1KVPrimaryKey),
 			KeyType:       aws.String("HASH"),
 		},
+		{
+			AttributeName: aws.String(Table1KvPrimaryRange),
+			KeyType:       aws.String("RANGE"),
+		},
 	},
 }
 
@@ -139,6 +150,8 @@ func MakeAttributeValue(definition *dynamodb.AttributeDefinition, keyvalue strin
 	}
 }
 
+var ErrNotFound = errors.New("record not found")
+
 const (
 	expressionAttributeNameKey1  = "#key1"
 	expressionAttributeValueKey1 = ":key1"
@@ -165,10 +178,12 @@ func QueryBySkey(db *dynamodb.DynamoDB, idx1Val string, idx2Val string, dist int
 	idx2Name := Table1KVSecondaryKey2
 	g2Key2 := RetrieveTable1GlobalSecondaryIndexDescription(idx2Name)
 
+	/// query 只能查询一个指定的分区键
 	qInput := &dynamodb.QueryInput{
 		IndexName: aws.String(idx1Name),
+		//KeyConditionExpression: aws.String(fmt.Sprintf("%s = %s and %s = %s", expressionAttributeNameKey1, expressionAttributeValueKey1, expressionAttributeNameKey2, expressionAttributeValueKey2)),
 		KeyConditionExpression: aws.String(fmt.Sprintf("%s = %s", expressionAttributeNameKey1, expressionAttributeValueKey1)),
-		FilterExpression: aws.String(fmt.Sprintf("%s = %s", expressionAttributeNameKey2, expressionAttributeValueKey2)),
+		FilterExpression:       aws.String(fmt.Sprintf("%s = %s", expressionAttributeNameKey2, expressionAttributeValueKey2)),
 		ExpressionAttributeNames: map[string]*string{
 			expressionAttributeNameKey1: g2Key1.KeySchema[0].AttributeName,
 			expressionAttributeNameKey2: g2Key2.KeySchema[0].AttributeName,
@@ -180,19 +195,19 @@ func QueryBySkey(db *dynamodb.DynamoDB, idx1Val string, idx2Val string, dist int
 		TableName: aws.String(TestTable1Name),
 	}
 	result, err := db.Query(qInput)
-	_ := result
+	_ = result
 	//
 	sInput := &dynamodb.ScanInput{
 		FilterExpression: aws.String(fmt.Sprintf("%s = %s and %s = %s", expressionAttributeNameKey1, expressionAttributeValueKey1, expressionAttributeNameKey2, expressionAttributeValueKey2)),
-			ExpressionAttributeNames: map[string]*string{
-				expressionAttributeNameKey1: g2Key1.KeySchema[0].AttributeName,
-				expressionAttributeNameKey2: g2Key2.KeySchema[0].AttributeName,
-			},
-			ExpressionAttributeValues: map[string]*dynamodb.AttributeValue{
-				expressionAttributeValueKey1: MakeAttributeValue(RetrieveGlobalSecondaryIndexDefinition(idx1Name), idx1Val),
-				expressionAttributeValueKey2: MakeAttributeValue(RetrieveGlobalSecondaryIndexDefinition(idx2Name), idx2Val),
-			},
-			TableName: aws.String(TestTable1Name),
+		ExpressionAttributeNames: map[string]*string{
+			expressionAttributeNameKey1: g2Key1.KeySchema[0].AttributeName,
+			expressionAttributeNameKey2: g2Key2.KeySchema[0].AttributeName,
+		},
+		ExpressionAttributeValues: map[string]*dynamodb.AttributeValue{
+			expressionAttributeValueKey1: MakeAttributeValue(RetrieveGlobalSecondaryIndexDefinition(idx1Name), idx1Val),
+			expressionAttributeValueKey2: MakeAttributeValue(RetrieveGlobalSecondaryIndexDefinition(idx2Name), idx2Val),
+		},
+		TableName: aws.String(TestTable1Name),
 	}
 	sResult, err := db.Scan(sInput)
 	if err != nil {
@@ -201,8 +216,45 @@ func QueryBySkey(db *dynamodb.DynamoDB, idx1Val string, idx2Val string, dist int
 	return dynamodbattribute.UnmarshalListOfMaps(sResult.Items, dist)
 }
 
-func GetItemByKey(db *dynamodb.DynamoDB, idx1Val string) {
-	//gInput := *dynamodb.GetItemInput{
-	//
-	//}
+func primaryPartitionKeyDefinition() *dynamodb.AttributeDefinition {
+	pkname := aws.String(PrimaryPartitionKeyName())
+	for i := range Test1TableDescription.AttributeDefinitions {
+		def := Test1TableDescription.AttributeDefinitions[i]
+		if aws.String(*def.AttributeName) == pkname {
+			return def
+		}
+	}
+	return Test1TableDescription.AttributeDefinitions[0]
+}
+
+func makePrimaryPartitionKeyAttributeValue(keyvalue string) *dynamodb.AttributeValue {
+	return MakeAttributeValue(primaryPartitionKeyDefinition(), keyvalue)
+}
+
+func PrimaryPartitionKeyName() string {
+	return *Test1TableDescription.KeySchema[0].AttributeName
+}
+
+// GetOption options for Get function
+type GetOption func(input *dynamodb.GetItemInput)
+
+func GetItemByKey(db *dynamodb.DynamoDB, keyValue string, dist interface{}, opts ...GetOption) error {
+	gInput := &dynamodb.GetItemInput{
+		Key: map[string]*dynamodb.AttributeValue{
+			PrimaryPartitionKeyName(): makePrimaryPartitionKeyAttributeValue(keyValue),
+		},
+		TableName: Test1TableDescription.TableName,
+	}
+	for _, opt := range opts {
+		opt(gInput)
+	}
+	out, err := db.GetItem(gInput)
+	if err != nil {
+		return err
+	}
+	if len(out.Item) == 0 {
+		return ErrNotFound
+	}
+
+	return dynamodbattribute.UnmarshalMap(out.Item, dist)
 }
