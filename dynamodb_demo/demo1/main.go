@@ -5,6 +5,7 @@ import (
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/service/dynamodb"
 	"github.com/mygotest/dynamodb_demo/dynamodb_utils"
+	"go.planetmeican.com/planet/dynamodbdao"
 )
 var DB *dynamodb.DynamoDB
 func main() {
@@ -77,6 +78,17 @@ func main() {
 	if err := dynamodb_utils.GetItemByKey(DB, "2", disItem, f); err != nil {
 		// not found
 		fmt.Println(err)
+	}
+	dao, err := dynamodbdao.New(DB, dynamodb_utils.TestTable1Name, func(d *dynamodbdao.GenericDao) {
+
+	})
+	if err != nil {
+		panic(err)
+	}
+	dis1Dao := make([]dynamodb_utils.Table1DataInfo, 0)
+	err = dao.QueryByGlobalSecondaryIndex(dynamodb_utils.Table1KVSecondaryKey1, "2k1", &dis1Dao, fmt.Sprintf("%s = %s", dynamodb_utils.Table1KvPrimaryRange, "t1"))
+	if err != nil {
+		panic(err)
 	}
 }
 
