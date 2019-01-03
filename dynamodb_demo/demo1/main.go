@@ -66,7 +66,7 @@ func main() {
 	}
 
 	disItem := new(dynamodb_utils.Table1DataInfo)
-	// 定义中有range 在查询的时候就要给上
+	// 方法 GetItem 定义中有range 在查询的时候就要给上。secondary 有range也可可以不用传range
 	f := func(input *dynamodb.GetItemInput) {
 		input.Key[dynamodb_utils.Table1KvPrimaryRange] = &dynamodb.AttributeValue{
 			S: aws.String("t2"),
