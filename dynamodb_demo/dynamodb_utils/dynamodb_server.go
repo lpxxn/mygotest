@@ -6,11 +6,14 @@ import (
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/dynamodb"
 	"go.planetmeican.com/planet/dynamodb-local-server"
+	"os"
 )
 
 func StartSession() (*dynamodb.DynamoDB, *server.DynamoDBServer) {
-	s :=server.Start("AKIAPA7LKDMYJU2P2OVA", "BRn5WzmIShvCCvRXchHVDTacX8ZS9FO/d3uleo2C", "48080")
-	theCredentials := credentials.NewStaticCredentials("AKIAPA7LKDMYJU2P2OVA", "BRn5WzmIShvCCvRXchHVDTacX8ZS9FO/d3uleo2C", "")
+	accessKey := os.Getenv("AWS_ACCESS_KEY_ID")
+	accessSecret := os.Getenv("AWS_SECRET_ACCESS_KEY")
+	s :=server.Start(accessKey, accessSecret, "48080")
+	theCredentials := credentials.NewStaticCredentials(accessKey, accessSecret, "")
 
 	sess := session.Must(session.NewSession())
 	awsc := &aws.Config{

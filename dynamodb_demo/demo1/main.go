@@ -86,7 +86,13 @@ func main() {
 		panic(err)
 	}
 	dis1Dao := make([]dynamodb_utils.Table1DataInfo, 0)
-	err = dao.QueryByGlobalSecondaryIndex(dynamodb_utils.Table1KVSecondaryKey1, "2k1", &dis1Dao, fmt.Sprintf("%s = %s", dynamodb_utils.Table1KvPrimaryRange, "t1"))
+	err = dao.QueryByGlobalSecondaryIndex(dynamodb_utils.Table1KVSecondaryKey1, "2k1", &dis1Dao, func(input *dynamodb.QueryInput) {
+		ev := fmt.Sprintf(":%s", dynamodb_utils.Table1KvPrimaryRange)
+		eName := fmt.Sprintf("#%s", dynamodb_utils.Table1KvPrimaryRange)
+		input.KeyConditionExpression = aws.String(fmt.Sprintf("%s and %s = %s", aws.StringValue(input.KeyConditionExpression), eName, ev))
+		input.ExpressionAttributeNames[eName] = aws.String(dynamodb_utils.Table1KvPrimaryRange)
+		input.ExpressionAttributeValues[ev] = &dynamodb.AttributeValue{S: aws.String("t1")}
+	})
 	if err != nil {
 		panic(err)
 	}
