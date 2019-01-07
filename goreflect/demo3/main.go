@@ -9,7 +9,22 @@ type Test struct {
 	Name string
 }
 
+func (t Test) GetName() string{
+	return t.Name
+}
+
+type Tester interface {
+	GetName() string
+}
+
 func main() {
 	t := Test{Name:"li"}
-	fmt.Println(reflect.ValueOf(t).Kind() == reflect.Struct)
+	tv := reflect.ValueOf(t)
+	fmt.Println(tv.Kind() == reflect.Struct)
+
+	interType := reflect.TypeOf((*Tester)(nil)).Elem()
+	if tv.Type().Implements(interType) {
+		n := tv.Interface().(Tester).GetName()
+		fmt.Println("get t name: ", n)
+	}
 }

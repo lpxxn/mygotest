@@ -44,7 +44,6 @@ func reflectSlice2(m interface{}) {
 
 		fmt.Println("file number", v.NumField(), " v type :", v.Type().String())
 		//revValue := v.Interface().(R1)
-
 		pv := reflect.New(v.Type())
 		pv.Elem().Set(v)
 		v.Field(0).SetString("cccccc")
