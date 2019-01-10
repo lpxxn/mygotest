@@ -9,7 +9,7 @@ type Test struct {
 	Name string
 }
 
-func (t Test) GetName() string{
+func (t Test) GetName() string {
 	return t.Name
 }
 
@@ -18,7 +18,7 @@ type Tester interface {
 }
 
 func main() {
-	t := Test{Name:"li"}
+	t := Test{Name: "li"}
 	tv := reflect.ValueOf(t)
 	fmt.Println(tv.Kind() == reflect.Struct)
 
