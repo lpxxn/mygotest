@@ -80,11 +80,11 @@ func main() {
 		for {
 			pt := <-productorCh
 			t := pt.String()
-			outId, err := sqs.SendMsg("Hello world t: " + t)
+			outID, err := sqs.SendMsg("Hello world t: " + t)
 			if err != nil {
 				fmt.Println("have error :", err)
 			} else {
-				fmt.Println("outId: ", outId)
+				fmt.Println("outID: ", outID)
 			}
 		}
 	}()
