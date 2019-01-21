@@ -39,14 +39,20 @@ func Handler(ctx context.Context) (Response, error) {
 		MessageBody:  aws.String(fmt.Sprintf("current time %d", time.Now().Unix())),
 		QueueUrl:     aws.String(sqsUrl),
 	})
+	outReq, err2 := svc.GetQueueAttributes(&sqs.GetQueueAttributesInput{
+		AttributeNames: []*string{aws.String(sqs.QueueAttributeNameApproximateNumberOfMessages)},
+		QueueUrl:       aws.String(sqsUrl),
+	})
 	var body []byte
-	if err != nil {
+	if err != nil && err2 != nil {
 		body, _ = json.Marshal(map[string]interface{}{
 			"message": "send sqs msg error" + err.Error(),
 		})
 	} else {
+		//nums, _ := strconv.ParseInt(*outReq.Attributes[sqs.QueueAttributeNameApproximateNumberOfMessages], 10, 64)
 		body, _ = json.Marshal(map[string]interface{}{
-			"message": "send sqs executed successfully! msgId: " + *out.MessageId,
+			"message": "send sqs executed successfully! msgId: " +
+				*out.MessageId + " count of number msg: " + *outReq.Attributes[sqs.QueueAttributeNameApproximateNumberOfMessages],
 		})
 	}
 	json.HTMLEscape(&buf, body)
@@ -60,6 +66,7 @@ func Handler(ctx context.Context) (Response, error) {
 			"X-MyCompany-Func-Reply": "hello-handler",
 		},
 	}
+
 	fmt.Println("-------end hello---------")
 	return resp, nil
 }

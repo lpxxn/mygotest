@@ -64,6 +64,14 @@ functions:
       - http:
           path: hello
           method: get
+      - schedule: rate(1 minute)
+
+  # helloCorn:
+  #   handler: bin/hello
+  #   events:
+  #     # Invoke Lambda function every minute
+  #     - schedule: rate(1 minute)
+
   world:
     handler: bin/world
     events:
