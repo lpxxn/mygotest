@@ -130,7 +130,7 @@ func main() {
 	go func() {
 		for {
 			pt := <-productorCh
-			return
+
 			t := pt.String()
 			outID, err := sqs.SendMsg("Hello world t: " + t)
 
