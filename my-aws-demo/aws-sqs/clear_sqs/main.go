@@ -42,6 +42,8 @@ func main() {
 	})
 	svc := sqs.New(newSession)
 	sqs := new(Sqs)
+	v, err := newSession.Config.Credentials.Get()
+	fmt.Println(err, v.AccessKeyID, " ", v.SecretAccessKey)
 	sqs.Sqs = svc
 	sqs.Url = endPoint
 

@@ -185,7 +185,7 @@ func QueryBySkey(db *dynamodb.DynamoDB, idx1Val string, idx2Val string, dist int
 	idx2Name := Table1KVSecondaryKey2
 	g2Key2 := RetrieveTable1GlobalSecondaryIndexDescription(idx2Name)
 
-	/// query 只能查询一个指定的分区键
+	/// query 只能查询一个指定的分区键 只能查询键
 	/// range 可以不用传
 	qInput := &dynamodb.QueryInput{
 		IndexName: aws.String(idx1Name),
@@ -204,7 +204,7 @@ func QueryBySkey(db *dynamodb.DynamoDB, idx1Val string, idx2Val string, dist int
 	}
 	result, err := db.Query(qInput)
 	_ = result
-	//
+	// scan 可以不用是个键
 	sInput := &dynamodb.ScanInput{
 		FilterExpression: aws.String(fmt.Sprintf("%s = %s and %s = %s", expressionAttributeNameKey1, expressionAttributeValueKey1, expressionAttributeNameKey2, expressionAttributeValueKey2)),
 		ExpressionAttributeNames: map[string]*string{
