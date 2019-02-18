@@ -49,7 +49,7 @@ func (mct *MyConnType) SendMsg2(urlStr, msg string) (*http.Response, error) {
 	//defer reqB.Reset()
 	//rc := ioutil.NopCloser(reqB)
 	rc := ioutil.NopCloser(strings.NewReader(msg))
-
+	fmt.Println("len of body:", len(msg))
 	req := &http.Request{
 		Method: "GET",
 		URL: uri,
@@ -66,7 +66,7 @@ func (mct *MyConnType) SendMsg2(urlStr, msg string) (*http.Response, error) {
 }
 
 func (mct *MyConnType) SendMsgFun(urlStr string, f func(urlStr, msg string) (*http.Response, error)) {
-	resp, err := f(urlStr, "abcde")
+	resp, err := f(urlStr, "一二三")
 	if err != nil {
 		fmt.Println(err)
 		return
