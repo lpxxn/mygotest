@@ -22,7 +22,7 @@ func (mct *MyConnType) SendMsg(urlStr, msg string) (*http.Response, error) {
 	if err != nil {
 		return nil, err
 	}
-
+	fmt.Println(conn.RemoteAddr().String())
 	reqB := bytes.NewBufferString(msg)
 	defer reqB.Reset()
 
@@ -40,12 +40,11 @@ func (mct *MyConnType) SendMsg(urlStr, msg string) (*http.Response, error) {
 
 func (mct *MyConnType) SendMsg2(urlStr, msg string) (*http.Response, error) {
 	uri, err := url.Parse(urlStr)
-
 	conn, err := net.Dial("tcp", uri.Host+":80")
 	if err != nil {
 		return nil, err
 	}
-
+	fmt.Println(conn.RemoteAddr().String())
 	//reqB := bytes.NewBufferString(msg)
 	//defer reqB.Reset()
 	//rc := ioutil.NopCloser(reqB)
@@ -93,6 +92,13 @@ func main() {
 	mct.SendMsgFun(urlStr, mct.SendMsg)
 	fmt.Println("------------")
 	mct.SendMsgFun(urlStr, mct.SendMsg2)
+
+	uri, _ := url.Parse(urlStr)
+	if ips, err := net.LookupIP(uri.Host); err == nil {
+		for _, ipItem := range ips {
+			fmt.Println(ipItem.String())
+		}
+	}
 }
 
 type RevData struct {
