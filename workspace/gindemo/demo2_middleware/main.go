@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"github.com/gin-gonic/gin"
+	"net/http"
 )
 
 func main() {
@@ -12,7 +13,7 @@ func main() {
 
 	router.GET("/rest/n/api/*some", mid1(), mid2(), handler)
 
-	router.Run()
+	router.Run(":8898")
 }
 
 func globalMiddleware() gin.HandlerFunc {
@@ -26,6 +27,9 @@ func globalMiddleware() gin.HandlerFunc {
 }
 
 func handler(c *gin.Context) {
+	c.JSON(http.StatusOK, struct {
+		Name string `json:"name"`
+	}{Name: "lipeng"})
 	fmt.Println("exec handler.")
 }
 
