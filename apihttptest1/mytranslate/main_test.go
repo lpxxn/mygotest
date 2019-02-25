@@ -69,4 +69,10 @@ func TestJs(t *testing.T) {
 			panic(value)
 		}
 	}
+
+	if rev, err := vm.Run("result = 111111;"); err != nil {
+		panic(err)
+	} else {
+		fmt.Println(rev.ToInteger())
+	}
 }
