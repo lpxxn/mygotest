@@ -58,4 +58,8 @@ func TestJs(t *testing.T) {
 		panic(err)
 	}
 	revFunc()
+
+	if _, err := vm.Run("console.log(-805041152 & 4294967295);"); err != nil {
+		panic(err)
+	}
 }
