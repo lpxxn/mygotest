@@ -59,7 +59,14 @@ func TestJs(t *testing.T) {
 	}
 	revFunc()
 
-	if _, err := vm.Run("console.log(-805041152 & 4294967295);"); err != nil {
+	if rev, err := vm.Run("-805041152 & 4294967295;"); err != nil {
 		panic(err)
+	} else {
+		fmt.Println(rev)
+		if value, err := rev.ToInteger(); err != nil {
+			panic(err)
+		} else if value != -805041152 {
+			panic(value)
+		}
 	}
 }
