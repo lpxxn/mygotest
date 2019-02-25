@@ -36,3 +36,26 @@ func TestGo(t *testing.T) {
 		}
 	}
 }
+
+func TestJs(t *testing.T) {
+	vm := otto.New()
+	if _, err := vm.Run("a=1"); err != nil {
+		panic(err)
+	}
+	revFunc := func () {
+		if goRev, err := vm.Get("a"); err != nil {
+			panic(err)
+		} else {
+			fmt.Println(goRev)
+		}
+	}
+	revFunc()
+	if _, err := vm.Run("a=221"); err != nil {
+		panic(err)
+	}
+	revFunc()
+	if _, err := vm.Run("a='abcd'"); err != nil {
+		panic(err)
+	}
+	revFunc()
+}
