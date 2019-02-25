@@ -6,7 +6,7 @@ import (
 	"testing"
 )
 
-func TestGo(t *testing.T) {
+func TestJSFunc(t *testing.T) {
 	vm := otto.New()
 	if _, err := vm.Run(`GOF=function(a, b) {
 		for (var c = 0; c < b.length - 2; c += 3) {
