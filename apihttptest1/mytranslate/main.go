@@ -82,20 +82,7 @@ func main() {
 	}
 
 	fmt.Println("begin js func test")
-	if _, err = vm.Run(`GOF=function(a, b) {
-		for (var c = 0; c < b.length - 2; c += 3) {
-			var d = b.charAt(c + 2);
-			d = "a" <= d ? d.charCodeAt(0) - 87 : Number(d);
-			d = "+" == b.charAt(c + 1) ? a >>> d : a << d;
-			a = "+" == b.charAt(c) ? a + d & 4294967295 : a ^ d
-		}
-		return a
-	}`); err != nil {
-		panic(err)
-	}
-	if _, err = vm.Run(`console.log(GOF(477364483, "+-3^+b+-f"));`); err != nil {
-		panic(err)
-	}
+
 
 
 	fmt.Println(ioRv, "\n", -805041152 & 4294967295)
