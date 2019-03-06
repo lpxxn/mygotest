@@ -12,6 +12,9 @@ func main() {
 		time.Sleep(time.Second * 10)
 		cancel()
 	}()
+	valueC1 := context.WithValue(ctx, "a", "b")
+	valueC2 := context.WithValue(valueC1, "b", "d")
+	fmt.Println(valueC2.Value("da"))
 	_, err := DoSomeThing(ctx)
 	if err != nil {
 		fmt.Println(err)
