@@ -63,6 +63,8 @@ func main() {
 	// suppose  0.2 second
 	fmt.Println("mb/s", float64(binary.Size(bytes1))/MEGABYTE/0.2)
 
+	fmt.Println("4 mb/s :", 4.76837158203125e-05 * MEGABYTE * 0.2)
+
 	fmt.Println("binary.Size of str1: ", binary.Size(str1))
 
 	for ; i < 5000000; i++ {
