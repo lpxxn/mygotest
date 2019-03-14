@@ -28,5 +28,7 @@ func main() {
 	for v := range newCh {
 		fmt.Println(v)
 	}
-
+	if _, ok := <-c1.A; !ok {
+		fmt.Println("C1: A is closed")
+	}
 }
