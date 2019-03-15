@@ -32,6 +32,7 @@ func main() {
 	m1 := M1{}
 
 	go m1.Func2()
+	go m1.Func2()
 	go m1.Func1()
 
 	go m1.Func1()
@@ -43,3 +44,12 @@ func main() {
 	<-sigs
 	fmt.Println("stop server....")
 }
+/*
+1. 读锁不能阻塞读锁，引入readerCount实现
+
+2. 读锁需要阻塞写锁，直到所以读锁都释放，引入readerSem实现
+
+3. 写锁需要阻塞读锁，直到所以写锁都释放，引入wirterSem实现
+
+4. 写锁需要阻塞写锁，引入Metux实现
+ */
