@@ -37,13 +37,12 @@ func main() {
 
 	go m1.Func1()
 
-
-
 	sigs := make(chan os.Signal, 1)
 	signal.Notify(sigs, os.Interrupt)
 	<-sigs
 	fmt.Println("stop server....")
 }
+
 /*
 1. 读锁不能阻塞读锁，引入readerCount实现
 

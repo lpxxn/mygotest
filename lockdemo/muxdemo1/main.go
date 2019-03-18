@@ -10,7 +10,7 @@ import (
 
 type M1 struct {
 	mux sync.Mutex
-	v int
+	v   int
 }
 
 // must be pointer because all parameters are passed by value
