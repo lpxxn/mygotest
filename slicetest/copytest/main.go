@@ -2,7 +2,13 @@ package main
 
 import (
 	"fmt"
+	"math/rand"
+	"time"
 )
+
+func init() {
+	rand.Seed(time.Now().Unix())
+}
 
 func main() {
 	userList := []string{"a", "b", "c", "d", "e", "f", "g"}
@@ -25,4 +31,19 @@ func main() {
 			fmt.Println("i: ", i, " v:", v)
 		}
 	}
+	userList = userList[:len(userList)-1]
+	fmt.Println(userList, " cap", cap(userList), " len", len(userList))
+	userList = append(userList, "cc")
+	fmt.Println(userList)
+
+
+	max, min := 10, 1
+	// remove slice element
+	for lenU := len(userList) -1 ; lenU >= 0; lenU-- {
+		c := rand.Intn(max - min + 1) + min
+		if c > 4 {
+			userList = append(userList[:lenU], userList[lenU + 1:]...)
+		}
+	}
+	fmt.Println(userList)
 }

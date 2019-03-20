@@ -1,14 +1,15 @@
 package main
 
 import (
+	"bytes"
 	"fmt"
 	"net/http"
-	"strings"
 )
 
 func main() {
-	bodyStr := `{"a" = "aaaa"}`
-	re, err := http.NewRequest(http.MethodPost, "http://www.baidu.com", strings.NewReader(bodyStr))
+	//bodyStr := `{"a" = "aaaa"}`
+	bodyStr := `a=aaaa&c=bdee`
+	re, err := http.NewRequest(http.MethodPost, "http://www.baidu.com?wudsa=dasjkdjaskfj", bytes.NewReader([]byte(bodyStr)))
 	re.Header.Set("Content-Type", "application/x-www-form-urlencoded")
 	if err != nil {
 		panic(err)
