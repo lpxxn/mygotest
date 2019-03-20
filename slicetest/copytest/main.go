@@ -46,4 +46,12 @@ func main() {
 		}
 	}
 	fmt.Println(userList)
+
+	for i := 0; i < 10; i++ {
+		fmt.Println(testRandom())
+	}
+}
+func testRandom() int {
+	max, min := 10, 1
+	return rand.Intn(max - min + 1) + min
 }
