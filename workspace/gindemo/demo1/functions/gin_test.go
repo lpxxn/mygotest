@@ -17,6 +17,7 @@ type ReqBindingT struct {
 }
 
 // exists 只需要传入的 json 有 字段名就可以  `{"id":0, "name": ""}`
+// 字段一定要是 pointer
 type ReqBindingT2 struct {
 	ID *int `json:"id" binding:"exists"`
 	Name *string `json:"name" binding:"exists"`
