@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"math/rand"
+	"sort"
 	"time"
 )
 
@@ -50,6 +51,10 @@ func main() {
 	for i := 0; i < 10; i++ {
 		fmt.Println(testRandom())
 	}
+
+	strS := []string{"nonce", "paymentService", "notifyType"}
+	sort.Strings(strS)
+	fmt.Println(strS)
 }
 func testRandom() int {
 	max, min := 10, 1
