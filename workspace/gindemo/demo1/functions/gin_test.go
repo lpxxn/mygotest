@@ -10,11 +10,13 @@ import (
 	"testing"
 )
 
+// required 需要传入数据，并且不能为默认值
 type ReqBindingT struct {
 	ID int `json:"id" binding:"required"`
 	Name string `json:"name" binding:"required"`
 }
 
+// exists 只需要传入的 json 有 字段名就可以  `{"id":0, "name": ""}`
 type ReqBindingT2 struct {
 	ID *int `json:"id" binding:"exists"`
 	Name *string `json:"name" binding:"exists"`
