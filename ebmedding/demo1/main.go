@@ -68,4 +68,6 @@ func main() {
 	fmt.Println(dog2.Animal)
 	dog2.DogEat(" dog eat")
 	fmt.Println("dog eat: ", dog2.Animal)
+	cat.Animal = *dog2.Animal
+	fmt.Println(cat)
 }
