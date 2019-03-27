@@ -38,6 +38,7 @@ type A struct {
 }
 
 func main()  {
+	// interface 里的ID是不正确的
 	mapData := make(map[string]interface{})
 	if err := json.Unmarshal([]byte(revData), &mapData); err != nil {
 		panic(err)
