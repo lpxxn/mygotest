@@ -9,14 +9,28 @@ import (
 )
 
 type MyReader struct {
+	s string
 }
 
 func (r MyReader) Read(b []byte) (int, error) {
-	for i := range b {
+	// 如果这样做， io.Copy的时候会报大错
+	//for i := range b {
+	//	b[i] = 'A'
+	//}
+	l := len(b)
+	for i := 0; i < l; i ++ {
 		b[i] = 'A'
 	}
 
-	return len(b), nil
+	//if r.i >= int64(len(r.s)) {
+	//	return 0, io.EOF
+	//}
+	//r.prevRune = -1
+	//n = copy(b, r.s[r.i:])
+	//r.i += int64(n)
+	//return
+
+	return l, nil
 }
 
 type rot13Reader struct {
@@ -57,8 +71,15 @@ func main() {
 	myreader := MyReader{}
 	fmt.Println(myreader.Read(nb))
 	fmt.Println(string(nb[:]))
+	fmt.Println("-----myreader-----")
+	//io.Copy(os.Stdout, myreader)
 
 	s3 := strings.NewReader("Abc Pengli")
 	r3 := rot13Reader{s3}
+	fmt.Println("----rot13Reader---")
 	io.Copy(os.Stdout, &r3)
+	s3.Seek(io.SeekStart, io.SeekStart)
+	fmt.Println("\n----rot13Reader22---")
+	io.Copy(os.Stdout, &r3)
+	fmt.Println()
 }
