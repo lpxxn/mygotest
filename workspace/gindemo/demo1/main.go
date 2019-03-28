@@ -1,14 +1,15 @@
 package main
 
 import (
-	"github.com/gin-gonic/gin"
-	"strings"
-	"net/http"
 	"fmt"
+	"net/http"
+	"strings"
+
+	"github.com/gin-gonic/gin"
 	gerr "github.com/go-errors/errors"
-	"go.uber.org/zap"
 	"github.com/mygotest/workspace/gindemo/demo1/interviewlogger"
 	"github.com/mygotest/workspace/gindemo/demo1/zaplogger"
+	"go.uber.org/zap"
 )
 
 func main() {
@@ -46,7 +47,6 @@ func main() {
 
 }
 
-
 func InterViewLog(c *gin.Context) {
 
 	defer interViewLogDetail(c)
@@ -55,11 +55,10 @@ func InterViewLog(c *gin.Context) {
 
 func interViewLogDetail(c *gin.Context) {
 	defer func() {
-		if err:= recover(); err != nil {
+		if err := recover(); err != nil {
 			zaplogger.Error("InterViewLogger Error:", zap.String("url", c.Request.RequestURI), zap.Error(err.(error)))
 		}
 	}()
-
 
 	param := c.Request.URL.String()
 
@@ -95,4 +94,3 @@ func globalRecover(c *gin.Context) {
 func XHR(c *gin.Context) bool {
 	return strings.ToLower(c.Request.Header.Get("X-Requested-With")) == "xmlhttprequest"
 }
-
