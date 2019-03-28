@@ -14,6 +14,7 @@ type MyReader struct {
 
 func (r MyReader) Read(b []byte) (int, error) {
 	// 如果这样做， io.Copy的时候会报大错
+	// strings 的Reader已会把 字符串保存，处理
 	//for i := range b {
 	//	b[i] = 'A'
 	//}
