@@ -4,7 +4,9 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"net/url"
 	"strconv"
+	"strings"
 )
 
 const (
@@ -17,6 +19,9 @@ const (
 )
 
 func main() {
+	param := url.Values{}
+	param["name"] = []string{"li"}
+	strings.NewReader(param.Encode())
 	req, _ :=http.NewRequest(http.MethodGet, "http://127.0.0.1:9998/user/orders/adaptMainTransList?status=Refunded&status=Revoked&limit=105", nil)
 	query := req.URL.Query()
 	query.Set("status", SystemOrderPaidStatus)
@@ -34,7 +39,8 @@ func main() {
 		panic(err)
 	}
 
-	defer resp.Body.Close()
+	//defer resp.Body.Close()
 	data, _ := ioutil.ReadAll(resp.Body)
 	fmt.Println(string(data))
+	resp.Body.Close()
 }

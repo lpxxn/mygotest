@@ -3,6 +3,8 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+
+	"github.com/json-iterator/go"
 )
 
 const revData = `
@@ -53,4 +55,5 @@ func main()  {
 		panic(err)
 	}
 	fmt.Println(string(revStr))
+	jsoniter.ParseString()
 }
