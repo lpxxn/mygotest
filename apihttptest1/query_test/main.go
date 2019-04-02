@@ -1,7 +1,9 @@
 package main
 
 import (
+	"bytes"
 	"fmt"
+	"io"
 	"io/ioutil"
 	"net/http"
 	"net/url"
@@ -40,7 +42,21 @@ func main() {
 	}
 
 	//defer resp.Body.Close()
-	data, _ := ioutil.ReadAll(resp.Body)
+
+	b := bytes.NewBuffer(make([]byte, 0))
+	reader := io.TeeReader(resp.Body, b)
+	// 没有ReadAll 之前 调用 resp.Body.Close()会出错
+	resp.Body = ioutil.NopCloser(b)
+	tbody, err := ioutil.ReadAll(reader)
+	resp.Body.Close()
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println(string(tbody))
+	data, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		panic(err)
+	}
 	fmt.Println(string(data))
 	resp.Body.Close()
 }
