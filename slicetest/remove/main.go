@@ -15,6 +15,7 @@ func (ar *aRRR) RemoveEle(v int) {
 	*ar = pA
 }
 
+// no
 func (ar aRRR) RemoveEle2(v int) {
 	for i := len(ar) - 1; i >= 0; i-- {
 		if ar[i] > v {
@@ -29,6 +30,6 @@ func main() {
 	fmt.Println(ar)
 
 	ar2 := aRRR{1, 10, 2, 3, 8, 4, 2, 15}
-	ar2.RemoveEle(5)
+	ar2.RemoveEle2(5)
 	fmt.Println(ar2)
 }
