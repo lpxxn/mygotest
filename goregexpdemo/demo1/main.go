@@ -33,4 +33,9 @@ func main() {
 	if ok, _ := regexp.MatchString(`^ZONE\d*$`, "ZONE12zbce12122323"); ok {
 		fmt.Println("ZONEzbce12122323 ok")
 	}
+
+	re := regexp.MustCompile(`^ZONE\d*$`)
+	if ok := re.MatchString("ZONE12122323"); ok {
+		fmt.Println("MustCompile ZONE12122323 ok")
+	}
 }

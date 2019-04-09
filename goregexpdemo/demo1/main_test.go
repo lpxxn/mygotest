@@ -18,7 +18,7 @@ func Benchmark_Reg(b *testing.B) {
 }
 
 var re = regexp.MustCompile(`^ZONE\d*$`)
-
+// good
 func Benchmark_Reg2(b *testing.B) {
 	//var re = regexp.MustCompile(`^ZONE\d*$`)
 
