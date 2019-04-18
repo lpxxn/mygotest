@@ -2,14 +2,34 @@ package main
 
 import (
 	"fmt"
+	"sync"
 )
 
 const size int = 1000 * 1000
 
 func main() {
-	slice0 := make([]int, size)
-	fmt.Println("slice0 len: ", len(slice0), " cap :", cap(slice0))
-	doSomeThing(slice0)
+	//slice0 := make([]int, size)
+	//fmt.Println("slice0 len: ", len(slice0), " cap :", cap(slice0))
+	//doSomeThing(slice0)
+
+
+	v1 := 1
+	v2 := 2
+	v3 := 3
+	t1 := []*int{&v1, &v2, &v3}
+	var wg sync.WaitGroup
+	wg.Add(len(t1))
+	for i, v := range t1 {
+		go func(index int, ov *int) {
+			fmt.Println(v)
+			fmt.Println(i)
+			fmt.Printf("%#v  %d origin %#v \n", *v, i, *t1[i])
+			fmt.Printf("param index %d v %#v\n", index, *ov)
+
+			wg.Done()
+		}(i, v)
+	}
+	wg.Wait()
 }
 
 func doSomeThing(s []int) {
