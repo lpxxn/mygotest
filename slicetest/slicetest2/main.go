@@ -21,7 +21,8 @@ func main() {
 	wg.Add(len(t1))
 	for i, v := range t1 {
 		go func(index int, ov *int) {
-			fmt.Println(v)
+			fmt.Println("--------", *v, "-----", *ov)
+
 			fmt.Println(i)
 			fmt.Printf("%#v  %d origin %#v \n", *v, i, *t1[i])
 			fmt.Printf("param index %d v %#v\n", index, *ov)
