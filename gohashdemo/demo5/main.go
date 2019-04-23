@@ -15,6 +15,16 @@ func main() {
 	hash_str := hex.EncodeToString(hasher.Sum(nil))
 	fmt.Println(hash_str)
 
+	newhStr := hex.EncodeToString([]byte(strs))
+
+	raw, err := hex.DecodeString(newhStr)
+	if err != nil {
+		panic(err)
+	}
+	if string(raw) != strs {
+		panic(errors.New(string(raw)))
+	}
+	fmt.Println(string(raw))
 
 	fmt.Println(len(letterRunes))
 	//rand.Seed(time.Now().UnixNano())
