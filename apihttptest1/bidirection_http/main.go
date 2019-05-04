@@ -31,6 +31,7 @@ func bidirectionFunc(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	fmt.Println("received msg: ", string(btys))
+	w.Write([]byte("hello world ! "))
 	w.Write(append([]byte("i received "), btys...))
 }
 
