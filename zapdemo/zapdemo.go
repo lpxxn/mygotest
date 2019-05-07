@@ -28,5 +28,5 @@ func main() {
 	fmt.Println(pwd)
 	zaplogger.InitLogger().Error("abcde")
 	zaplogger.InitLogger().Info("info:adfa")
-	zaplogger.InitLogger().Panic("panic")
+	//zaplogger.InitLogger().Panic("panic")
 }
