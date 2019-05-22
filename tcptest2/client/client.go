@@ -9,7 +9,8 @@ import (
 
 func main() {
 	// connect to this socket
-	conn, _ := net.Dial("tcp", "127.0.0.1:9091")
+	conn, _ := net.Dial("tcp", "192.168.2.27:9091")
+	//conn, _ := net.DialTimeout("tcp", "192.168.2.27:9091", time.Second * 5)
 
 	for {
 		// read in input from stdin
