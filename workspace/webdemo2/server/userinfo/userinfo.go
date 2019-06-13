@@ -3,10 +3,13 @@ package userinfo
 import (
 	"encoding/json"
 	"fmt"
+	"net/http"
+
 	"github.com/gin-gonic/gin"
+	"github.com/mygotest/workspace/webdemo2/models"
 	"github.com/mygotest/workspace/webdemo2/server/parammodes"
 	"github.com/mygotest/workspace/webdemo2/utils"
-	"net/http"
+	"golang.org/x/time/rate"
 )
 
 // swagger:route Post /setuserinfo users upUserParam
@@ -56,5 +59,15 @@ func GetUserInfo(c *gin.Context) {
 	u := &parammodes.UserParamInfo{}
 	json.Unmarshal([]byte(str), u)
 	c.JSON(http.StatusOK, gin.H{"Status": true, "Data": u})
+}
 
+// test  private
+type VP struct {
+	A models.ResPingBody
+}
+
+func TestP() {
+	var t = models.GetTestPrivate()
+	t.Name()
+	rate.NewLimiter()
 }

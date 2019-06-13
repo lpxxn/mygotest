@@ -62,3 +62,16 @@ type PintModel struct {
 		Quantity int32 `json:"qty"`
 	} `json:"items"`
 }
+
+type testPrivate struct {
+
+}
+func (testPrivate) Name() string {
+	return "name"
+}
+
+var IntTestPrivate *testPrivate
+
+func GetTestPrivate() *testPrivate {
+	return IntTestPrivate
+}
