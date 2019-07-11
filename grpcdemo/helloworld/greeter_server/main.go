@@ -24,9 +24,9 @@ import (
 	"log"
 	"net"
 
+	pb "github.com/mygotest/grpcdemo/helloworld/helloworld"
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
-	pb "google.golang.org/grpc/examples/helloworld/helloworld"
 	"google.golang.org/grpc/reflection"
 )
 
