@@ -12,6 +12,17 @@ func main() {
 	router.Use(globalMiddleware())
 
 	router.GET("/rest/n/api/*some", mid1(), mid2(), handler)
+	router.GET("redirect", func(context *gin.Context) {
+		context.Redirect(http.StatusMovedPermanently, "http://www.so.com?a=b")
+	})
+
+	router.GET("redirect2", func(context *gin.Context) {
+		context.Redirect(http.StatusCreated, "/redirect?a=b")
+	})
+
+	router.GET("redirect3", func(context *gin.Context) {
+		context.Redirect(http.StatusMovedPermanently, "/redirect?a=b")
+	})
 
 	router.Run(":8898")
 }
