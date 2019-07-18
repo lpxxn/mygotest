@@ -25,4 +25,17 @@ func tryTheThing() (string, error) {
 func main() {
 	fmt.Println(DoTheThing(true))
 	fmt.Println(DoTheThing(false))
+	e := TryErr()
+	fmt.Println(e)
+}
+
+func TryErr() (err error) {
+	a, err := func() (string, error) {
+		return "", errors.New("abdfadf")
+	}()
+	if err != nil {
+		return
+	}
+	_ = a
+	return nil
 }
