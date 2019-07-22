@@ -28,6 +28,7 @@ import (
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
+	"google.golang.org/grpc/resolver"
 )
 
 const (
@@ -49,6 +50,8 @@ func (s *server2) Test(ctx context.Context, in *pb.TestMsg) (*pb.TestMsg, error)
 }
 
 func main() {
+	resolver.SetDefaultScheme("dns")
+
 	lis, err := net.Listen("tcp", port)
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)
@@ -58,7 +61,6 @@ func main() {
 	pb.RegisterMyTestServer(s, &server2{})
 	// Register reflection service on gRPC server.
 	reflection.Register(s)
-
 	if err := s.Serve(lis); err != nil {
 		log.Fatalf("failed to serve: %v", err)
 	}

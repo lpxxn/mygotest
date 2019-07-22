@@ -33,6 +33,7 @@ const (
 )
 
 func main() {
+	grpc.DialContext()
 	// Set up a connection to the server.
 	conn, err := grpc.Dial(address, grpc.WithInsecure())
 	if err != nil {
