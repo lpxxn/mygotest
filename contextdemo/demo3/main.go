@@ -6,22 +6,22 @@ import (
 )
 
 func main() {
-	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
+	ctx, cancel := context.WithTimeout(context.Background(), time.Second/2)
 	tAfter := time.NewTimer(time.Second)
 	defer func() {
 		cancel()
 		tAfter.Stop()
 	}()
 
-	go func(ctx context.Context, t *time.Timer) {
+	go func(ctx context.Context, t *time.Timer, c context.CancelFunc) {
 		select {
 		case <-ctx.Done():
 			println("internal func done")
 		case <-t.C:
+			c()
 			println("process end")
-			cancel()
 		}
-	}(ctx, tAfter)
+	}(ctx, tAfter, cancel)
 
 	select {
 	case <-ctx.Done():
