@@ -12,7 +12,6 @@ func main() {
 	//fmt.Println("slice0 len: ", len(slice0), " cap :", cap(slice0))
 	//doSomeThing(slice0)
 
-
 	v1 := 1
 	v2 := 2
 	v3 := 3
@@ -31,6 +30,8 @@ func main() {
 		}(i, v)
 	}
 	wg.Wait()
+	af := t1[:]
+	fmt.Println(af)
 }
 
 func doSomeThing(s []int) {
