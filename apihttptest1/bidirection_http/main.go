@@ -46,6 +46,7 @@ func main() {
 }
 
 var testUrl = "http://127.0.0.1:9100/bd?name=aaaaaaa"
+
 func CbRequest() {
 	uri, _ := url.Parse(testUrl)
 	body1 := `{"name": "li"}`
@@ -74,6 +75,7 @@ func CbRequest() {
 		fmt.Println(err)
 		return
 	}
+	println("print response ---")
 	println(string(rspBody))
 	resp2, err := http.ReadResponse(bufio.NewReader(conn), r)
 	defer resp2.Body.Close()
@@ -82,6 +84,7 @@ func CbRequest() {
 		fmt.Println(err)
 		return
 	}
+	println("print response ---")
 	println(string(rspBody2))
 	//http.DefaultClient.Do(r)
 }
