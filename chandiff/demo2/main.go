@@ -58,23 +58,4 @@ func getValue(ch1 <-chan int, id int, wg *sync.WaitGroup) {
 
 }
 
-/*
 
-id:  1
-main func get value:  1
-C1: A is closed
-wait--------
-getValue value:  2
-id:  2
-not ok already closed, v: 0
-
-
-id:  2
-main func get value:  2
-not ok already closed, v: 0
-C1: A is closed
-wait--------
-id:  1
-getValue value:  1
-
-*/
