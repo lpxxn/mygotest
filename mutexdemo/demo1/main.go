@@ -39,6 +39,11 @@ type student struct {
 	Age  int
 }
 
+func (s *student) String() string {
+	return fmt.Sprintln(s.Age, s.Name)
+}
+
+// 错
 func pase_student() {
 	m := make(map[string]*student)
 	stus := []student{
@@ -46,23 +51,43 @@ func pase_student() {
 		{Name: "li", Age: 23},
 		{Name: "wang", Age: 22},
 	}
+	// 错
 	for _, stu := range stus {
 		m[stu.Name] = &stu
 	}
-	fmt.Println(m)
+	fmt.Printf("%#v\n", m)
 }
-const ( x = iota
-y
-z = "zz"
-k
-p = iota
-g
+
+// 这样也可以
+func pase_student2() {
+	m := make(map[string]*student)
+	stus := []*student{
+		{Name: "zhou", Age: 24},
+		{Name: "li", Age: 23},
+		{Name: "wang", Age: 22},
+	}
+	for _, stu := range stus {
+		m[stu.Name] = stu
+	}
+	fmt.Printf("%#v\n", m)
+}
+
+const (
+	x = iota
+	y
+	z = "zz"
+	k
+	p = iota
+	g
 )
+
 func main() {
-	fmt.Println(x,y,z,k,p,g)
+	pase_student()
+	pase_student2()
+	fmt.Println(x, y, z, k, p, g)
 
 	a := []int{1, 2, 3, 3}
-	b := a[:2 :2]
+	b := a[:2:2]
 	c := a[2:]
 	b = append(b, 55)
 	fmt.Println(b, "   ", c, "       ", a)
