@@ -1,9 +1,10 @@
 package main
 
 import (
-	"github.com/go-redis/redis"
 	"fmt"
 	"time"
+
+	"github.com/go-redis/redis"
 )
 
 func main() {
