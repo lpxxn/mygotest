@@ -4,11 +4,11 @@ import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"reflect"
 )
 
 func main() {
 	router := gin.Default()
-
 	router.Use(globalMiddleware())
 
 	router.GET("/rest/n/api/*some", mid1(), mid2(), handler)
@@ -22,6 +22,10 @@ func main() {
 
 	router.GET("redirect3", func(context *gin.Context) {
 		context.Redirect(http.StatusMovedPermanently, "/redirect?a=b")
+	})
+
+	router.GET("render", func(c *gin.Context) {
+		RenderJson(c, &User{Name: "lipeng"})
 	})
 
 	router.Run(":8898")
@@ -63,4 +67,33 @@ func mid2() gin.HandlerFunc {
 		c.Next()
 		fmt.Println("mid2...3")
 	}
+}
+
+type User struct {
+	Name string `json:"name"`
+}
+
+func (u *User) BeforeRender() {
+	u.Name += "afsadfasf"
+}
+
+var _ BeforeRender = &User{}
+
+func RenderJson(c *gin.Context, data interface{}) {
+	customerRender(data)
+	c.JSON(http.StatusOK, data)
+}
+
+func customerRender(data interface{}) {
+	refVal := reflect.ValueOf(data)
+	if refVal.Kind() == reflect.Ptr && refVal.IsNil() {
+		return
+	}
+	if cr, ok := refVal.Interface().(BeforeRender); ok {
+		cr.BeforeRender()
+	}
+}
+
+type BeforeRender interface {
+	BeforeRender()
 }
