@@ -74,7 +74,7 @@ type User struct {
 }
 
 func (u *User) BeforeRender() {
-	u.Name += "afsadfasf"
+	u.Name += ""
 }
 
 var _ BeforeRender = &User{}
