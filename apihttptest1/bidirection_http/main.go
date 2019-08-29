@@ -24,6 +24,11 @@ func IndexHandler(w http.ResponseWriter, r *http.Request) {
 
 func bidirectionFunc(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
+	//f, ok := w.(http.Flusher)
+	//if !ok {
+	//	http.Error(w, "streaming unsupported!!!!", http.StatusInternalServerError)
+	//	return
+	//}
 	btys, err := ioutil.ReadAll(r.Body)
 	if err != nil {
 		fmt.Println("read body err: ", err)
@@ -31,6 +36,17 @@ func bidirectionFunc(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	fmt.Println("received msg: ", string(btys))
+	rsp := http.Response{
+		Status: http.StatusText(200),
+		Request:r,
+		Body: ioutil.NopCloser(strings.NewReader("sfdsdfsdf\n")),
+	}
+	time.AfterFunc(time.Second, func() {
+		rsp.Write(w)
+		fmt.Fprint(w, "adfasaaaadf\n")
+		//f.Flush()
+	})
+
 	w.Write([]byte("hello world ! "))
 	w.Write(append([]byte("i received "), btys...))
 }
@@ -75,16 +91,29 @@ func CbRequest() {
 		fmt.Println(err)
 		return
 	}
-	println("print response ---")
+	println("print response 1---")
 	println(string(rspBody))
-	resp2, err := http.ReadResponse(bufio.NewReader(conn), r)
+	var r2 *http.Request
+
+	resp2, err := http.ReadResponse(bufio.NewReader(conn), r2)
 	defer resp2.Body.Close()
 	rspBody2, err := ioutil.ReadAll(resp2.Body)
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
-	println("print response ---")
+	println("print response 2---")
 	println(string(rspBody2))
+
+	var r3 *http.Request
+	resp3, err := http.ReadResponse(bufio.NewReader(conn), r3)
+	defer resp3.Body.Close()
+	rspBody3, err := ioutil.ReadAll(resp3.Body)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	println("print response 3---")
+	println(string(rspBody3))
 	//http.DefaultClient.Do(r)
 }

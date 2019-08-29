@@ -84,7 +84,7 @@ func readMessage(topicName string, msgCount int) {
 
 	err := q.ConnectToNSQLookupd("13.125.77.114:9002")
 	//err := q.ConnectToNSQLookupd("192.168.0.105:4161")
-	//err := q.ConnectToNSQDs([]string{"192.168.0.105:4161"})
+	err := q.ConnectToNSQDs([]string{"192.168.0.105:4161"})
 	//err := q.ConnectToNSQD("192.168.0.49:4150")
 	//err := q.ConnectToNSQD("192.168.0.105:4415")
 	if err != nil {
