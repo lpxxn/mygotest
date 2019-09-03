@@ -42,4 +42,29 @@ func main() {
 	abc
 	def
 	*/
+
+	bReader := bufio.NewReaderSize(os.Stdin, 5)
+	for i := 0; i < 10; i++ {
+		str, err := bReader.ReadSlice('\n')
+		if err != nil && err != bufio.ErrBufferFull {
+			fmt.Println("er: ", err)
+
+			continue
+		}
+		if err == bufio.ErrBufferFull {
+			fmt.Println("full")
+		}
+		fmt.Println("out:", string(str))
+	}
+
+
+	/*
+	asdferqwer\nasdfqwerqwer\nasdffqwer\nadefed
+	full
+	out: asdferqwer\nasdf
+	full
+	out: qwerqwer\nasdffq
+	out: wer\nadefed
+
+	*/
 }
