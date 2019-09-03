@@ -1,10 +1,12 @@
 package main
 
 import (
+	"bufio"
 	"bytes"
 	"encoding/json"
 	"fmt"
 	"io"
+	"os"
 )
 
 type Person struct {
@@ -27,4 +29,17 @@ func main() {
 	var b bytes.Buffer
 	me.Write(&b)
 	fmt.Println(b.String())
+
+	bWriter := bufio.NewWriterSize(os.Stdout, 10)
+	bWriter.WriteString("12345678910\n") //因为size是 10，大于size就Flush(); 会先输出1234567891
+
+	bWriter.WriteString("abc\n")
+	bWriter.WriteString("def\n")
+	bWriter.WriteString("higklmn\n")
+	bWriter.Flush()
+	/* 如果没有调用Flush() 方法会只输出下面这些
+	12345678910
+	abc
+	def
+	*/
 }
