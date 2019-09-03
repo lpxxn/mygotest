@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/binary"
 	"fmt"
 	"io"
 	"io/ioutil"
@@ -19,7 +20,7 @@ func (r MyReader) Read(b []byte) (int, error) {
 	//	b[i] = 'A'
 	//}
 	l := len(b)
-	for i := 0; i < l; i ++ {
+	for i := 0; i < l; i++ {
 		b[i] = 'A'
 	}
 
@@ -83,4 +84,19 @@ func main() {
 	fmt.Println("\n----rot13Reader22---")
 	io.Copy(os.Stdout, &r3)
 	fmt.Println()
+
+	data := []byte("abcdefasdfqweras;dfjkqweroi;lsdjkfasdf")
+	beBuf := make([]byte, 4)
+	size := uint32(len(data)) + 4
+
+	binary.BigEndian.PutUint32(beBuf, size)
+	fmt.Println(beBuf)
+
+	size = 123456
+	binary.BigEndian.PutUint32(beBuf, size)
+	fmt.Println(beBuf)
+	frameType := 2
+	binary.BigEndian.PutUint32(beBuf, uint32(frameType))
+	fmt.Println(beBuf)
+
 }

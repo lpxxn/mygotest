@@ -2,12 +2,16 @@ package main
 
 import (
 	"bufio"
+	"bytes"
+	"encoding/binary"
 	"fmt"
+	"io"
 	"log"
 	"net"
+	"os"
+	"os/signal"
 	"runtime"
 	"strconv"
-	"strings"
 	"sync"
 	"sync/atomic"
 	"time"
@@ -21,20 +25,26 @@ func main() {
 
 	ctx := defaultServerContext()
 	tcpSrv := &tcpServer{ctx: ctx}
-	// accept connection on port
-	conn, _ := ln.Accept()
-	// run loop forever (or util ctrl-c)
-	for {
-		// will listen for message to process ending in newline(\n)
-		message, _ := bufio.NewReader(conn).ReadString('\n')
-		// output message received
-		fmt.Println("Message Received: ", string(message))
+	TcpServer(ln, tcpSrv)
 
-		// sample process for string received
-		newmessage := strings.ToUpper(message)
-		// send new string back to client
-		conn.Write([]byte(newmessage + "\n"))
-	}
+	out := make(chan os.Signal)
+	signal.Notify(out, os.Interrupt)
+	<-out
+	fmt.Print("end connection")
+	//// accept connection on port
+	//conn, _ := ln.Accept()
+	//// run loop forever (or util ctrl-c)
+	//for {
+	//	// will listen for message to process ending in newline(\n)
+	//	message, _ := bufio.NewReader(conn).ReadString('\n')
+	//	// output message received
+	//	fmt.Println("Message Received: ", string(message))
+	//
+	//	// sample process for string received
+	//	newmessage := strings.ToUpper(message)
+	//	// send new string back to client
+	//	conn.Write([]byte(newmessage + "\n"))
+	//}
 }
 
 type TCPHandler interface {
@@ -65,6 +75,16 @@ func TcpServer(listener net.Listener, handler TCPHandler) error {
 }
 
 // ---------
+type Message struct {
+	ID        int64
+	Body      []byte
+	Timestamp int64
+	Attempts  uint16
+
+	ClientID int64
+}
+
+// ---------
 const defaultBufferSize = 16 * 1024
 
 type Client struct {
@@ -79,8 +99,14 @@ type Client struct {
 	TcpPort           int
 	HeartbeatInterval time.Duration
 
-	Reader *bufio.Reader
-	Writer *bufio.Writer
+	writeLock sync.RWMutex
+	Reader    *bufio.Reader
+	Writer    *bufio.Writer
+
+	OutputBufferSize    int
+	OutputBufferTimeout time.Duration
+
+	memoryMsgChan chan *Message
 }
 
 func newClient(id int64, conn net.Conn, ctx *ServerContext) *Client {
@@ -97,8 +123,12 @@ func newClient(id int64, conn net.Conn, ctx *ServerContext) *Client {
 		TcpPort:    iPort,
 		exitChan:   make(chan int),
 
-		Reader: bufio.NewReaderSize(conn, defaultBufferSize),
-		Writer: bufio.NewWriterSize(conn, defaultBufferSize),
+		Reader:              bufio.NewReaderSize(conn, defaultBufferSize),
+		Writer:              bufio.NewWriterSize(conn, defaultBufferSize),
+		OutputBufferSize:    defaultBufferSize,
+		OutputBufferTimeout: 250 * time.Millisecond,
+
+		memoryMsgChan: make(chan *Message, 500),
 	}
 }
 
@@ -145,7 +175,7 @@ type ServerContext struct {
 }
 
 func defaultServerContext() *ServerContext {
-	return &ServerContext{serverInfo: &ServerInfo{clientIDSequence: 0, clients: map[int64]Client{}, exitChan: make(chan int)}}
+	return &ServerContext{serverInfo: &ServerInfo{clientIDSequence: 0, clients: map[int64]*Client{}, exitChan: make(chan int)}}
 }
 
 // ------------ tcpServer
@@ -156,7 +186,10 @@ type tcpServer struct {
 // 处理具体的一个connection
 func (p *tcpServer) Handle(clientConn net.Conn) {
 	log.Printf("TCP: new client(%s)", clientConn.RemoteAddr())
-
+	prot := &protocolV1{ctx: p.ctx}
+	if err := prot.ConnectionLoop(clientConn); err != nil {
+		log.Printf("client err: %#v", err)
+	}
 }
 
 type protocolV1 struct {
@@ -167,10 +200,100 @@ func (p *protocolV1) ConnectionLoop(conn net.Conn) error {
 	clientID := atomic.AddInt64(&p.ctx.serverInfo.clientIDSequence, 1)
 	client := newClient(clientID, conn, p.ctx)
 	p.ctx.serverInfo.AddClient(client.ID, client)
+	readyPumpMsg := make(chan bool)
+	go p.messagePump(client, readyPumpMsg)
+	<-readyPumpMsg
+
+	var zeroTime time.Time
+	var err error
+	for {
+		if client.HeartbeatInterval > 0 {
+			client.SetReadDeadline(time.Now().Add(client.HeartbeatInterval * 2))
+		} else {
+			client.SetReadDeadline(zeroTime)
+		}
+		var allData []byte
+		allData, err = client.Reader.ReadBytes('\n')
+		if err != nil {
+			if err == io.EOF {
+				err = nil
+			}
+			break
+		}
+		client.memoryMsgChan <- &Message{ID: 1, Body: allData}
+	}
+	log.Printf("protocolV1 ConnectionLoop exit loop client %s", client.String())
+	conn.Close()
+	close(client.exitChan)
+	p.ctx.serverInfo.RemoveClient(client.ID)
+	return err
+}
+
+func (p *protocolV1) messagePump(client *Client, ready chan bool) {
+	outputBufferTicker := time.NewTicker(client.OutputBufferTimeout)
+	var flusherChan <-chan time.Time
+
+	msgChan := client.memoryMsgChan
+	flushed := true
+
+	var err error
+
+	// ready
+	close(ready)
 
 	for {
+		if flushed {
+			flusherChan = nil
+		} else {
+			flusherChan = outputBufferTicker.C
+		}
+		select {
+		case <-flusherChan:
+			client.writeLock.Lock()
+			err = client.Flush()
+			client.writeLock.Unlock()
+			if err != nil {
+				goto exit
+			}
+			flushed = true
 
+		case msg := <-msgChan:
+			msg.Attempts++
+			_, err = p.SendMsg(client, msg)
+			if err != nil {
+				goto exit
+			}
+			flushed = false
+
+		case <-client.exitChan:
+			goto exit
+		}
 	}
+exit:
 	log.Printf("client %s exiting connection loop ", client.String())
-	return nil
+	outputBufferTicker.Stop()
+	outputBufferTicker = nil
+	if err != nil {
+		fmt.Printf("protocolV1 messagePump error : %#v", err)
+	}
+}
+
+func (p *protocolV1) SendMsg(client *Client, msg *Message) (int, error) {
+	log.Printf("protocolV1 writig msg(%s) to client(%s)", string(msg.Body), client.String())
+	var buf = &bytes.Buffer{}
+	buf.WriteString("server side received msg: ")
+	buf.Write(msg.Body)
+
+	client.writeLock.Lock()
+	err := binary.Write(client.Writer, binary.BigEndian, int32(len(buf.Bytes())))
+	if err != nil {
+		return 0, err
+	}
+	n, err := client.Writer.Write(buf.Bytes())
+	if err != nil {
+		return 0, err
+	}
+	client.writeLock.Unlock()
+
+	return n + 4, nil
 }
