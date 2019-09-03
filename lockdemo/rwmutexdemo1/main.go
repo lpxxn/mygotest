@@ -13,19 +13,21 @@ type M1 struct {
 }
 
 func (m *M1) Func1() {
+	fmt.Println("Begin Func1 Lock")
 	m.rw.Lock()
 	defer m.rw.Unlock()
-	fmt.Println("func1 running")
+	fmt.Println("Lock func1 running")
 	time.Sleep(time.Second * 3)
-	fmt.Println("111 end")
+	fmt.Println("Func1 Lock 111 end")
 }
 
 func (m *M1) Func2() {
+	fmt.Println("Begin Func2 RLock")
 	m.rw.RLock()
 	defer m.rw.RUnlock()
-	fmt.Println("2222 running")
+	fmt.Println("RLock 2222 running")
 	time.Sleep(time.Second * 3)
-	fmt.Println("222 end")
+	fmt.Println("RLock 222 end")
 }
 
 func main() {
@@ -37,6 +39,7 @@ func main() {
 
 	go m1.Func1()
 
+	go m1.Func2()
 	sigs := make(chan os.Signal, 1)
 	signal.Notify(sigs, os.Interrupt)
 	<-sigs
