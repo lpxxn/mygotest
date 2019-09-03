@@ -44,6 +44,7 @@ func main() {
 	*/
 
 	bReader := bufio.NewReaderSize(os.Stdin, 5)
+
 	for i := 0; i < 10; i++ {
 		str, err := bReader.ReadSlice('\n')
 		if err != nil && err != bufio.ErrBufferFull {
@@ -65,6 +66,12 @@ func main() {
 	full
 	out: qwerqwer\nasdffq
 	out: wer\nadefed
+
+	加上这个
+	os.Stdin.WriteString("a\nbcdefasdfa\nasdasdfasfwer")
+	a
+	bcdefasdfa
+	asdasdfasfwer
 
 	*/
 }
