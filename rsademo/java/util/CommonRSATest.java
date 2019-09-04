@@ -1,0 +1,29 @@
+package util;
+
+import org.junit.Test;
+
+import static org.junit.Assert.*;
+
+public class CommonRSATest {
+
+	@Test
+	public void encrypt() {
+	    //privateKey 和  publicKey
+	    // 基于现有的key 转换成pkcs8
+	    // openssl pkcs8 -topk8 -inform PEM -in pkcs1_private.pem -outform PEM -nocrypt -out from_pkcs1_private_to_pkcs8_private.pem
+        // 由PKCS1公钥生成PKCS#8公钥:
+        // openssl rsa -RSAPublicKey_in -in pkcs1_public.pem -pubout -out from_pkcs1_public_to_pkcs8_public.pem
+
+		String strEn = "VAkj5yaJ/urCg1biz1q22PT6bvi3z8ooW83d7emqoS6wAJRokW/hAqTsdaNOxh/K5zjcxklzbybkVOQhTGJVcfdHKg1+Tzpx4Y29Q926eGJhFfPqtsG8PgUsqNbgrDI7JnlxR3VTeQUxhYIEbsPHbqpxCebNj5WqyKrwdUlHO/dlvyS96gpa6dKwyf9FkmckROd8Lw+MMJgzuQ5ca1gOVQ6dk1lVpjFnpqlOgNPdzktTIcW6Kmj27LFLzgwt3wlNDKaqJNkGCihNk5D7f7wygBveaMUOial9fn8pT6SjIUCvQLtmgFnTu9EUE//0AuwA8ZVHpDq4kxagQ2lfqO8gYA==";
+		String privateKey = "MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDEUMkC1faJZ+be5I+kPI5HpM0CBmOSo/ZWTZvZptFkZTBl3FOInRvTUkoy21rMZhluKAINiJeIXm+d1wtbsk9zuDTZLOt1JScpUeKCffrEvOW3Ejo60Wn1ywgAsDGlb35tYEeg9trm/lGE+X24REmFx9qBnC/lGwb2+cJNquc14TYPQ4JLH4GQ0ao9+zBgupniqtGTNCu66HMmcAYJ6Cv4F+bb4UyxyBaVn+UafxXSIOskk6ZpjHtAcYiql+Q22xNEPTwCiz5kmSlUhyAkcLkEDga+mPnJHCBlpFYM+sf+uAo3EEKHdcRGmXNoJowupaZcQE1Gpwfz5PqwuvuJC9tPAgMBAAECggEAYK0v8FeSC2TBiy6flk/D+YAs/TxMOODJ5QJfJ7ZBE+HJDcCM2pAULeMuaxEfC92T1G2bZTLI/P0UlnRaQZP0EJa8X98BLTVYrb6Hf5+uqMglkBxH1MNgHQ0ZKc2bBU98wTxSyfAHKQ5A8u0yflYSpvEeqAlUhMzkhyfECh+JsTwTqkKuV346bKoH5HEsSkTycC54rq15LD+N20xjnR8I1zS438RVqf5LkI4FsBZtzyRWPrrLvqe1NYw+ot+WWkn12x28+4FrBENIxp/C1qIrpkQYoFeVrpjyOO3SREt1IwL3EVajJ9TF+hHt7mIlvaYgxiNXoTfXejcJZ7u8knAHgQKBgQDzVOlbOSnxJ7ZiJMtEeGcSM7bBfroTMbO3z6OAuo15FyAZW8XDVDjaFftE4uDhlP2fIuWvDSAG9BRoPfWSY68J9cn6vlyBZ3fAGV0PJt2qqGLAUWsH9qrK0Tb5a1R94KldkfKg0NZOS0q/JBj9Q4/M9rea74vZtaZ6y/OlkffZbwKBgQDOiT/0w3V2LhaY6BxjDUOc1lY9QIO+EJnRQa6HvbdUdBBgLTUtdjZ2xtxOoILKpn2Zv5TJO352EKvX2lEuOghjcCYfYvCkSnM23PVq362odYeW6vLp87Ry9hIeGA/Wm1Hn9WwnxxcoUeUQj6EUAR8oejQ82Ie7zHJIgXnOIoJsIQKBgCvCl3zqWNqfs7MOvud/Z7nkRvehXMFa7OEfnF3oLs0aFZG56WTpXpgJ3/hRfPPUoY/e7MOAbsQRXSIqEmHTP4VhCIPpfCVhgC2x4gR5jt/EDI5dlgwGlkyHN4W/gaBpqMvFFYdKR2ApNjYNvdi+L7xCml5ouhPbESeASj76c0JNAoGBAIkHJIim+ZKcB2ARd2v8S+SNjA/9cqqyZusf0cS7iRueGZNFyydLa90oGNiNw9jh1ykfo35TW5bHfsuqS/wIgrI+oPxn71KBFqnKtYTfvF6tA3WMkffIOeuf+OtAeZmf2Rq1iLlnbKTSmNCBCpS0HdEEKw5Hdt6RSS1zwbWSzcchAoGAQeVhoYfgL3QkLN6mtP0xnSe/WHjSHX3Q1y/58boEobKaq4dcmFmpNdYsqF1TqAhN+2JlVXE5ihuPx8Gc0cF/GjL27925V3ch+VK2j8iRjfjuh9IO09593Ll0AfZcTtByYSuqAxEOLtMXctsLE59HQ3q3d52vWSRCMS+d4vr5LY8=";
+		String str = CommonRSA.decrypt(strEn, privateKey);
+		System.out.println(str);
+	}
+
+	@Test
+	public void decrypt() {
+		String publicKey = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAxFDJAtX2iWfm3uSPpDyOR6TNAgZjkqP2Vk2b2abRZGUwZdxTiJ0b01JKMttazGYZbigCDYiXiF5vndcLW7JPc7g02SzrdSUnKVHign36xLzltxI6OtFp9csIALAxpW9+bWBHoPba5v5RhPl9uERJhcfagZwv5RsG9vnCTarnNeE2D0OCSx+BkNGqPfswYLqZ4qrRkzQruuhzJnAGCegr+Bfm2+FMscgWlZ/lGn8V0iDrJJOmaYx7QHGIqpfkNtsTRD08Aos+ZJkpVIcgJHC5BA4Gvpj5yRwgZaRWDPrH/rgKNxBCh3XERplzaCaMLqWmXEBNRqcH8+T6sLr7iQvbTwIDAQAB";
+		String str = CommonRSA.encrypt("Hello wrod", publicKey);
+		System.out.println(str);
+	}
+}
