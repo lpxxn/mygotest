@@ -12,26 +12,26 @@ import (
 	"fmt"
 )
 
-func EncryptOAEP(secretMessage string, pubkey *rsa.PublicKey) (string, error) {
+func EncryptOAEP(secretMessage string, publicKey *rsa.PublicKey) (string, error) {
 	//label := []byte("OAEP Encrypted")
 	// crypto/rand.Reader is a good source of entropy for randomizing the
 	// encryption function.
 	rng := rand.Reader
-	ciphertext, err := rsa.EncryptOAEP(sha256.New(), rng, pubkey, []byte(secretMessage), nil)
+	ciphertext, err := rsa.EncryptOAEP(sha256.New(), rng, publicKey, []byte(secretMessage), nil)
 	if err != nil {
 		return "", err
 	}
 	return base64.StdEncoding.EncodeToString(ciphertext), nil
 }
 
-func DecryptOAEP(cipherText string, privKey *rsa.PrivateKey) (string, error) {
+func DecryptOAEP(cipherText string, privateKey *rsa.PrivateKey) (string, error) {
 	ct, _ := base64.StdEncoding.DecodeString(cipherText)
 	//label := []byte("OAEP Encrypted")
 
 	// crypto/rand.Reader is a good source of entropy for blinding the RSA
 	// operation.
 	rng := rand.Reader
-	plaintext, err := rsa.DecryptOAEP(sha256.New(), rng, privKey, ct, nil)
+	plaintext, err := rsa.DecryptOAEP(sha256.New(), rng, privateKey, ct, nil)
 	if err != nil {
 		return "", err
 	}
@@ -40,25 +40,25 @@ func DecryptOAEP(cipherText string, privKey *rsa.PrivateKey) (string, error) {
 	return string(plaintext), nil
 }
 
-func SignPKCS1v15(plaintext string, privKey *rsa.PrivateKey) (string, error) {
+func SignPKCS1v15(plaintext string, privateKey *rsa.PrivateKey) (string, error) {
 	// crypto/rand.Reader is a good source of entropy for blinding the RSA
 	// operation.
 	rng := rand.Reader
 	hashed := sha256.Sum256([]byte(plaintext))
-	signature, err := rsa.SignPKCS1v15(rng, privKey, crypto.SHA256, hashed[:])
+	signature, err := rsa.SignPKCS1v15(rng, privateKey, crypto.SHA256, hashed[:])
 	if err != nil {
 		return "", err
 	}
 	return base64.StdEncoding.EncodeToString(signature), nil
 }
 
-func VerifyPKCS1v15(signature string, plaintext string, pubkey *rsa.PublicKey) (bool, error) {
+func VerifyPKCS1v15(signature string, plaintext string, publicKey *rsa.PublicKey) (bool, error) {
 	sig, err := base64.StdEncoding.DecodeString(signature)
 	if err != nil {
 		return false, err
 	}
 	hashed := sha256.Sum256([]byte(plaintext))
-	err = rsa.VerifyPKCS1v15(pubkey, crypto.SHA256, hashed[:], sig)
+	err = rsa.VerifyPKCS1v15(publicKey, crypto.SHA256, hashed[:], sig)
 	if err != nil {
 		if errors.Is(err, rsa.ErrVerification) {
 			return false, nil
@@ -69,8 +69,8 @@ func VerifyPKCS1v15(signature string, plaintext string, pubkey *rsa.PublicKey) (
 }
 
 // 加密
-func RsaEncrypt(origData string, pubkey *rsa.PublicKey) (string, error) {
-	cipherText, err := rsa.EncryptPKCS1v15(rand.Reader, pubkey, []byte(origData))
+func RsaEncrypt(origData string, publicKey *rsa.PublicKey) (string, error) {
+	cipherText, err := rsa.EncryptPKCS1v15(rand.Reader, publicKey, []byte(origData))
 	if err != nil {
 		return "", err
 	}
@@ -78,12 +78,12 @@ func RsaEncrypt(origData string, pubkey *rsa.PublicKey) (string, error) {
 }
 
 // 解密
-func RsaDecrypt(cipherText string, privKey *rsa.PrivateKey) (string, error) {
+func RsaDecrypt(cipherText string, privateKey *rsa.PrivateKey) (string, error) {
 	data, err := base64.StdEncoding.DecodeString(cipherText)
 	if err != nil {
 		return "", err
 	}
-	revData, err := rsa.DecryptPKCS1v15(rand.Reader, privKey, data)
+	revData, err := rsa.DecryptPKCS1v15(rand.Reader, privateKey, data)
 	if err != nil {
 		return "", err
 	}
