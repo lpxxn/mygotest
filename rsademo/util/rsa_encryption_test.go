@@ -159,7 +159,8 @@ func ParseKey() (*rsa.PrivateKey, *rsa.PublicKey, error) {
 	return privateKey, publicKey, nil
 }
 
-var privateKeyStr = `-----BEGIN RSA PRIVATE KEY-----
+// 注意不能有 \n
+const privateKeyStr = `-----BEGIN RSA PRIVATE KEY-----
 MIIEowIBAAKCAQEAxFDJAtX2iWfm3uSPpDyOR6TNAgZjkqP2Vk2b2abRZGUwZdxT
 iJ0b01JKMttazGYZbigCDYiXiF5vndcLW7JPc7g02SzrdSUnKVHign36xLzltxI6
 OtFp9csIALAxpW9+bWBHoPba5v5RhPl9uERJhcfagZwv5RsG9vnCTarnNeE2D0OC
@@ -186,7 +187,7 @@ ks3HIQKBgEHlYaGH4C90JCzeprT9MZ0nv1h40h190Ncv+fG6BKGymquHXJhZqTXW
 LKhdU6gITftiZVVxOYobj8fBnNHBfxoy9u/duVd3IflSto/IkY347ofSDtPefdy5
 dAH2XE7QcmErqgMRDi7TF3LbCxOfR0N6t3edr1kkQjEvneL6+S2P
 -----END RSA PRIVATE KEY-----`
-var publicKeyStr = `-----BEGIN RSA PUBLIC KEY-----
+const publicKeyStr = `-----BEGIN RSA PUBLIC KEY-----
 MIIBCgKCAQEAxFDJAtX2iWfm3uSPpDyOR6TNAgZjkqP2Vk2b2abRZGUwZdxTiJ0b
 01JKMttazGYZbigCDYiXiF5vndcLW7JPc7g02SzrdSUnKVHign36xLzltxI6OtFp
 9csIALAxpW9+bWBHoPba5v5RhPl9uERJhcfagZwv5RsG9vnCTarnNeE2D0OCSx+B
