@@ -24,4 +24,8 @@ openssl rsa -pubin -in from_pkcs1_private_to_pkcs8_public.pem -RSAPublicKey_out 
 
 
 
+openssl rsa -RSAPublicKey_in -in pkcs1_public_loc.pem -pubout -out from_pkcs1_public_to_pkcs8_public_dev.pem
+
+
+
 
