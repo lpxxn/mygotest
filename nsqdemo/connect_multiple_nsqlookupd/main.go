@@ -16,7 +16,7 @@ func main() {
 	config.MaxBackoffDuration = 5 * time.Second
 	config.DialTimeout = 10 * time.Second
 
-	topicName := "testTopic1"
+	topicName := "091701"
 	c, _ := nsq.NewConsumer(topicName, "ch1", config)
 	testHandler := &MyTestHandler{consumer: c}
 
@@ -24,10 +24,11 @@ func main() {
 	if err := c.ConnectToNSQLookupds(adds); err != nil {
 		panic(err)
 	}
-	stats := c.Stats()
-	if stats.Connections == 0 {
-		panic("stats report 0 connections (should be > 0)")
-	}
+	// 这里不应判断，可能刚开始的时候是空的没有 topic
+	//stats := c.Stats()
+	//if stats.Connections == 0 {
+	//	panic("stats report 0 connections (should be > 0)")
+	//}
 	stop := make(chan os.Signal)
 	signal.Notify(stop, os.Interrupt)
 	fmt.Println("server is running....")
