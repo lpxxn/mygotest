@@ -20,7 +20,7 @@ func main() {
 	go func() {
 		for {
 			select {
-			case <-time.After(time.Second):
+			case <-time.After(time.Second/10):
 				if _, err := client.Write([]byte("hello world")); err != nil {
 					fmt.Println(err)
 				}

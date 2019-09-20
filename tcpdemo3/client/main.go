@@ -33,19 +33,18 @@ func main() {
 	notify := make(chan error)
 
 	go func() {
-		buf := make([]byte, 1024)
 		for {
-			n, err := conn.Read(buf)
+			n, err := conn.Write([]byte("hello"))
 			if err != nil {
-				notify <- err
-				if io.EOF == err {
-					close(notify)
-					return
-				}
+				//notify <- err
+				//if io.EOF == err {
+				//	close(notify)
+				//	return
+				//}
+				fmt.Println(err)
+				continue
 			}
-			if n > 0 {
-				fmt.Println("unexpected data: %s", buf[:n])
-			}
+			fmt.Println(n)
 		}
 	}()
 
