@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"io"
 	"os"
 	"os/signal"
@@ -45,11 +46,15 @@ func main() {
 	go func() {
 		for {
 			readBuf := readBufPool.Get().(*ReadBuf)
+			fmt.Println(readBuf.n, " ", len(readBuf.bytes))
 			n, err := server.Read(readBuf.bytes)
 			if err == nil {
 				readBuf.n = n
-
 			}
+			readStr := readBuf.GetBytes()
+			fmt.Printf("get value %s \n", string(readStr))
+
+			readBufPool.Put(readBuf)
 		}
 	}()
 	osCh := make(chan os.Signal)

@@ -35,6 +35,10 @@ func (p *TUDPTransport) IsOpen() bool {
 	return atomic.LoadUint32(&p.closed) == 0
 }
 
+func (p *TUDPTransport) Addr() net.Addr {
+	return p.addr
+}
+
 // Read reads one UDP packet and puts it in the specified buf
 func (p *TUDPTransport) Read(buf []byte) (int, error) {
 	if !p.IsOpen() {
@@ -60,4 +64,21 @@ func (p *TUDPTransport) Flush() error {
 	_, err := p.conn.Write(p.writeBuf.Bytes())
 	p.writeBuf.Reset()
 	return err
+}
+
+func NewTUPPClientTransport(desHostPort string) (*TUDPTransport, error) {
+	destAddr, err := net.ResolveUDPAddr("udp", desHostPort)
+	if err != nil {
+		return nil, err
+	}
+	conn, err := net.DialUDP(destAddr.Network(), nil, destAddr)
+	if err != nil {
+		return nil, err
+	}
+	return &TUDPTransport{
+		conn:     conn,
+		addr:     destAddr,
+		writeBuf: bytes.Buffer{},
+		closed:   0,
+	}, nil
 }
