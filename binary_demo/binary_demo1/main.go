@@ -11,23 +11,26 @@ func main() {
 	if err := binary.Write(&writeBuf, binary.BigEndian, []byte(str1)); err != nil {
 		panic(err)
 	}
+	println(writeBuf.String())
 
 	writeBuf.Reset()
 	var vI32 int32 = 123456789
 	if err := binary.Write(&writeBuf, binary.BigEndian, vI32); err != nil {
 		panic(err)
 	}
-	print(writeBuf.Bytes())
+	println(writeBuf.String())
 
 	writeBuf.Reset()
 	var vI64 int64 = 123
 	if err := binary.Write(&writeBuf, binary.BigEndian, vI64); err != nil {
 		panic(err)
 	}
+	println(writeBuf.String())
 
 	writeBuf.Reset()
 	str1 = "汉字"
 	if err := binary.Write(&writeBuf, binary.BigEndian, []byte(str1)); err != nil {
 		panic(err)
 	}
+	println(writeBuf.String())
 }
