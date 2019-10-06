@@ -43,7 +43,9 @@ func TestTwitterEpoch(t *testing.T) {
 func TestSnowFlakeTime(t *testing.T) {
 	now := time.Now().UnixNano() / nanoInMilli // 纳秒转毫秒
 	var number int64 = 1
+	println(now-epoch)
 	println((now-epoch)<<timeShift)
+	println((now-epoch)<<timeShift | (0 << workerShift) | 0)
 	ID1 := (now-epoch)<<timeShift | (1 << workerShift) | (number)
 	println(ID1)
 
