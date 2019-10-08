@@ -43,7 +43,7 @@ type Worker struct {
 func NewWorker(workerId int64) (*Worker, error) {
 	// 要先检测workerId是否在上面定义的范围内
 	if workerId < 0 || workerId > workerMax {
-		return nil, errors.New("Worker ID excess of quantity")
+		return nil, errors.New("worker ID excess of quantity")
 	}
 	// 生成一个新节点
 	return &Worker{
