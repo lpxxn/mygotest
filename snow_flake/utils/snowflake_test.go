@@ -33,11 +33,26 @@ func TestTwitterEpoch(t *testing.T) {
 	//	t.Fatal(err)
 	//}
 	var unixIntValue int64 = 1288834974657
-	timeStamp := time.Unix(unixIntValue, 0)
+	timeStamp := time.Unix( 0, unixIntValue * nanoInMilli)
 
-	fmt.Println(timeStamp)
+	t.Log(timeStamp)
 	unitTimeInRFC3339 :=timeStamp.Format(time.RFC3339) // converts utc time to RFC3339 format
-	fmt.Println("unix time stamp in unitTimeInRFC3339 format :->",unitTimeInRFC3339)
+	t.Log("unix time stamp in unitTimeInRFC3339 format :->",unitTimeInRFC3339)
+	var t41 int64 = 2199023255552
+	//var t42 int64 = 4398046511104
+	unixIntValue = t41
+	timeStamp = time.Unix(0, unixIntValue * nanoInMilli)
+
+	t.Log(timeStamp)
+	unitTimeInRFC3339 =timeStamp.Format(time.RFC3339) // converts utc time to RFC3339 format
+	t.Log("unix time stamp in unitTimeInRFC3339 format :->",unitTimeInRFC3339)
+
+	unixIntValue -= 1288834974657
+	timeStamp = time.Unix(0, unixIntValue * nanoInMilli)
+
+	t.Log(timeStamp)
+	unitTimeInRFC3339 =timeStamp.Format(time.RFC3339) // converts utc time to RFC3339 format
+	t.Log("unix time stamp in unitTimeInRFC3339 format :->",unitTimeInRFC3339)
 
 }
 
@@ -45,28 +60,42 @@ func TestSnowFlakeTime(t *testing.T) {
 	now := time.Now().UnixNano() / nanoInMilli // 纳秒转毫秒
 	var number int64 = 1
 	nowVal := now-epoch
-	t.Log("nowVal: ", nowVal)
-	println((nowVal)<<timeShift)
-	println((nowVal)<<timeShift | (0 << workerShift) | 0)
+	t.Log("now:", now, "  nowVal: ", nowVal)
+	t.Log((nowVal)<<timeShift)
+	t.Log((nowVal)<<timeShift | (0 << workerShift) | 0)
 	ID1 := (nowVal)<<timeShift | (1 << workerShift) | (number)
-	println(ID1)
+	t.Log(ID1)
 
 	ID2 := (nowVal)<<timeShift | (2 << workerShift) | (number)
-	println(ID2)
+	t.Log(ID2)
 
 	// convert int64 to []byte
 	buf := make([]byte, binary.MaxVarintLen64)
 	n := binary.PutVarint(buf, nowVal)
 	b := buf[:n]
-	t.Logf("b %v , b string: %s", b, string(b))
+	t.Logf("b %v , b string: %s\n", b, string(b))
 	// convert []byte to int64
 	x, n := binary.Varint(b)
-	fmt.Printf("x is: %v, n is: %v\n", x, n)
+	t.Logf("x is: %v, n is: %v\n", x, n)
 
 }
 /*
->>> f'{188365481801940992:64b}'
-'      1010011101001101010110100001011110110000000000000000000000
+>>> v1 = 44920820475
+>>> f'{v1:b}'
+'101001110101011111010101001011111011'
+>>> v2=v1<<22
+>>> f'{v2:b}'
+'1010011101010111110101010010111110110000000000000000000000'
+>>> len(f'{v2:b}')
+58
+>>> v1 = 1570626560124
+>>> v2=v1<<22
+>>> v2
+6587685263634333696
+>>> f'{v2:b}'
+'101101101101100001010001101100000011111000000000000000000000000'
+>>> len(f'{v2:b}')
+63
  */
 
 
@@ -124,3 +153,16 @@ func TestSnowFlake2(t *testing.T) {
 	// 成功生成 snowflake ID
 	fmt.Println("All", count, "snowflake ID Get successed!")
 }
+/*
+https://juejin.im/post/5c75132f51882562276c5065
+
+41位，用来记录时间戳（毫秒）。
+3) 41位可以表示2^41−1个数字，如果只用来表示正整数（计算机中正数包含0），
+可以表示的数值范围是：0 至 2^41−1，减1是因为可表示的数值范围是从0开始算的，而不是1。
+也就是说41位可以表示2^41−1个毫秒的值，转化成单位年则是(2^41−1)/(1000∗60∗60∗24∗365)=69年
+
+>>> (2**41 - 1) / (1000*60*60*24*365)
+69.73057000098301
+41bit:用来记录时间戳，这里可以记录69年，如果设置好起始时间比如今年是2018年，那么可以用到2089年，到时候怎么办？要是这个系统能用69年，我相信这个系统早都重构了好多次了。
+
+ */
