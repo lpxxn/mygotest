@@ -1,6 +1,7 @@
 package utils
 
 import (
+	"encoding/binary"
 	"fmt"
 	"testing"
 	"time"
@@ -43,16 +44,31 @@ func TestTwitterEpoch(t *testing.T) {
 func TestSnowFlakeTime(t *testing.T) {
 	now := time.Now().UnixNano() / nanoInMilli // 纳秒转毫秒
 	var number int64 = 1
-	println(now-epoch)
-	println((now-epoch)<<timeShift)
-	println((now-epoch)<<timeShift | (0 << workerShift) | 0)
-	ID1 := (now-epoch)<<timeShift | (1 << workerShift) | (number)
+	nowVal := now-epoch
+	t.Log("nowVal: ", nowVal)
+	println((nowVal)<<timeShift)
+	println((nowVal)<<timeShift | (0 << workerShift) | 0)
+	ID1 := (nowVal)<<timeShift | (1 << workerShift) | (number)
 	println(ID1)
 
-	ID2 := (now-epoch)<<timeShift | (2 << workerShift) | (number)
+	ID2 := (nowVal)<<timeShift | (2 << workerShift) | (number)
 	println(ID2)
 
+	// convert int64 to []byte
+	buf := make([]byte, binary.MaxVarintLen64)
+	n := binary.PutVarint(buf, nowVal)
+	b := buf[:n]
+	t.Logf("b %v , b string: %s", b, string(b))
+	// convert []byte to int64
+	x, n := binary.Varint(b)
+	fmt.Printf("x is: %v, n is: %v\n", x, n)
+
 }
+/*
+>>> f'{188365481801940992:64b}'
+'      1010011101001101010110100001011110110000000000000000000000
+ */
+
 
 func TestSnowFlake1(t *testing.T) {
 	worker1, err := NewWorker(1)
