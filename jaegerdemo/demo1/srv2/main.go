@@ -29,6 +29,15 @@ func main() {
 }
 
 func UserInfo(c *gin.Context) {
+	if _, err := utils.GetRequest("http://127.0.0.1:9656/remote3", func(r *http.Request) {
+		span, found := middleware.GetSpan(c)
+		if found {
+			utils.InjectTraceID(span.Context(), r.Header)
+		}
+	}); err != nil {
+		c.JSON(http.StatusOK, map[string]interface{}{"Err": err})
+		return
+	}
 	utils.RandomSleep(1, 3)
 	c.JSON(http.StatusOK, common.UserInfo{ID: utils.RandomInt(10, 100), Name: utils2.RandomStr(utils.RandomInt(3, 5))})
 }
