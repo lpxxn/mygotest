@@ -12,7 +12,7 @@ import (
 	jaegerConfig "github.com/uber/jaeger-client-go/config"
 )
 
-func NewJaegerTracer(serviceName string, jaegerHostPort string) (opentracing.Tracer, io.Closer, error) {
+func NewJaegerTracer(serviceName string, jaegerHostPort string) (opentracing.Tracer, io.Closer) {
 	cfg := &jaegerConfig.Configuration{
 		Sampler: &jaegerConfig.SamplerConfig{
 			Type:  "const", //固定采样
@@ -32,7 +32,17 @@ func NewJaegerTracer(serviceName string, jaegerHostPort string) (opentracing.Tra
 		panic(fmt.Sprintf("ERROR: cannot init Jaeger: %v\n", err))
 	}
 	opentracing.SetGlobalTracer(tracer)
-	return tracer, closer, err
+	return tracer, closer
+}
+
+func NewStdLoggerTracer(serviceName string) (opentracing.Tracer, io.Closer) {
+	trace, closer := jaeger.NewTracer(
+		serviceName,
+		jaeger.NewConstSampler(true),
+		jaeger.NewLoggingReporter(jaeger.StdLogger),
+	)
+	opentracing.SetGlobalTracer(trace)
+	return trace, closer
 }
 
 // StartSpan will start a new span with no parent span.

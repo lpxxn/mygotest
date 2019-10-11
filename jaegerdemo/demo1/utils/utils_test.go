@@ -17,5 +17,6 @@ func TestInjectTraceID(t *testing.T) {
 		ext.SpanKindRPCClient,
 	)
 	defer span.Finish()
+	opentracing.SpanFromContext(ctx)
 }
 
