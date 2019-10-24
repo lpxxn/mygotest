@@ -53,7 +53,7 @@ func TestCafeteriaName2(t *testing.T) {
 	}
 }
 
-func TestReplaceCafeteriaName3(t *testing.T) {
+func TestReplaceCafeteriaName1(t *testing.T) {
 	var re = regexp.MustCompile(`^<.*>(.*)~.*\[(.*)_[0-9]*\]$`)
 	var str = `<食堂菜单>2019-03-18~infinity[按天重复_27]`
 
@@ -62,5 +62,14 @@ func TestReplaceCafeteriaName3(t *testing.T) {
 		t.Log(rs)
 	} else {
 		t.Error("not match")
+	}
+}
+
+func TestReplaceCafeteriaName2(t *testing.T) {
+	var re = regexp.MustCompile(`^<.*>(.*)~.*\[(.*)_[0-9]*\]$`)
+	var str = `<食堂菜单>2019-03-18~infinity[按天重复`
+
+	if re.MatchString(str){
+		t.Error("match")
 	}
 }
