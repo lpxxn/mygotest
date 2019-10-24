@@ -41,3 +41,14 @@ func TestCafeteriaName(t *testing.T) {
 		t.Logf(match, "found at index\n", i)
 	}
 }
+
+func TestCafeteriaName2(t *testing.T) {
+	var re = regexp.MustCompile(`^<.*>(?P<menuDate>.*)~.*\[(?P<menuFlag>.*)_[0-9]*\]$`)
+	var str = `<食堂菜单>2019-03-18~infinity[按天重复_27]`
+
+	match := re.FindStringSubmatch(str)
+	for i, name := range re.SubexpNames() {
+		t.Logf("name : %s  value: %s \n", name, match[i])
+
+	}
+}
