@@ -32,3 +32,12 @@ func Benchmark_Reg2(b *testing.B) {
 		//}
 	}
 }
+
+func TestCafeteriaName(t *testing.T) {
+	var re = regexp.MustCompile(`^<.*>(.*)~.*\[(.*)_[0-9]*\]$`)
+	var str = `<食堂菜单>2019-03-18~infinity[按天重复_27]`
+
+	for i, match := range re.FindAllString(str, -1) {
+		t.Logf(match, "found at index\n", i)
+	}
+}
