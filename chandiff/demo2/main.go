@@ -26,7 +26,6 @@ func main() {
 	byteChan := make(chan []byte)
 
 	go func() {
-		<-byteChan
 		c2.B <- 1
 		c1.A <- 2
 		close(c2.B)
@@ -34,17 +33,29 @@ func main() {
 		// c1.A <- 3
 		getValue(c1.A, 2, &wg)
 	}()
+	go func() {
+		for v := range 	byteChan {
+			_ = v
+		}
+	}()
 	byteValue := []byte("abcdef")
 	byteChan <- byteValue
 	for v := range newCh {
 		fmt.Println("main func get value: ", v)
 	}
+	byteChan <- byteValue
+
 	if v, ok := <-newCh; ok {
 		fmt.Println("newCh value", v)
 	}
 	if _, ok := <-c1.A; !ok {
 		fmt.Println("C1: A is closed")
 	}
+	fmt.Println("byteValue:", string(byteValue))
+
+	byteValue = nil
+	byteChan <- byteValue
+
 	fmt.Println("wait--------")
 
 	wg.Wait()
