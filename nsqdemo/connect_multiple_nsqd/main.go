@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"os"
 	"os/signal"
@@ -55,5 +56,5 @@ func (m MyTestHandler) HandleMessage(message *nsq.Message) error {
 	//	fmt.Println("err")
 	//	return errors.New("err")
 	//}
-	return nil
+	return errors.New("err")
 }
