@@ -21,5 +21,5 @@ func main() {
 	//underT1Error := SomeType{"abc", true}
 
 	// ok
-	_ := SomeType2{"faf", false}
+	_ = SomeType2{"faf", false}
 }
