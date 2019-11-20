@@ -11,6 +11,8 @@ func init() {
 }
 
 func main() {
+ 	var td time.Duration
+ 	fmt.Println(td)
 	t1 := time.Now().UnixNano()
 	fmt.Println(t1)
 	t2 := time.Now().Unix()
