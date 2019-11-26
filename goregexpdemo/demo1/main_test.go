@@ -48,6 +48,10 @@ func TestAlphabetAndNumber(t *testing.T) {
 	if re.MatchString(str1) {
 		t.Error("match error: ", str1)
 	}
+	str1 = "as1232df#123_WSe#ad_e"
+	if !re.MatchString(str1) {
+		t.Error("not match: ", str1)
+	}
 }
 
 func TestCafeteriaName(t *testing.T) {
