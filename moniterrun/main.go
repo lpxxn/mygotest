@@ -32,8 +32,9 @@ func RunServer(ctx context.Context) {
 	wg := sync.WaitGroup{}
 
 	wg.Add(1)
+	var cmd *exec.Cmd = nil
 	go func() {
-		cmd := exec.Command("./webserverdemo1", "-env=local -a=bcd", "-abc=ddd")
+		cmd = exec.Command("./webserverdemo1", "-env=local -a=bcd", "-abc=ddd")
 		//cmd := exec.Command("./basi", "-env=local")
 		cmd.Env = append(cmd.Env, "ENV=dev")
 		//cmd.Stdout = os.Stdout
@@ -62,13 +63,16 @@ func RunServer(ctx context.Context) {
 		if err != nil {
 			panic(err)
 		}
+
 		io.Copy(os.Stdout, f)
+		fmt.Println("stop cmd command")
 	}()
 	go func() {
 
 		select {
 		case <-ctx.Done():
 		}
+		cmd.Process.Kill()
 		fmt.Println("done")
 		wg.Done()
 	}()
