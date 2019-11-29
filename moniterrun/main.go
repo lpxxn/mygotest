@@ -19,7 +19,8 @@ func main() {
 
 	signal.Notify(exitCh, os.Interrupt)
 
-	go RunServer(ctx)
+	//go RunServer(ctx)
+	go RunServerContext(ctx)
 
 	fmt.Println("run service")
 	<-exitCh
@@ -73,6 +74,35 @@ func RunServer(ctx context.Context) {
 		case <-ctx.Done():
 		}
 		cmd.Process.Kill()
+		fmt.Println("done")
+		wg.Done()
+	}()
+	wg.Wait()
+}
+
+func RunServerContext(ctx context.Context) {
+	wg := sync.WaitGroup{}
+
+	wg.Add(1)
+	var cmd *exec.Cmd = nil
+	go func() {
+		cmd = exec.CommandContext(ctx, "./webserverdemo1", "-env=local -a=bcd", "-abc=ddd")
+		cmd.Env = append(cmd.Env, "ENV=dev")
+		fmt.Println(cmd.String())
+		fmt.Println(cmd.Env)
+		f, err := pty.Start(cmd)
+		if err != nil {
+			panic(err)
+		}
+
+		io.Copy(os.Stdout, f)
+		fmt.Println("stop cmd command")
+	}()
+	go func() {
+
+		select {
+		case <-ctx.Done():
+		}
 		fmt.Println("done")
 		wg.Done()
 	}()
