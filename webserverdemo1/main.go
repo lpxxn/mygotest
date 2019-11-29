@@ -34,6 +34,7 @@ func main() {
 	var h Hello
 	http.Handle("/string", MyString("I'm a frayed knot."))
 	http.Handle("/struct", &MyStruct{"Hello", ":", "Gophers!"})
+	fmt.Println("run at port: 10010")
 	err := http.ListenAndServe("localhost:10010", h)
 
 	//err := http.ListenAndServe("localhost:10010", h)
