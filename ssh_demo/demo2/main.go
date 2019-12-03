@@ -132,3 +132,6 @@ func main() {
 		fmt.Println(err)
 	}
 }
+/*
+https://orebibou.com/2019/06/golang%E3%81%A7-ssh-config%E3%82%92%E8%AA%AD%E3%81%BF%E8%BE%BC%E3%82%93%E3%81%A7ssh%E6%8E%A5%E7%B6%9A%E3%81%99%E3%82%8Bproxycommand%E5%AF%BE%E5%BF%9C/
+ */
