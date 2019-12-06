@@ -35,7 +35,7 @@ func Benchmark_Reg2(b *testing.B) {
 }
 
 func TestAlphabetAndNumber(t *testing.T) {
-	re := regexp.MustCompile(`^[0-9_#A-Za-z]{3,32}$`)
+	re := regexp.MustCompile(`^[0-9_#=&?A-Za-z]{3,32}$`)
 	str1 := "asdfWS23eade"
 	if !re.MatchString(str1) {
 		t.Error("not match: ", str1)
@@ -48,7 +48,11 @@ func TestAlphabetAndNumber(t *testing.T) {
 	if re.MatchString(str1) {
 		t.Error("match error: ", str1)
 	}
-	str1 = "as1232df#123_WSe#ad_e"
+	str1 = "as12?32=df#123_WSe#ad_e"
+	if !re.MatchString(str1) {
+		t.Error("not match: ", str1)
+	}
+	str1 = "scene=2002?cid=1&sid=1"
 	if !re.MatchString(str1) {
 		t.Error("not match: ", str1)
 	}
