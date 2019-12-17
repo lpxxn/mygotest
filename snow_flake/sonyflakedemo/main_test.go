@@ -51,6 +51,18 @@ func TestSonyFlaked2(t *testing.T) {
 	t.Log(i)
 }
 
+func TestSonyFlaked2S(t *testing.T) {
+	var i int
+	for end := time.Now().Add(time.Second); ; {
+		if time.Now().After(end) {
+			break
+		}
+		sf.NextID()
+		i++
+	}
+	t.Log(i)
+}
+
 // 两个同时生产每秒 51201
 func TestSonyFlaked3(t *testing.T) {
 	// 有没有buffer是一样的结果
