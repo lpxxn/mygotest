@@ -15,7 +15,8 @@ func TestConstValue(t *testing.T) {
 
 	const workMax2 int64 = 1<<workerBits - 1
 	t.Log(workMax2)
-
+	t.Log(time.Duration(-1))
+	time.Sleep(time.Duration(time.Second * -10))
 	nanoInMilli := time.Millisecond.Nanoseconds()
 	println(nanoInMilli)
 	pt, err := time.Parse("2006-01-02 15:04:05 -0700 UTC", "2010-11-04 01:42:54 +0000 UTC")
