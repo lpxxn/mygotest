@@ -34,7 +34,7 @@ func init() {
 }
 
 func main() {
-	consumer := make(chan uint64, 10)
+	consumer := make(chan uint64)
 	go func() {
 		for {
 			id, err := sf2.NextID()
@@ -57,8 +57,7 @@ func main() {
 	}()
 	set := mapset.NewSet()
 	count := 0
-	start := time.Now()
-	for ; time.Since(start) < time.Second; {
+	for {
 		idx := <-consumer
 		if set.Contains(idx) {
 			fmt.Printf("duplicate idx %d", idx)

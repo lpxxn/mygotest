@@ -1,6 +1,7 @@
 package main
 
 import (
+	mapset "github.com/deckarep/golang-set"
 	"testing"
 	"time"
 )
@@ -39,7 +40,7 @@ func TestSonyFlaked1(t *testing.T) {
 	}
 }
 
-// 单个每分钟生产25601
+// 单个每秒生产25601
 func TestSonyFlaked2(t *testing.T) {
 	var i int
 	start := time.Now()
@@ -50,8 +51,10 @@ func TestSonyFlaked2(t *testing.T) {
 	t.Log(i)
 }
 
-// 两个同时生产 51201
+// 两个同时生产每秒 51201
 func TestSonyFlaked3(t *testing.T) {
+	// 有没有buffer是一样的结果
+	//consumer := make(chan uint64, 10)
 	consumer := make(chan uint64)
 	go func() {
 		for {
@@ -80,5 +83,44 @@ func TestSonyFlaked3(t *testing.T) {
 		count++
 	}
 	t.Log(count)
+}
 
+// 检查是否有重复的
+func TestSonyFlaked4(t *testing.T) {
+	// 有没有buffer是一样的结果
+	//consumer := make(chan uint64, 10)
+	consumer := make(chan uint64)
+	go func() {
+		for {
+			id, err := sf2.NextID()
+			if err != nil {
+				t.Fatal(err)
+				return
+			}
+			consumer <- id
+		}
+	}()
+	go func() {
+		for {
+			id, err := sf.NextID()
+			if err != nil {
+				t.Fatal(err)
+				return
+			}
+			consumer <- id
+		}
+	}()
+	set := mapset.NewSet()
+	count := 0
+	start := time.Now()
+	for ; time.Since(start) < time.Second; {
+		idx := <-consumer
+		if set.Contains(idx) {
+			t.Fatal(" duplicate idx")
+		} else {
+			set.Add(idx)
+		}
+		count++
+	}
+	t.Log(count)
 }
