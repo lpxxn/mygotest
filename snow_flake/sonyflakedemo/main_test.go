@@ -89,8 +89,7 @@ func TestSonyFlaked3(t *testing.T) {
 		}
 	}()
 	count := 0
-	start := time.Now()
-	for ; time.Since(start) < time.Second; {
+	for start := time.Now(); time.Since(start) < time.Second; {
 		<-consumer
 		count++
 	}
