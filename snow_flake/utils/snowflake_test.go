@@ -13,6 +13,9 @@ func TestConstValue(t *testing.T) {
 	println(timeShift)
 	println(workerShift)
 
+	const workMax2 int64 = 1<<workerBits - 1
+	t.Log(workMax2)
+
 	nanoInMilli := time.Millisecond.Nanoseconds()
 	println(nanoInMilli)
 	pt, err := time.Parse("2006-01-02 15:04:05 -0700 UTC", "2010-11-04 01:42:54 +0000 UTC")
@@ -33,37 +36,37 @@ func TestTwitterEpoch(t *testing.T) {
 	//	t.Fatal(err)
 	//}
 	var unixIntValue int64 = 1288834974657
-	timeStamp := time.Unix( 0, unixIntValue * nanoInMilli)
+	timeStamp := time.Unix(0, unixIntValue*nanoInMilli)
 
 	t.Log(timeStamp)
-	unitTimeInRFC3339 :=timeStamp.Format(time.RFC3339) // converts utc time to RFC3339 format
-	t.Log("unix time stamp in unitTimeInRFC3339 format :->",unitTimeInRFC3339)
+	unitTimeInRFC3339 := timeStamp.Format(time.RFC3339) // converts utc time to RFC3339 format
+	t.Log("unix time stamp in unitTimeInRFC3339 format :->", unitTimeInRFC3339)
 	var t41 int64 = 2199023255552
 	//var t42 int64 = 4398046511104
 	unixIntValue = t41
-	timeStamp = time.Unix(0, unixIntValue * nanoInMilli)
+	timeStamp = time.Unix(0, unixIntValue*nanoInMilli)
 
 	t.Log(timeStamp)
-	unitTimeInRFC3339 =timeStamp.Format(time.RFC3339) // converts utc time to RFC3339 format
-	t.Log("unix time stamp in unitTimeInRFC3339 format :->",unitTimeInRFC3339)
+	unitTimeInRFC3339 = timeStamp.Format(time.RFC3339) // converts utc time to RFC3339 format
+	t.Log("unix time stamp in unitTimeInRFC3339 format :->", unitTimeInRFC3339)
 
 	unixIntValue -= 1288834974657
-	timeStamp = time.Unix(0, unixIntValue * nanoInMilli)
+	timeStamp = time.Unix(0, unixIntValue*nanoInMilli)
 
 	t.Log(timeStamp)
-	unitTimeInRFC3339 =timeStamp.Format(time.RFC3339) // converts utc time to RFC3339 format
-	t.Log("unix time stamp in unitTimeInRFC3339 format :->",unitTimeInRFC3339)
+	unitTimeInRFC3339 = timeStamp.Format(time.RFC3339) // converts utc time to RFC3339 format
+	t.Log("unix time stamp in unitTimeInRFC3339 format :->", unitTimeInRFC3339)
 
 }
 
 func TestSnowFlakeTime(t *testing.T) {
 	currentUnixTime := time.Now().UnixNano()
 	now := currentUnixTime / nanoInMilli // 纳秒转毫秒
-	t.Log(now, "  ", currentUnixTime >> 20, "  ", "  \n")
+	t.Log(now, "  ", currentUnixTime>>20, "  ", "  \n")
 	var number int64 = 1
-	nowVal := now-epoch
+	nowVal := now - epoch
 	t.Log("now:", now, "  nowVal: ", nowVal)
-	t.Log((nowVal)<<timeShift)
+	t.Log((nowVal) << timeShift)
 	t.Log((nowVal)<<timeShift | (0 << workerShift) | 0)
 	ID1 := (nowVal)<<timeShift | (1 << workerShift) | (number)
 	t.Log(ID1)
@@ -81,6 +84,7 @@ func TestSnowFlakeTime(t *testing.T) {
 	t.Logf("x is: %v, n is: %v\n", x, n)
 
 }
+
 /*
 >>> v1 = 44920820475
 >>> f'{v1:b}'
@@ -98,8 +102,7 @@ func TestSnowFlakeTime(t *testing.T) {
 '101101101101100001010001101100000011111000000000000000000000000'
 >>> len(f'{v2:b}')
 63
- */
-
+*/
 
 func TestSnowFlake1(t *testing.T) {
 	worker1, err := NewWorker(1)
@@ -141,8 +144,8 @@ func TestSnowFlake2(t *testing.T) {
 	defer close(ch)
 
 	m := make(map[int64]int)
-	for i := 0; i < count; i++  {
-		id := <- ch
+	for i := 0; i < count; i++ {
+		id := <-ch
 		// 如果 map 中存在为 id 的 key, 说明生成的 snowflake ID 有重复
 		_, ok := m[id]
 		if ok {
@@ -155,6 +158,7 @@ func TestSnowFlake2(t *testing.T) {
 	// 成功生成 snowflake ID
 	fmt.Println("All", count, "snowflake ID Get successed!")
 }
+
 /*
 https://juejin.im/post/5c75132f51882562276c5065
 
@@ -167,4 +171,7 @@ https://juejin.im/post/5c75132f51882562276c5065
 69.73057000098301
 41bit:用来记录时间戳，这里可以记录69年，如果设置好起始时间比如今年是2018年，那么可以用到2089年，到时候怎么办？要是这个系统能用69年，我相信这个系统早都重构了好多次了。
 
- */
+sonyflake 是 39 bits for time in units of 10 msec
+>>> (2**39-1)/(100*60*60*24*365)
+174.32642500221968
+*/
