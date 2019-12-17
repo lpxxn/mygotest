@@ -34,17 +34,17 @@ func init() {
 }
 
 func main() {
-	consumer := make(chan uint64)
-	//go func() {
-	//	for {
-	//		id, err := sf2.NextID()
-	//		if err != nil {
-	//			fmt.Printf("error: %#v", err)
-	//			return
-	//		}
-	//		consumer <- id
-	//	}
-	//}()
+	consumer := make(chan uint64, 10)
+	go func() {
+		for {
+			id, err := sf2.NextID()
+			if err != nil {
+				fmt.Printf("error: %#v", err)
+				return
+			}
+			consumer <- id
+		}
+	}()
 	go func() {
 		for {
 			id, err := sf.NextID()
@@ -56,9 +56,9 @@ func main() {
 		}
 	}()
 	set := mapset.NewSet()
-	nowSection := time.Now().Unix()
 	count := 0
-	for {
+	start := time.Now()
+	for ; time.Since(start) < time.Second; {
 		idx := <-consumer
 		if set.Contains(idx) {
 			fmt.Printf("duplicate idx %d", idx)
@@ -68,8 +68,5 @@ func main() {
 		}
 		count++
 		fmt.Println(idx, "  count: ", count)
-		if nowSection < time.Now().Unix() {
-			break
-		}
 	}
 }
