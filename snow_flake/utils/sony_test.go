@@ -19,12 +19,16 @@ func init() {
 }
 func TestSonyTime(t *testing.T) {
 	t.Log(toSonyflakeTime(time.Now()))
+	sf.NextID()
+	sf.NextID()
+	sf.NextID()
+	sf.NextID()
 }
 
 func TestSonyFlaked2(t *testing.T) {
 	var i int
 	start := time.Now()
-	for ; time.Since(start) < time.Second; {
+	for time.Since(start) < time.Second {
 		sf.NextID()
 		i++
 	}
@@ -39,4 +43,25 @@ func TestLower16BitPrivateIP(t *testing.T) {
 		>>> 2 ** 16
 		65536
 	*/
+}
+
+func TestAdd1(t *testing.T) {
+	// 二进制都要为1
+	//const max = 255
+	const max = 3
+
+	t.Log(max)
+	logValue := func(v uint16) uint16 {
+		//const max = uint16(4)
+		r := (v + 1) & max
+		t.Log(v, r)
+		return r
+	}
+	//var v uint16 = 2
+
+	r := logValue(0)
+	r = logValue(r)
+	r = logValue(r)
+	r = logValue(r)
+	r = logValue(r)
 }

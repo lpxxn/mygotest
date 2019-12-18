@@ -88,7 +88,7 @@ func (sf *Sonyflake) NextID() (uint64, error) {
 
 	sf.mutex.Lock()
 	defer sf.mutex.Unlock()
-
+	//fmt.Println("before: ", sf.sequence)
 	current := currentElapsedTime(sf.startTime)
 	if sf.elapsedTime < current {
 		sf.elapsedTime = current
@@ -102,7 +102,7 @@ func (sf *Sonyflake) NextID() (uint64, error) {
 			time.Sleep(sleepTime((overtime)))
 		}
 	}
-
+	//fmt.Println(sf.sequence)
 	return sf.toID()
 }
 
