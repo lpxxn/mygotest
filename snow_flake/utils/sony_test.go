@@ -58,10 +58,8 @@ func TestAdd1(t *testing.T) {
 		return r
 	}
 	//var v uint16 = 2
-
-	r := logValue(0)
-	r = logValue(r)
-	r = logValue(r)
-	r = logValue(r)
-	r = logValue(r)
+	var i uint16 = 0
+	for ; i < 10; i++ {
+		logValue(i)
+	}
 }
