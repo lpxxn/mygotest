@@ -63,3 +63,28 @@ func TestAdd1(t *testing.T) {
 		logValue(i)
 	}
 }
+
+func TestNumber1(t *testing.T) {
+	h := 12
+	min := 15
+	fHour := func() {
+		t.Log("before: ", h, "  ", min)
+		minBit := 6
+		a := h << minBit
+		b := a | min
+		hour := b >> minBit
+		minRev := b & (1<<minBit - 1)
+		t.Log(" after: ", hour, "  ", minRev)
+		if h != hour || minRev != min {
+			t.Fatal("error")
+		}
+	}
+	fHour()
+	h = 11
+	min = 53
+	fHour()
+
+	h = 3
+	min = 6
+	fHour()
+}
