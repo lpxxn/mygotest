@@ -88,3 +88,48 @@ func TestNumber1(t *testing.T) {
 	min = 6
 	fHour()
 }
+
+func TestNumber2(t *testing.T) {
+	h := 12
+	min := 15
+	s := 30
+	fHour := func() {
+		t.Log("before: ", h, "  ", min, "  ", s)
+		minBit := 6
+		sBit := 6
+		hBit := minBit + sBit
+		aH := h << hBit
+		bMin := min << sBit
+		b := aH | bMin | s
+		hourRev := b >> hBit
+
+		maskMin := (1<<sBit - 1) << sBit
+		minRev := b & maskMin >> sBit
+		sRev := b & (1<<sBit - 1)
+		t.Log(" after: ", hourRev, "  ", minRev, "  ", sRev)
+		if h != hourRev || minRev != min || sRev != s {
+			t.Fatal("error")
+		}
+	}
+	fHour()
+	h = 11
+	min = 53
+	s = 1
+	fHour()
+
+	h = 3
+	min = 6
+	s = 46
+	fHour()
+}
+/* JS
+12 << 6
+768
+768|60
+828
+828 >> 6
+12
+828 & (2 ** 6 -1)
+60
+
+ */
