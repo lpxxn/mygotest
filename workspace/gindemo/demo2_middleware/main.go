@@ -2,9 +2,11 @@ package main
 
 import (
 	"fmt"
-	"github.com/gin-gonic/gin"
 	"net/http"
 	"reflect"
+	"time"
+
+	"github.com/gin-gonic/gin"
 )
 
 func main() {
@@ -28,7 +30,17 @@ func main() {
 		RenderJson(c, &User{Name: "lipeng"})
 	})
 
-	router.Run(":8898")
+	srv := &http.Server{
+		Addr:         ":8898",
+		Handler:      router,
+		ReadTimeout:  30 * time.Second,
+		WriteTimeout: 30 * time.Second,
+		IdleTimeout:  5 * time.Minute,
+	}
+	if err := srv.ListenAndServe(); err != nil {
+		panic(err)
+	}
+	// router.Run(":8898")
 }
 
 func globalMiddleware() gin.HandlerFunc {
