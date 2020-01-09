@@ -38,7 +38,7 @@ func TestSonyFlaked2(t *testing.T) {
 func TestLower16BitPrivateIP(t *testing.T) {
 	t.Log(privateIPv4())
 	t.Log(lower16BitPrivateIP())
-	t.Log(uint16(255)<<8 + uint16(255)) //65535
+	t.Log(uint16(255)<<8 + uint16(255)) // 65535
 	/*
 		>>> 2 ** 16
 		65536
@@ -47,17 +47,17 @@ func TestLower16BitPrivateIP(t *testing.T) {
 
 func TestAdd1(t *testing.T) {
 	// 二进制都要为1
-	//const max = 255
+	// const max = 255
 	const max = 3
 
 	t.Log(max)
 	logValue := func(v uint16) uint16 {
-		//const max = uint16(4)
+		// const max = uint16(4)
 		r := (v + 1) & max
 		t.Log(v, r)
 		return r
 	}
-	//var v uint16 = 2
+	// var v uint16 = 2
 	var i uint16 = 0
 	for ; i < 10; i++ {
 		logValue(i)
@@ -122,6 +122,7 @@ func TestNumber2(t *testing.T) {
 	s = 46
 	fHour()
 }
+
 /* JS
 12 << 6
 768
@@ -132,4 +133,4 @@ func TestNumber2(t *testing.T) {
 828 & (2 ** 6 -1)
 60
 
- */
+*/

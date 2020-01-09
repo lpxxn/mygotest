@@ -1,9 +1,10 @@
 package main
 
 import (
-	mapset "github.com/deckarep/golang-set"
 	"testing"
 	"time"
+
+	mapset "github.com/deckarep/golang-set"
 )
 
 func BenchmarkSonyFlaked(b *testing.B) {
@@ -66,7 +67,7 @@ func TestSonyFlaked2S(t *testing.T) {
 // 两个同时生产每秒 51201
 func TestSonyFlaked3(t *testing.T) {
 	// 有没有buffer是一样的结果
-	//consumer := make(chan uint64, 10)
+	// consumer := make(chan uint64, 10)
 	consumer := make(chan uint64)
 	go func() {
 		for {
@@ -99,7 +100,7 @@ func TestSonyFlaked3(t *testing.T) {
 // 检查是否有重复的
 func TestSonyFlaked4(t *testing.T) {
 	// 有没有buffer是一样的结果
-	//consumer := make(chan uint64, 10)
+	// consumer := make(chan uint64, 10)
 	consumer := make(chan uint64)
 	go func() {
 		for {
