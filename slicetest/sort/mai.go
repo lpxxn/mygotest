@@ -66,4 +66,9 @@ func main() {
 		return sabcDTArray[i].CreateAt.Before(sabcDTArray[j].CreateAt)
 	})
 	fmt.Println("asc: ", sabcDTArray)
+
+	sort.Slice(sabcDTArray, func(i, j int) bool {
+		return sabcDTArray[i].CreateAt.After(sabcDTArray[j].CreateAt)
+	})
+	fmt.Println("desc: ", sabcDTArray)
 }
