@@ -71,6 +71,8 @@ func main() {
 		return sabcDTArray[i].CreateAt.After(sabcDTArray[j].CreateAt)
 	})
 	fmt.Println("desc: ", sabcDTArray)
+	var err error
+	fmt.Printf("%#v", err)
 	/*
 		       [{cde 2020-01-15 12:03:32.50415 +0800 CST m=+0.000191218} {abcde 2019-01-15 12:03:32.50415 +0800 CST} {d 2020-03-16 12:03:32.504211 +0800 CST} {d 2019-08-24 12:03:32.504214 +0800 CST}]
 		asc:   [{abcde 2019-01-15 12:03:32.50415 +0800 CST} {d 2019-08-24 12:03:32.504214 +0800 CST} {cde 2020-01-15 12:03:32.50415 +0800 CST m=+0.000191218} {d 2020-03-16 12:03:32.504211 +0800 CST}]
