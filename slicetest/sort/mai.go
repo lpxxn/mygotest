@@ -88,11 +88,14 @@ func main() {
 		desc:  [{d 2020-03-16 12:03:32.504211 +0800 CST} {cde 2020-01-15 12:03:32.50415 +0800 CST m=+0.000191218} {d 2019-08-24 12:03:32.504214 +0800 CST} {abcde 2019-01-15 12:03:32.50415 +0800 CST}]
 
 	*/
-	sort.Slice(sabcDTArray, func(i, j int) bool {
-		return sabcDTArray[i].CreateAt.Before(sabcDTArray[j].CreateAt) && sabcDTArray[i].Name > sabcDTArray[j].Name
-	})
+	//sort.Slice(sabcDTArray, func(i, j int) bool {
+	//	return sabcDTArray[i].CreateAt.Before(sabcDTArray[j].CreateAt) && sabcDTArray[i].Name > sabcDTArray[j].Name
+	//})
 	fmt.Printf("asc: %#v \n", sabcDTArray)
 	ModifyName(sabcDTArray)
+	fmt.Printf("asc: %#v \n", sabcDTArray)
+
+	SortDtArray(sabcDTArray)
 	fmt.Printf("asc: %#v \n", sabcDTArray)
 }
 
@@ -102,3 +105,8 @@ func ModifyName(v []*SAbcDT) {
 	}
 }
 
+func SortDtArray(sabcDTArray []*SAbcDT) {
+	sort.Slice(sabcDTArray, func(i, j int) bool {
+		return sabcDTArray[i].CreateAt.Before(sabcDTArray[j].CreateAt)
+	})
+}
