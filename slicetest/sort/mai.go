@@ -33,6 +33,10 @@ type SAbcDT struct {
 	CreateAt time.Time
 }
 
+func (s SAbcDT) String() string {
+	return fmt.Sprintf("Name: %s, CreateAt: %#v", s.Name, s.CreateAt)
+}
+
 func main() {
 	arr := AsortObjArray{AsortObj{5}, AsortObj{1}, AsortObj{18}, AsortObj{10}, AsortObj{8}, AsortObj{89}, AsortObj{6}}
 	arr.SortDesc()
@@ -40,28 +44,28 @@ func main() {
 	arr.LimitEle(5)
 	fmt.Println(arr)
 
-	var sabcDTArray []SAbcDT
-	sabcDTArray = append(sabcDTArray, SAbcDT{
+	var sabcDTArray []*SAbcDT
+	sabcDTArray = append(sabcDTArray, &SAbcDT{
 		Name:     "cde",
 		CreateAt: time.Now(),
 	})
 
-	sabcDTArray = append(sabcDTArray, SAbcDT{
+	sabcDTArray = append(sabcDTArray, &SAbcDT{
 		Name:     "abcde",
 		CreateAt: time.Now().AddDate(-1, 0, 0),
 	})
 
-	sabcDTArray = append(sabcDTArray, SAbcDT{
+	sabcDTArray = append(sabcDTArray, &SAbcDT{
 		Name:     "abcde",
 		CreateAt: time.Now().AddDate(-1, 2, 0),
 	})
 
-	sabcDTArray = append(sabcDTArray, SAbcDT{
+	sabcDTArray = append(sabcDTArray, &SAbcDT{
 		Name:     "d",
 		CreateAt: time.Now().AddDate(0, 2, 1),
 	})
 
-	sabcDTArray = append(sabcDTArray, SAbcDT{
+	sabcDTArray = append(sabcDTArray, &SAbcDT{
 		Name:     "d",
 		CreateAt: time.Now().AddDate(0, -5, 9),
 	})
@@ -87,5 +91,14 @@ func main() {
 	sort.Slice(sabcDTArray, func(i, j int) bool {
 		return sabcDTArray[i].CreateAt.Before(sabcDTArray[j].CreateAt) && sabcDTArray[i].Name > sabcDTArray[j].Name
 	})
-	fmt.Println("asc: ", sabcDTArray)
+	fmt.Printf("asc: %#v \n", sabcDTArray)
+	ModifyName(sabcDTArray)
+	fmt.Printf("asc: %#v \n", sabcDTArray)
 }
+
+func ModifyName(v []*SAbcDT) {
+	for _, item := range v {
+		item.Name += "aaaaaa"
+	}
+}
+
