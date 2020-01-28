@@ -21,3 +21,10 @@ func InitializeEvent(phrase string) (Event, error) {
 	wire.Build(NewGreeter, NewMessage, NewEvent)
 	return Event{}, nil
 }
+
+func Test(phrase string) (Event, error) {
+	//wire.Build(NewEvent, NewGreeter, NewMessage)
+	//wire.Build(NewMessage, NewEvent, NewGreeter, TestMsg)
+	wire.Build(NewGreeter, NewMessage, NewEvent)
+	return Event{}, nil
+}
