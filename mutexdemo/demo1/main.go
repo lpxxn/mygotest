@@ -100,6 +100,14 @@ func main() {
 	fmt.Println("value:", string(v))
 	fmt.Println("multibyte:", mb)
 	fmt.Println("tail:", t)
+	strA := "c"
+	switch strA {
+	case "c":
+		println("c")
+		fallthrough
+	case "b", "a":
+		println("a")
+	}
 }
 
 func GetValue(m map[int]string, id int) (string, bool) {
