@@ -1,15 +1,39 @@
 package main
 
 import (
-	"time"
 	"fmt"
+	"time"
 
 	"github.com/fatih/color"
+	"github.com/mygotest/timetest/demo2/lib"
 
 	"github.com/mygotest/timetest/mascot"
 )
 
 func main() {
+	lib.TimeNow()
+	//os.Setenv("TZ", "Asia/Shanghai")
+	loc, err := time.LoadLocation("America/Atka")
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	time.Local = loc
+	lib.TimeNow()
+
+	loc, err = time.LoadLocation("Asia/Shanghai")
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	time.Local = loc
+	lib.TimeNow()
+	//os.Setenv("TZ", "America/Los_Angeles")
+	//fmt.Println(time.Local, "time now: ", time.Now())
+	//fmt.Println(time.Local, "time now: ", time.Now())
+
 	curTime := time.Now()
 	f1 := "2006-01-02 15:04:05"
 	parTime, _ := time.Parse(f1, "2018-04-09 00:00:00")
