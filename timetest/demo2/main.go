@@ -11,6 +11,9 @@ import (
 )
 
 func main() {
+	secondsEastOfUTC := int((8 * time.Hour).Seconds())
+	//beijing := time.FixedZone("Beijing Time", secondsEastOfUTC)
+	println(secondsEastOfUTC)
 	lib.TimeNow()
 	//os.Setenv("TZ", "Asia/Shanghai")
 	loc, err := time.LoadLocation("America/Atka")
@@ -22,13 +25,7 @@ func main() {
 	time.Local = loc
 	lib.TimeNow()
 
-	loc, err = time.LoadLocation("Asia/Shanghai")
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
-
-	time.Local = loc
+	lib.SetTimeZoneToChina()
 	lib.TimeNow()
 	//os.Setenv("TZ", "America/Los_Angeles")
 	//fmt.Println(time.Local, "time now: ", time.Now())
@@ -60,4 +57,5 @@ func main() {
 	color.Yellow(mascot.MascotBuddha)
 	//fmt.Println(mascot.MascotRabbit)
 	color.Blue(mascot.MascotRabbit)
+	fmt.Println(time.Local, "time now: ", time.Now())
 }
