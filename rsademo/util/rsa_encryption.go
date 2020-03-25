@@ -107,5 +107,16 @@ func ParsePublicKey(publicKey []byte) (*rsa.PublicKey, error) {
 		return nil, errors.New("empty public key")
 	}
 
+	// openssl rsa -in pkcs1_private.pem -pubout -out rsa_public_key.pem
+	//pub, err := x509.ParsePKIXPublicKey(block.Bytes)
+	//if err != nil {
+	//	return nil, err
+	//}
+	//v, ok := pub.(*rsa.PublicKey)
+	//if !ok {
+	//	return nil, errors.New("pub.(ed25519.PublicKey) error")
+	//}
+	//return v, nil
+
 	return x509.ParsePKCS1PublicKey(block.Bytes)
 }
