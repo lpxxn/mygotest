@@ -4,7 +4,7 @@
 openssl genrsa -out pkcs1_private.pem 1024
 openssl rsa -in pkcs1_private.pem -RSAPublicKey_out -out pkcs1_public.pem
 
-or 如果是下面这样的话，公钥解析就需要用ParsePKIXPublicKey上面带RSAPublicKey_out 用的是
+or 不加RSAPublicKey_out 生成PKCS#8公钥， 如果是下面这样的话，公钥解析就需要用ParsePKIXPublicKey上面带RSAPublicKey_out 用的是
 openssl rsa -in pkcs1_private.pem -pubout -out rsa_public_key.pem
 
 
@@ -22,6 +22,8 @@ openssl rsa -RSAPublicKey_in -in pkcs1_public.pem -pubout -out from_pkcs1_public
 # 由PKCS8公钥生成PKCS#1公钥:
 openssl rsa -pubin -in from_pkcs1_private_to_pkcs8_public.pem -RSAPublicKey_out -out from_pkcs8_public_to_pkcs1_public.pem
 ```
+x509.ParsePKCS1PublicKey (PKCS#1) and 
+x509.ParsePKIXPublicKey (PKCS#8).
 
 可以看到当拥有任意一种私钥时，就可以生成所有需要的东西。当拥有一种公钥时，只能生成另一种公钥。
 openssl genrsa -out rsaprivatekey.pem 1024
