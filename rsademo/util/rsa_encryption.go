@@ -40,6 +40,7 @@ func DecryptOAEP(cipherText string, privateKey *rsa.PrivateKey) (string, error) 
 	return string(plaintext), nil
 }
 
+// 私钥签名
 func SignPKCS1v15(plaintext string, privateKey *rsa.PrivateKey) (string, error) {
 	// crypto/rand.Reader is a good source of entropy for blinding the RSA
 	// operation.
@@ -52,6 +53,7 @@ func SignPKCS1v15(plaintext string, privateKey *rsa.PrivateKey) (string, error) 
 	return base64.StdEncoding.EncodeToString(signature), nil
 }
 
+// 公钥验签
 func VerifyPKCS1v15(signature string, plaintext string, publicKey *rsa.PublicKey) (bool, error) {
 	sig, err := base64.StdEncoding.DecodeString(signature)
 	if err != nil {
@@ -68,7 +70,7 @@ func VerifyPKCS1v15(signature string, plaintext string, publicKey *rsa.PublicKey
 	return true, err
 }
 
-// 加密
+// 公钥加密
 func RsaEncrypt(origData string, publicKey *rsa.PublicKey) (string, error) {
 	cipherText, err := rsa.EncryptPKCS1v15(rand.Reader, publicKey, []byte(origData))
 	if err != nil {
@@ -77,7 +79,7 @@ func RsaEncrypt(origData string, publicKey *rsa.PublicKey) (string, error) {
 	return base64.StdEncoding.EncodeToString(cipherText), nil
 }
 
-// 解密
+// 私钥解密
 func RsaDecrypt(cipherText string, privateKey *rsa.PrivateKey) (string, error) {
 	data, err := base64.StdEncoding.DecodeString(cipherText)
 	if err != nil {

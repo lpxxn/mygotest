@@ -26,6 +26,14 @@ openssl rsa -pubin -in from_pkcs1_private_to_pkcs8_public.pem -RSAPublicKey_out 
 
 openssl rsa -RSAPublicKey_in -in pkcs1_public_loc.pem -pubout -out from_pkcs1_public_to_pkcs8_public_dev.pem
 
+/*
+公钥加密、私钥解密、私钥签名、公钥验签。
 
+The encoding/json package marshals maps in sorted key order and structs in the order that the fields are declared.
 
+Although the order used by the encoding/json package is not documented, 
+it's safe to assume that maps are marshaled in sorted key order and 
+structs are marshaled in field declaration order. 
+There are many tests in the standard library and elsewhere that depend on these orders.
 
+*/
