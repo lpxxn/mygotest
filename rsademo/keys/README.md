@@ -1,7 +1,7 @@
 ```
 #!/bin/sh
 # 生成PKCS#1的公私钥
-openssl genrsa -out pkcs1_private.pem 1024
+openssl genrsa -out pkcs1_private.pem 2048
 openssl rsa -in pkcs1_private.pem -RSAPublicKey_out -out pkcs1_public.pem
 
 or 不加RSAPublicKey_out 生成PKCS#8公钥， 如果是下面这样的话，公钥解析就需要用ParsePKIXPublicKey上面带RSAPublicKey_out 用的是
