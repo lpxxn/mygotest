@@ -14,6 +14,8 @@ func main() {
 	rev, _ := client.Ping().Result()
 	fmt.Println(rev)
 	testBit1 := "testBit1"
+	client.Del(testBit1)
+	defer client.Del(testBit1)
 	_, err = client.SetBit(testBit1, 0, 1).Result()
 	if err != nil {
 		panic(err)
@@ -30,7 +32,7 @@ func main() {
 		panic(err)
 	}
 	v, _ := client.Get(testBit1).Result()
-	fmt.Println([]byte(v))
+	fmt.Println([]byte(v), " len: ", len(v))
 
 	bitRev, err = client.GetBit(testBit1, 11250).Result()
 	if err != nil {
@@ -38,8 +40,9 @@ func main() {
 	}
 	fmt.Println(bitRev)
 
-	_, err = client.SetBit(testBit1, 123231250, 1).Result()
+	bitRev, err = client.GetBit(testBit1, 123231250).Result()
 	if err != nil {
 		panic(err)
 	}
+	fmt.Println(bitRev)
 }
