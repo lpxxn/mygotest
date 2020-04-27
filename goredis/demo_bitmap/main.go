@@ -26,13 +26,19 @@ func main() {
 		panic(err)
 	}
 	fmt.Println(bitRev)
+	_, err = client.SetBit(testBit1, 200, 1).Result()
+	if err != nil {
+		panic(err)
+	}
+	v, _ := client.Get(testBit1).Result()
+	fmt.Println([]byte(v), " len: ", len(v)) // len 26 byte  26 * 8 = 208bit
 
 	_, err = client.SetBit(testBit1, 11250, 1).Result()
 	if err != nil {
 		panic(err)
 	}
-	v, _ := client.Get(testBit1).Result()
-	fmt.Println([]byte(v), " len: ", len(v))
+	v, _ = client.Get(testBit1).Result()
+	fmt.Println([]byte(v), " len: ", len(v)) // 1407 1407*8=11256  11250
 
 	bitRev, err = client.GetBit(testBit1, 11250).Result()
 	if err != nil {
