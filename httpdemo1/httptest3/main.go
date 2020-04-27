@@ -38,6 +38,7 @@ func IndexHandler(w http.ResponseWriter, r *http.Request) {
 
 func main() {
 	http.HandleFunc("/", IndexHandler)
+        fmt.Println("listen in: 9100")
 	if err := http.ListenAndServe(":9100", nil); err != nil {
 		panic(err)
 	}
