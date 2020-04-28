@@ -9,3 +9,6 @@ go get github.com/volatiletech/sqlboiler/drivers/sqlboiler-psql
 
 run 
 go generate
+
+
+jet -source=PostgreSQL -host=localhost -port=5432 -user=root -password=123456 -dbname=test -schema=public -path=./gen
