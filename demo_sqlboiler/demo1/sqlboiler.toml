@@ -1,0 +1,9 @@
+wipe     = true
+no_tests = true
+
+[psql]
+  dbname = "test"
+  host   = "localhost"
+  user   = "root"
+  pass   = "123456"
+  sslmode = "disable"
