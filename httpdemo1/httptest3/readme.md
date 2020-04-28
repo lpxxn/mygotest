@@ -8,3 +8,8 @@ GOOS=linux GOARCH=arm GOARM=7 go build
 
 scp ./httptest3 pi@192.168.11.130:/home/pi/tmp/httptest3
 ```
+packer
+```
+ go build -ldflags="-s -w"
+ upx -9 httptest3
+```
