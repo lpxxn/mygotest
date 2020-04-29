@@ -32,6 +32,10 @@ func comment1() {
 	}
 }
 
+/*
+{{.}} 表示当前对象，如user对象
+{{.FieldName}} 表示对象的某个字段
+*/
 // Renders the root element
 func test1() {
 	tmpl, err := template.New("test").Parse("hello {{.}}! \n")
