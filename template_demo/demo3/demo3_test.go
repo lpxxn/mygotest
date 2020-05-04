@@ -31,16 +31,39 @@ func TestFunc1(t *testing.T) {
 		"say": func(name string) string {
 			return "hello " + name
 		},
-	}).Parse(`{{say .name}} 
+	}).Parse(`{{say .Name}} 
+	-------{{call .SS }} -------
+	-------{{call .Ss2 "abcd" }} -------
+	-------{{.Abc "ccccccccc"}} -------
 	time: {{now}}"
 	`)
 	if err != nil {
 		panic(err)
 	}
-	err = tmpl.Execute(os.Stdout, map[string]interface{}{"name": "tom"})
+
+	tvx := tv{
+		Name: "tom1",
+		SS: func() string {
+			return "value"
+		},
+		Ss2: func(s string) string {
+			return "ssss222"
+		},
+	}
+	err = tmpl.Execute(os.Stdout, tvx)
 	if err != nil {
 		panic(err)
 	}
+}
+
+type tv struct {
+	Name string
+	SS   func() string
+	Ss2  func(string) string
+}
+
+func (m tv) Abc(s string) string {
+	return "abcde defabdaefae" + s
 }
 
 // pipeline
