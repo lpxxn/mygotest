@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 
+	"github.com/go-redis/redis"
 	"github.com/mygotest/goredis"
 )
 
@@ -47,6 +48,19 @@ func main() {
 	fmt.Println(bitRev)
 
 	bitRev, err = client.GetBit(testBit1, 123231250).Result()
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println(bitRev)
+
+	notExistsKey := "some:not:exists"
+	client.Del(notExistsKey)
+	err = client.Get(notExistsKey).Err()
+	fmt.Println(err)
+	if err == redis.Nil {
+		fmt.Println("redis key not exists")
+	}
+	bitRev, err = client.GetBit(notExistsKey, 100).Result()
 	if err != nil {
 		panic(err)
 	}
