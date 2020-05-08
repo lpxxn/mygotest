@@ -54,7 +54,8 @@ func main() {
 	fmt.Println(bitRev)
 
 	notExistsKey := "some:not:exists"
-	client.Del(notExistsKey)
+	_, err = client.Del(notExistsKey).Result()
+	fmt.Println("delete not exists key error: ", err)
 	err = client.Get(notExistsKey).Err()
 	fmt.Println(err)
 	if err == redis.Nil {
