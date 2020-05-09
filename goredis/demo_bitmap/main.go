@@ -42,7 +42,7 @@ func main() {
 	fmt.Println([]byte(v), " len: ", len(v)) // 1407 1407*8=11256  11250
 
 	bitRev, err = client.GetBit(testBit1, 11250).Result()
-	if err != nil {
+	if err != nil  {
 		panic(err)
 	}
 	fmt.Println(bitRev)
