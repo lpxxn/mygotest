@@ -1,4 +1,4 @@
-package demo2
+package main_test
 
 import "testing"
 
@@ -34,3 +34,7 @@ func TestHelp1(t *testing.T) {
 		assert2(t, got, want)
 	})
 }
+/*
+https://chai2010.cn/advanced-go-programming-book/ch3-asm/ch3-06-func-again.html
+
+ */
