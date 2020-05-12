@@ -12,6 +12,9 @@ import (
 func Test1(t *testing.T) {
 	rb1 := roaring.BitmapOf(1, 2, 3, 4, 5, 100, 1000)
 	t.Log(rb1.String())
+	if rb1.Contains(1000) {
+		t.Log("contains")
+	}
 }
 
 type tests struct {
