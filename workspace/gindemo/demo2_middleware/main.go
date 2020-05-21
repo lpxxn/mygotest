@@ -13,6 +13,10 @@ func main() {
 	router := gin.Default()
 	router.Use(globalMiddleware())
 
+	router.GET("", func(c *gin.Context) {
+		c.JSON(http.StatusOK, gin.H{"ok": "ok"})
+	})
+
 	router.GET("/rest/n/api/*some", mid1(), mid2(), handler)
 	router.GET("redirect", func(context *gin.Context) {
 		context.Redirect(http.StatusMovedPermanently, "http://www.so.com?a=b")

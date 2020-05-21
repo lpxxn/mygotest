@@ -38,6 +38,8 @@ func (s SAbcDT) String() string {
 }
 
 func main() {
+	var a string = "afsaf"
+	fmt.Println(a)
 	arr := AsortObjArray{AsortObj{5}, AsortObj{1}, AsortObj{18}, AsortObj{10}, AsortObj{8}, AsortObj{89}, AsortObj{6}}
 	arr.SortDesc()
 	fmt.Println(arr)
