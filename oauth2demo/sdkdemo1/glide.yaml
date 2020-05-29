@@ -1,9 +1,0 @@
-package: github.com/mygotest/oauth2demo/sdkdemo1
-import:
-- package: github.com/julienschmidt/httprouter
-  version: ^1.1.0
-- package: github.com/ory/hydra
-  version: ^0.9.12
-  subpackages:
-  - firewall
-  - sdk
