@@ -36,5 +36,10 @@ func (s *FullJitterStrategy) Calculate(attempt int) time.Duration {
 
 	backoffDuration := BackoffMultiplier *
 		time.Duration(math.Pow(2, float64(attempt)))
+
+	//if backoffDuration < 0 {
+	//	return 0
+	//}
+	fmt.Print("---: ", backoffDuration, "  ")
 	return time.Duration(s.rng.Intn(int(backoffDuration)))
 }
