@@ -1,6 +1,7 @@
 package goredis
 
 import (
+	"context"
 	"fmt"
 
 	"github.com/go-redis/redis"
@@ -13,7 +14,7 @@ func RClient() (*redis.Client, error) {
 		DB:       2,  // use default DB
 	})
 
-	pong, err := client.Ping().Result()
+	pong, err := client.Ping(context.Background()).Result()
 	fmt.Println(pong, err)
 
 	return client, err
