@@ -8,7 +8,10 @@ import (
 )
 
 func main() {
-	nc, err := nats.Connect(nats.DefaultURL)
+
+	localHost := "nats://192.168.10.208:4222"
+	//nc, err := nats.Connect(nats.DefaultURL)
+	nc, err := nats.Connect(localHost)
 	if err != nil {
 		panic(err)
 	}
