@@ -19,3 +19,8 @@ func main() {
 	}
 	fmt.Println("end publish")
 }
+
+/*
+可以直接连 nat-server和 nats-streaming-server
+
+*/

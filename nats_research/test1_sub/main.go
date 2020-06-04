@@ -30,5 +30,6 @@ func main() {
 
 /*
 在断网的情况下，可能会丢信息，目前测试，断网，发了3条，等了不到一分钟，再联网，只收到了2条数据
+可以直接连 nat-server和 nats-streaming-server
 
 */
