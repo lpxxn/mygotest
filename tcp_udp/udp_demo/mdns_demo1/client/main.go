@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"math/rand"
+	"os"
 	"time"
 
 	"github.com/miekg/dns"
@@ -16,6 +17,12 @@ func main() {
 	}
 	defer client.Close()
 
+	hostName, err := os.Hostname()
+	if err != nil {
+		fmt.Errorf("could not determine host: %v", err)
+		return
+	}
+	hostName = fmt.Sprintf("%s.", hostName)
 	//	name := fmt.Sprintf("%s.%s.%s.", sd.Instance, trimDot(sd.Service), trimDot(sd.Domain))
 	// go.micro.srv.greeter-bed881eb-4191-4d51-8eb9-3ab2ad4076a1.go.micro.srv.greeter.micro.
 	name := "lilili.abc.srv.test-bed881eb-4191-4d51-8eb9-3ab2ad4076a1.go.micro.srv.greeter.micro."
@@ -33,7 +40,7 @@ func main() {
 		Priority: 0,
 		Weight:   0,
 		Port:     uint16(8888),
-		Target:   "li-peng-mc-macbook.local.",
+		Target:   hostName,
 	}
 	txt := &dns.TXT{
 		Hdr: dns.RR_Header{
