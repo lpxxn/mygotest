@@ -101,6 +101,23 @@ func (c *MClient) Recv(l *net.UDPConn, msgCh chan *dns.Msg) {
 	}
 }
 
+func (c *MClient) SetInterface(iface *net.Interface, loopback bool) error {
+	p := ipv4.NewPacketConn(c.IPv4UnicastConn)
+	if err := p.JoinGroup(iface, &net.UDPAddr{IP: mdnsGroupIPv4}); err != nil {
+		return err
+	}
+	p = ipv4.NewPacketConn(c.IPv4MulticastConn)
+	if err := p.JoinGroup(iface, &net.UDPAddr{IP: mdnsGroupIPv4}); err != nil {
+		return err
+	}
+
+	if loopback {
+		p.SetMulticastLoopback(true)
+	}
+
+	return nil
+}
+
 func (c *MClient) Close() error {
 	c.closeLock.Lock()
 	defer c.closeLock.Unlock()
@@ -163,7 +180,7 @@ func NewMServer() (*MServer, error) {
 		closeLock:         sync.Mutex{},
 		closed:            false,
 	}
-	go s.RevN(s.IPv4MulticastConn)
+	//go s.RevN(s.IPv4MulticastConn)
 	return s, nil
 }
 

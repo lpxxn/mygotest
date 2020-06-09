@@ -15,6 +15,7 @@ func main() {
 		panic(err)
 	}
 	defer client.Close()
+	client.SetInterface(nil, true)
 
 	msgCh := make(chan *dns.Msg, 32)
 	go client.Recv(client.IPv4UnicastConn, msgCh)
