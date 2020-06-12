@@ -8,6 +8,7 @@ import (
 
 func main() {
 	src := []byte(`
+// test common
 var a bool = true
 b := 1 + 2.0
 println("hello")
