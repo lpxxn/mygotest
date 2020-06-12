@@ -13,6 +13,8 @@ var a bool = true
 b := 1 + 2.0
 println("hello")
 fmt.Println("world")
+z := "你好"
+println("こんにちは")
 `)
 	fset := token.NewFileSet()
 	file := fset.AddFile("hello.go", fset.Base(), len(src))
