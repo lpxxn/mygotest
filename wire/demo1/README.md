@@ -3,3 +3,4 @@ go list -e -json -compiled=true -test=false -export=false -deps=true -find=false
 
 go list -json
 ```
+https://github.com/google/wire
