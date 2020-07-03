@@ -8,8 +8,7 @@ import (
 	"testing"
 )
 
-func TestDir(t *testing.T) {
-	const src = `package pkgName
+const src1 = `package pkgName
 import ("a"; "b")
 type MyType int
 const PI = 3.14
@@ -17,8 +16,11 @@ var Length = 1
 
 func main() {}
 `
+
+func TestDir(t *testing.T) {
+
 	fSet := token.NewFileSet()
-	f, err := parser.ParseFile(fSet, "a.go", src, parser.AllErrors)
+	f, err := parser.ParseFile(fSet, "a.go", src1, parser.AllErrors)
 	if err != nil {
 		panic(err)
 	}
@@ -40,4 +42,28 @@ func main() {}
 			}
 		}
 	}
+}
+
+func TestVisitor(t *testing.T) {
+	fst := token.NewFileSet()
+	f, err := parser.ParseFile(fst, "hello.go", src1, parser.AllErrors)
+	if err != nil {
+		t.Fatal(err)
+	}
+	ast.Walk(new(myNodeVisitor), f)
+}
+
+type myNodeVisitor struct {
+}
+
+/*
+type Visitor interface {
+	Visit(node Node) (w Visitor)
+}
+*/
+func (p *myNodeVisitor) Visit(n ast.Node) ast.Visitor {
+	if x, ok := n.(*ast.Ident); ok {
+		fmt.Println("myNodeVisitor.Visit: ", x.Name)
+	}
+	return p
 }
