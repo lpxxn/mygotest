@@ -175,4 +175,6 @@ https://juejin.im/post/5c75132f51882562276c5065
 sonyflake 是 39 bits for time in units of 10 msec
 >>> (2**39-1)/(100*60*60*24*365)
 174.32642500221968
+
+标识在 snowflake_test
 */
