@@ -91,7 +91,30 @@ const a1, a2 = 1, "aaa"
 				if vs, ok := spec.(*ast.ValueSpec); ok {
 					t.Logf("ValueSpec name: %#v type: %#v values: %#v \n", vs.Names, vs.Type, vs.Values)
 					ast.Print(nil, vs)
+				}
+			}
+		}
+	}
+}
 
+func TestVar(t *testing.T) {
+	src := `package foo
+var Pi = 3.14
+var E float64 = 2.71828
+var a1, a2 = 1, "aaa"
+`
+	fst := token.NewFileSet()
+	f, err := parser.ParseFile(fst, "a.go", src, parser.AllErrors)
+	if err != nil {
+		t.Fatal(err)
+	}
+	for _, decl := range f.Decls {
+		if v, ok := decl.(*ast.GenDecl); ok {
+			for _, spec := range v.Specs {
+				t.Logf("spec : %#v\n", spec)
+				if vs, ok := spec.(*ast.ValueSpec); ok {
+					t.Logf("ValueSpec name: %#v type: %#v values: %#v \n", vs.Names, vs.Type, vs.Values)
+					ast.Print(nil, vs)
 				}
 			}
 		}
