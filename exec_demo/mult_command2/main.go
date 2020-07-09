@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"io/ioutil"
 	"os/exec"
+
+	"github.com/mygotest/exec_demo"
 )
 
 func main() {
@@ -23,4 +25,6 @@ func main() {
 	fmt.Printf("body err: %s ,err: %#v\n", string(s), err)
 	//err = exec_demo.RunCmd(m)
 	fmt.Printf("err: %#v\n", err)
+
+
 }
