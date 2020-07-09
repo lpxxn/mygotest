@@ -86,7 +86,7 @@ func main() {
     }
 }
 To jump over machines use the ProxyCommand directive in a ssh config file.
-
+.ssh/config
 Host remote_machine_name
   ProxyCommand ssh -q bastion nc remote_machine_ip 22
 
