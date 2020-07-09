@@ -16,7 +16,7 @@ func TestRemoteCmd2(t *testing.T) {
 	// /home/ec2-user/baseinfo
 	// 会话[:窗口:面板]
 	// work:0  work:1  work:baseinfo
-	err := RunSSHCmd("cafe2sandboxdev", `tmux send-keys -t work:1 "aaaaaaa" C-m`)
+	err := RunSSHCmd("cafe2sandboxdev", `tmux send-keys -t work:3 "aaaaaaa" C-m && sleep 0.1s && tmux capture-pane -t work:3 && tmux show-buffer`)
 	if err != nil {
 		t.Fatal(err)
 	}
