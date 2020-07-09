@@ -39,10 +39,10 @@ func startCmd(cmd string, cmdDir ...string) (*exec.Cmd, io.ReadCloser, io.ReadCl
 	return c, f, f, err
 }
 
-func RunSSHCmd(remoteMachine string, cmdStr string, cmdDir ...string) error {
+func RunSSHCmd(remoteMachine string, cmdStr string) error {
 	var err error
 	fmt.Println("begin run command")
-	cmd, stdout, stderr, err := startSSHCmd(remoteMachine, cmdStr, cmdDir...)
+	cmd, stdout, stderr, err := startSSHCmd(remoteMachine, cmdStr)
 	if err != nil {
 		return err
 	}
@@ -60,11 +60,8 @@ func RunSSHCmd(remoteMachine string, cmdStr string, cmdDir ...string) error {
 	return nil
 }
 
-func startSSHCmd(remoteMachine string, cmd string, cmdDir ...string) (*exec.Cmd, io.ReadCloser, io.ReadCloser, error) {
+func startSSHCmd(remoteMachine string, cmd string) (*exec.Cmd, io.ReadCloser, io.ReadCloser, error) {
 	c := exec.Command("ssh", remoteMachine, cmd)
-	if len(cmdDir) > 0 && cmdDir[0] != "" {
-		c.Dir = cmdDir[0]
-	}
 	f, err := pty.Start(c)
 	return c, f, f, err
 }
