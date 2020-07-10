@@ -152,3 +152,36 @@ type c chan int
 	其中ast.ChanType.Dir值是3，也就是SEND|RECV比特位组合
 	 */
 }
+
+func TestFuncType1(t *testing.T) {
+	const src = `package foo
+type FuncType func(a, b int) bool
+`
+	fset := token.NewFileSet()
+	f, err := parser.ParseFile(fset, "a.go", src, parser.AllErrors)
+	if err != nil {
+		t.Fatal(err)
+	}
+	for _, decl := range f.Decls {
+		//ast.Print(nil, decl.(*ast.GenDecl).Specs[0])
+		ast.Print(nil, decl.(*ast.GenDecl).Specs)
+	}
+}
+
+func TestInterfaceType1(t *testing.T) {
+	const src = `package foo
+type IntReader interface {
+	Read() int
+}
+`
+	fset := token.NewFileSet()
+	f, err := parser.ParseFile(fset, "a.go", src, parser.AllErrors)
+	if err != nil {
+		t.Fatal(err)
+	}
+	for _, decl := range f.Decls {
+		//ast.Print(nil, decl.(*ast.GenDecl).Specs[0])
+		ast.Print(nil, decl.(*ast.GenDecl).Specs)
+	}
+}
+

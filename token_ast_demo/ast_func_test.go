@@ -23,6 +23,9 @@ func (p *Person) SetInfo(name, desc string, age int) (bool, error) {
 	p.age = age
 	return true, nil
 }
+func NewPerson() *Person {
+	return &Person{}
+}
 `
 	fst := token.NewFileSet()
 	f, err := parser.ParseFile(fst, "a.go", src, parser.AllErrors)
