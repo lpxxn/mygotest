@@ -6,7 +6,7 @@ import (
 	"testing"
 )
 
-// 函数面值
+// 函数面值 都没有名字
 func TestFuncLiteral1(t *testing.T) {
 	// FunctionLit   = "func" Signature FunctionBody .
 	// 同样是由func关键字开始，后面是函数签名（输入参数和返回值）和函数体。函数面值和函数声明的最大差别是没有函数名字。
@@ -22,5 +22,27 @@ func TestFuncLiteral1(t *testing.T) {
 		t.Fatal(err)
 	}
 
+	ast.Print(nil, expr)
+}
+
+func TestArrayLiteral1(t *testing.T) {
+	expr, err := parser.ParseExpr("[1]int{1}")
+	if err != nil {
+		t.Fatal(err)
+	}
+	ast.Print(nil, expr)
+
+	expr, err = parser.ParseExpr("[...]int{1,2,3}")
+	if err != nil {
+		t.Fatal(err)
+	}
+	ast.Print(nil, expr)
+}
+
+func TestStructLiteral1(t *testing.T) {
+	expr, err := parser.ParseExpr("struct{X int}{1}")
+	if err != nil {
+		t.Fatal(err)
+	}
 	ast.Print(nil, expr)
 }
