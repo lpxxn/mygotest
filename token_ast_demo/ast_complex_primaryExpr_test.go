@@ -52,3 +52,14 @@ func TestSliceExprType1(t *testing.T) {
 	}
 	ast.Print(nil, expr)
 }
+
+func TestAssertionExpr1(t *testing.T) {
+	/*
+		类型断言是判断一个接口对象是否满足另一个接口、或者接口持有的对象是否是一个确定的非接口类型
+	*/
+	expr, err := parser.ParseExpr(`x.(y)`)
+	if err != nil {
+		t.Fatal(err)
+	}
+	ast.Print(nil, expr)
+}
