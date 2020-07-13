@@ -15,6 +15,8 @@ println("hello")
 fmt.Println("world")
 z := "你好"
 println("こんにちは")
+func main() {
+}
 `)
 	fset := token.NewFileSet()
 	file := fset.AddFile("hello.go", fset.Base(), len(src))
