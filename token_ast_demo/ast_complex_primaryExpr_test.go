@@ -27,9 +27,26 @@ func TestSelectorType1(t *testing.T) {
 	ast.Print(nil, expr)
 }
 
-
 func TestIndexType1(t *testing.T) {
 	expr, err := parser.ParseExpr(`x[y]`)
+	if err != nil {
+		t.Fatal(err)
+	}
+	ast.Print(nil, expr)
+}
+
+func TestSliceExprType1(t *testing.T) {
+	/*
+		切片运算也是在一个主体表达式之后的中括弧中表示，不过切片运算至少有一个冒号分隔符，或者是两个冒号分隔符。切片运算主要包含开始索引、结束索引和最大范围三个部分。下面是x[1:2:3]切片运算的语法树：
+		其中X、Low、High、Max分别表示切片运算的主体、开始索引、结束索引和最大范围
+	*/
+	expr, err := parser.ParseExpr(`x[0:1]`)
+	if err != nil {
+		t.Fatal(err)
+	}
+	ast.Print(nil, expr)
+	t.Log("----------------------")
+	expr, err = parser.ParseExpr(`x[0:1:3]`)
 	if err != nil {
 		t.Fatal(err)
 	}
