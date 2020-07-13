@@ -46,3 +46,11 @@ func TestStructLiteral1(t *testing.T) {
 	}
 	ast.Print(nil, expr)
 }
+
+func TestMapLiteral1(t *testing.T) {
+	expr, err := parser.ParseExpr("map[int]int{1: 1}")
+	if err != nil {
+		t.Fatal(err)
+	}
+	ast.Print(nil, expr)
+}
