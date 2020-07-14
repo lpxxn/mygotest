@@ -6,7 +6,8 @@ import (
 	"go/token"
 	"testing"
 )
-
+// stmt expr
+// 是 statement 和expression 也就是 语句 和 表达式
 // 10 语句块和语句
 
 func TestBlockFunc1(t *testing.T) {
