@@ -8,7 +8,8 @@ import (
 )
 
 // stmt expr
-// 是 statement 和expression 也就是 语句 和 表达式
+// statement 和expression 也就是 语句 和 表达式
+// decl declaration 声明
 // 10 语句块和语句
 
 func TestBlockFunc1(t *testing.T) {
@@ -98,4 +99,33 @@ func main() {
 		    Rhs    []Expr
 		}
 	*/
+}
+
+func TestBlockFunc5(t *testing.T) {
+	src := `package pkg_a
+func main() {
+	return a, err
+}
+`
+	fst := token.NewFileSet()
+	f, err := parser.ParseFile(fst, "a.go", src, parser.AllErrors)
+	if err != nil {
+		t.Fatal(err)
+	}
+	//ast.Print(nil, f)
+	ast.Print(nil, f.Decls[0].(*ast.FuncDecl))
+
+	src = `package pkg_a
+func main() {
+	var a string= "abc"
+	err := 123
+	return a, err
+}
+`
+	f, err = parser.ParseFile(fst, "a.go", src, parser.AllErrors)
+	if err != nil {
+		t.Fatal(err)
+	}
+	//ast.Print(nil, f)
+	ast.Print(nil, f.Decls[0].(*ast.FuncDecl))
 }
