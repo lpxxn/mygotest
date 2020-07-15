@@ -188,6 +188,27 @@ func TestBlockAssertOrSwitch1(t *testing.T) {
 	src := `package pkg_a
 func main() {
 	x.(int)
+
+switch v := b.(type) {
+case *c:
+}
+}
+`
+
+	fst := token.NewFileSet()
+	f, err := parser.ParseFile(fst, "a.go", src, parser.AllErrors)
+	if err != nil {
+		t.Fatal(err)
+	}
+	ast.Print(nil, f)
+	//ast.Print(nil, f.Decls[0].(*ast.FuncDecl))
+}
+
+func TestBlockGoOrDefer1(t *testing.T) {
+	src := `package pkg_a
+func main() {
+	go hello("ha ha")
+	defer func() {}()
 }
 `
 
