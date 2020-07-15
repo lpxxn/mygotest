@@ -101,7 +101,7 @@ func main() {
 	*/
 }
 
-func TestBlockFunc5(t *testing.T) {
+func TestBlockDeclAndAssign1(t *testing.T) {
 	src := `package pkg_a
 func main() {
 	return a, err
@@ -119,6 +119,8 @@ func main() {
 func main() {
 	var a string= "abc"
 	err := 123
+	c, d := 1, "a"
+	e := []int{}
 	return a, err
 }
 `
