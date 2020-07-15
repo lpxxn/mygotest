@@ -65,6 +65,7 @@ func main() {
 }
 `
 	f := func(src string) {
+		t.Helper()
 		fset := token.NewFileSet()
 		f, err := parser.ParseFile(fset, "a.go", src, parser.AllErrors)
 		if err != nil {
@@ -86,7 +87,11 @@ func main() {
 import "math"
 
 func main() {
-	var _ = 2 + math.Pi
+	var a = 2 + math.Pi
+	var b bool = false
+	c := true
+	b = c
+	c = a
 }
 `
 	f(src)
