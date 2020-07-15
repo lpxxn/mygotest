@@ -183,3 +183,19 @@ for i, v := range m {}
 	}
 	ast.Print(nil, f)
 }
+
+func TestBlockAssertOrSwitch1(t *testing.T) {
+	src := `package pkg_a
+func main() {
+	x.(int)
+}
+`
+
+	fst := token.NewFileSet()
+	f, err := parser.ParseFile(fst, "a.go", src, parser.AllErrors)
+	if err != nil {
+		t.Fatal(err)
+	}
+	ast.Print(nil, f)
+	//ast.Print(nil, f.Decls[0].(*ast.FuncDecl))
+}
