@@ -91,3 +91,31 @@ func main() {
 `
 	f(src)
 }
+
+func TestBoolExprType(t *testing.T) {
+	expr, err := parser.ParseExpr(`a == true`)
+	if err != nil {
+		t.Fatal(err)
+	}
+	ast.Print(nil, expr)
+	t.Log(`---------------------------`)
+	const src = `package pkgname
+var a int = 1
+var length bool = true
+`
+	fset := token.NewFileSet()
+	f, err := parser.ParseFile(fset, "hello.go", src, parser.AllErrors)
+	if err != nil {
+		t.Fatal(err)
+	}
+	ast.Print(nil, f)
+	conf := &types.Config{
+		Importer: importer.Default(),
+	}
+	pkg, err := conf.Check("a.go", fset, []*ast.File{f}, nil)
+	if err != nil {
+		t.Error(err)
+	}
+	t.Log(`----------------================`)
+	t.Log(pkg)
+}

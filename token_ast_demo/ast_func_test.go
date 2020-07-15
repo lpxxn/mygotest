@@ -42,3 +42,58 @@ func NewPerson() *Person {
 		}
 	}
 }
+
+func TestBasicList1(t *testing.T) {
+	expr, _ := parser.ParseExpr(`"9527"`)
+	ast.Print(nil, expr)
+
+	expr, _ = parser.ParseExpr(`9527`)
+	ast.Print(nil, expr)
+
+	expr, _ = parser.ParseExpr(`952.7`)
+	ast.Print(nil, expr)
+
+	expr, _ = parser.ParseExpr(`true`)
+	ast.Print(nil, expr)
+	/*
+	   0  *ast.Ident {
+	   1  .  NamePos: 1
+	   2  .  Name: "true"
+	   3  .  Obj: *ast.Object {
+	   4  .  .  Kind: bad
+	   5  .  .  Name: ""
+	   6  .  }
+	   7  }
+	*/
+
+	lit := &ast.BasicLit{
+		Kind:  token.FLOAT,
+		Value: "1",
+	}
+	ast.Print(nil, lit)
+
+	ast.Print(nil, ast.NewIdent(`false`))
+	/*
+		Bad表示未知的类型，其它的分别对应Go语言中包、常量、类型、变量、函数和标号等语法结构。而对于标识符中更具体的类型（比如是整数还是布尔类型）则是由ast.Object的其它成员描述。
+	*/
+
+}
+
+func TestBasicList2(t *testing.T) {
+	expr, err := parser.ParseExpr(`a == true`)
+	if err != nil {
+		t.Fatal(err)
+	}
+	ast.Print(nil, expr)
+
+	fset := token.NewFileSet()
+	const src = `package pkgname
+var a int = 1
+var length bool = true
+`
+	f, err := parser.ParseFile(fset, "hello.go", src, parser.AllErrors)
+	if err != nil {
+		t.Fatal(err)
+	}
+	ast.Print(nil, f)
+}

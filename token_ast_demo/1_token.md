@@ -14,6 +14,27 @@ Go语言中主要有标识符、关键字、运算符和分隔符等类型等Tok
 identifier = letter { letter | unicode_digit } .
 letter     = unicode_letter | "_" .
 ```
+```
+https://golang.org/ref/spec#Notation
+后面的语法使用扩展的巴克斯-诺尔范式 (EBNF)进行描述:
+
+Production  = production_name "=" [ Expression ] "." .
+Expression  = Alternative { "|" Alternative } .
+Alternative = Term { Term } .
+Term        = production_name | token [ "…" token ] | Group | Option | Repetition .
+Group       = "(" Expression ")" .
+Option      = "[" Expression "]" .
+Repetition  = "{" Expression "}" .
+产生式由一些术语和下面的几个按优先级从低到高的操作符/运算符组成：
+
+|   任选其一
+()  一组，一个整体
+[]  可选/可有可无 (0 或是 1次)
+{}  重复多次 (0 到 n 次)
+小写的产生式的名字通常用于表示一个词法单元/符号；非终结符一般用驼峰式命名。词法单元/符号我们使用双引号"" 或是反向单引号``括住或是引住。
+
+a … b这种形式代表的是从a到b可选的字符集合。省略号…在本规范中也用于某些处的表示不完全枚举或是不再详细列出的代码分片。字符…(不同于三个字符的...)，它不是 Go 语言的一个词法单元/符号。
+```
 
 其中identifier表示标识符，由字母和数字组成，开头第一个字符必须是字母。需要注意的是下划线也是作为字母，因此可以用下划线作为标识符。不过美元符号`$`并不属于字母，因此标识符中不能包含美元符号。
 
@@ -78,6 +99,22 @@ const (
 	CHAR   // 'a'
 	STRING // "abc"
 	literal_end
+```
+
+```
+	// A BasicLit node represents a literal of basic type.
+	BasicLit struct {
+		ValuePos token.Pos   // literal position
+		Kind     token.Token // token.INT, token.FLOAT, token.IMAG, token.CHAR, or token.STRING
+		Value    string      // literal string; e.g. 42, 0x7f, 3.14, 1e-9, 2.4i, 'a', '\x7f', "foo" or `\m\n\o`
+	}
+
+	// An Ident node represents an identifier.
+	Ident struct {
+		NamePos token.Pos // identifier position
+		Name    string    // identifier name
+		Obj     *Object   // denoted object; or nil
+	}
 ```
 
 其中literal_beg和literal_end是私有的类型，主要用于表示面值类型Token的值域范围，因此判断一个Token的值在literal_beg和literal_end之间就可以确定是面值类型。
