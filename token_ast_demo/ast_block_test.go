@@ -1,6 +1,7 @@
 package token_ast_demo
 
 import (
+	"fmt"
 	"go/ast"
 	"go/parser"
 	"go/token"
@@ -130,4 +131,55 @@ func main() {
 	}
 	//ast.Print(nil, f)
 	ast.Print(nil, f.Decls[0].(*ast.FuncDecl))
+}
+
+func TestBlockIFELSE1(t *testing.T) {
+	src := `package pkg_a
+func main() {
+	if true {
+	} else {
+
+	}
+}
+`
+
+	fst := token.NewFileSet()
+	f, err := parser.ParseFile(fst, "a.go", src, parser.AllErrors)
+	if err != nil {
+		t.Fatal(err)
+	}
+	ast.Print(nil, f)
+	//ast.Print(nil, f.Decls[0].(*ast.FuncDecl))
+}
+
+func TestBlockFOR1(t *testing.T) {
+	src := `package pkg_a
+func main() {
+for {}
+for true {}
+for i := 0; true; i++ {}
+for i := 0;  i < 55; i++ {}
+}
+`
+
+	fst := token.NewFileSet()
+	f, err := parser.ParseFile(fst, "a.go", src, parser.AllErrors)
+	if err != nil {
+		t.Fatal(err)
+	}
+	ast.Print(nil, f)
+	//ast.Print(nil, f.Decls[0].(*ast.FuncDecl))
+	fmt.Println("------------------------------")
+	src = `package pkg_a
+func main() {
+for i, v := range m {}
+}
+`
+
+	fst = token.NewFileSet()
+	f, err = parser.ParseFile(fst, "a.go", src, parser.AllErrors)
+	if err != nil {
+		t.Fatal(err)
+	}
+	ast.Print(nil, f)
 }
