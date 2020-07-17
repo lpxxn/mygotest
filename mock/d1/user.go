@@ -7,3 +7,5 @@ type User interface {
 	Name() string
 	SetAge(age int) bool
 }
+
+// go generate ./...
