@@ -3,9 +3,8 @@ package d1
 import (
 	"testing"
 
-	"github.com/caicloud/nirvana/log"
 	"github.com/golang/mock/gomock"
-	mock_data "github.com/mygotest/mock/d1/dao"
+	mock_data "github.com/lpxxn/gotest/mock/dao"
 )
 
 func TestUser1(t *testing.T) {
@@ -27,7 +26,7 @@ func TestUser1(t *testing.T) {
 
 func TestUser2(t *testing.T) {
 	mockUser := mock_data.NewMockUser(gomock.NewController(t))
-	mockUser.EXPECT().V(1, "2")
+	mockUser.EXPECT().V(1, "2").AnyTimes()
 	// 没有 return 会返回空
 	//mockUser.EXPECT().V(1, "2").Return("a", nil)
 	var u User = mockUser
@@ -38,10 +37,10 @@ func TestUser2(t *testing.T) {
 func TestUser3(t *testing.T) {
 	mockUser := mock_data.NewMockUser(gomock.NewController(t))
 	mockUser.EXPECT().V(1, "2").DoAndReturn(func(idx int, n string) (string, error) {
-		log.Info(idx, "  ", n)
+		t.Log(idx, "  ", n)
 		return "1", nil
 	}).DoAndReturn(func(idx int, n string) (string, error) {
-		log.Info(idx, "  ", n)
+		t.Log(idx, "  ", n)
 		return "2", nil
 	})
 	// 没有有多个 return 会返回最后一个
