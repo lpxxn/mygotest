@@ -7,7 +7,12 @@ go list -e -json -compiled=true -test=false -export=false -deps=true -find=false
 
 go list -json
 ```
-debug 的时候 
+run
+```
+GO111MODULE=auto GOPACKAGESDEBUG=true wire
+```
+
+goland debug 的时候 
 ```
 GOPACKAGESDEBUG=true;GO111MODULE=auto
 ```
