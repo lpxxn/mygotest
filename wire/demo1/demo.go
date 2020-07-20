@@ -48,3 +48,14 @@ func (e Event) Start() {
 	fmt.Println(msg)
 }
 
+func NewMessage2(phrase string, b int) Message {
+	fmt.Println(b)
+	return Message(phrase)
+}
+
+func NewEvent2(a string, b int, g Greeter) (Event, error) {
+	if g.Grumpy {
+		return Event{}, errors.New("could not create event: evnet greeter is grumpy")
+	}
+	return Event{Greeter: g}, nil
+}

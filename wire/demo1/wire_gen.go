@@ -31,6 +31,16 @@ func Test(phrase string) (Event, error) {
 	return event, nil
 }
 
+func InitEvent2(a string, b int) (Event, error) {
+	message := NewMessage2(a, b)
+	greeter := NewGreeter(message)
+	event, err := NewEvent2(a, b, greeter)
+	if err != nil {
+		return Event{}, err
+	}
+	return event, nil
+}
+
 // abcde.go:
 
 var S string

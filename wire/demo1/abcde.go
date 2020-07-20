@@ -4,6 +4,7 @@ package main
 
 import (
 	"fmt"
+
 	"github.com/google/wire"
 )
 
@@ -26,5 +27,11 @@ func Test(phrase string) (Event, error) {
 	//wire.Build(NewEvent, NewGreeter, NewMessage)
 	//wire.Build(NewMessage, NewEvent, NewGreeter, TestMsg)
 	wire.Build(NewGreeter, NewMessage, NewEvent)
+	return Event{}, nil
+}
+
+func InitEvent2(a string, b int) (Event, error) {
+	//wire.Build(NewGreeter, NewMessage, NewEvent2)
+	wire.Build(NewGreeter, NewEvent2, NewMessage2)
 	return Event{}, nil
 }
