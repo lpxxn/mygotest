@@ -59,3 +59,17 @@ func NewEvent2(a string, b int, g Greeter) (Event, error) {
 	}
 	return Event{Greeter: g}, nil
 }
+
+type Event3Param struct {
+	A string
+	B float32
+	C string
+	D int32
+}
+
+func NewEvent3(a string, g Greeter, b Event3Param) (Event, error) {
+	if g.Grumpy {
+		return Event{}, errors.New("could not create event: evnet greeter is grumpy")
+	}
+	return Event{Greeter: g}, nil
+}

@@ -35,3 +35,9 @@ func InitEvent2(a int, b string) (Event, error) {
 	wire.Build(NewGreeter, NewEvent2, NewMessage2)
 	return Event{}, nil
 }
+
+func InitEvent3(a string, b int, c Event3Param) (Event, error) {
+	//wire.Build(NewGreeter, NewMessage, NewEvent2)
+	wire.Build(NewGreeter, NewEvent3, NewMessage2)
+	return Event{}, nil
+}

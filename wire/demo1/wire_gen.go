@@ -41,6 +41,16 @@ func InitEvent2(a int, b string) (Event, error) {
 	return event, nil
 }
 
+func InitEvent3(a string, b int, c Event3Param) (Event, error) {
+	message := NewMessage2(a, b)
+	greeter := NewGreeter(message)
+	event, err := NewEvent3(a, greeter, c)
+	if err != nil {
+		return Event{}, err
+	}
+	return event, nil
+}
+
 // abcde.go:
 
 var S string
