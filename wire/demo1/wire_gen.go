@@ -31,10 +31,10 @@ func Test(phrase string) (Event, error) {
 	return event, nil
 }
 
-func InitEvent2(a string, b int) (Event, error) {
-	message := NewMessage2(a, b)
+func InitEvent2(a int, b string) (Event, error) {
+	message := NewMessage2(b, a)
 	greeter := NewGreeter(message)
-	event, err := NewEvent2(a, b, greeter)
+	event, err := NewEvent2(b, a, greeter)
 	if err != nil {
 		return Event{}, err
 	}

@@ -30,7 +30,7 @@ func Test(phrase string) (Event, error) {
 	return Event{}, nil
 }
 
-func InitEvent2(a string, b int) (Event, error) {
+func InitEvent2(a int, b string) (Event, error) {
 	//wire.Build(NewGreeter, NewMessage, NewEvent2)
 	wire.Build(NewGreeter, NewEvent2, NewMessage2)
 	return Event{}, nil
