@@ -61,9 +61,12 @@ func TestTwitterEpoch(t *testing.T) {
 }
 
 func TestSnowFlakeTime(t *testing.T) {
-	currentUnixTime := time.Now().UnixNano()
+	curtTime := time.Now()
+	currentUnixTime := curtTime.UnixNano()
 	now := currentUnixTime / nanoInMilli // 纳秒转毫秒
 	t.Log(now, "  ", currentUnixTime>>20, "  ", "  \n")
+	t.Log(time.Unix(0, int64(time.Millisecond)*now), "   ", time.Unix(0, int64(time.Millisecond)*(currentUnixTime>>20)))
+
 	var number int64 = 1
 	nowVal := now - epoch
 	t.Log("now:", now, "  nowVal: ", nowVal)
