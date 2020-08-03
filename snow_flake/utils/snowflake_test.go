@@ -8,24 +8,24 @@ import (
 )
 
 func TestConstValue(t *testing.T) {
-	println(workerMax)
-	println(numberMax)
-	println(timeShift)
-	println(workerShift)
+	t.Log(workerMax)
+	t.Log(numberMax)
+	t.Log(timeShift)
+	t.Log(workerShift)
 
 	const workMax2 int64 = 1<<workerBits - 1
 	t.Log(workMax2)
 	t.Log(time.Duration(-1))
 	time.Sleep(time.Duration(time.Second * -10))
 	nanoInMilli := time.Millisecond.Nanoseconds()
-	println(nanoInMilli)
+	t.Log(nanoInMilli)
 	pt, err := time.Parse("2006-01-02 15:04:05 -0700 UTC", "2010-11-04 01:42:54 +0000 UTC")
 	if err != nil {
 		panic(err)
 	}
-	println(pt.UnixNano())
+	t.Log(pt.UnixNano())
 	defaultEpoch := uint64(pt.UnixNano() / nanoInMilli)
-	println(defaultEpoch)
+	t.Log(defaultEpoch)
 }
 
 func TestTwitterEpoch(t *testing.T) {
@@ -61,6 +61,7 @@ func TestTwitterEpoch(t *testing.T) {
 }
 
 func TestSnowFlakeTime(t *testing.T) {
+	t.Log(time.Millisecond.Milliseconds(), "  ", time.Millisecond.Microseconds(), " ", time.Millisecond.Nanoseconds())
 	curtTime := time.Now()
 	currentUnixTime := curtTime.UnixNano()
 	now := currentUnixTime / nanoInMilli // 纳秒转毫秒
