@@ -65,6 +65,11 @@ func TestCafeteriaName(t *testing.T) {
 	for i, match := range re.FindAllString(str, -1) {
 		t.Logf(match, "found at index\n", i)
 	}
+	match := re.FindStringSubmatch(str)
+	t.Log("match[1]: ", match[1])
+	for i, name := range re.SubexpNames() {
+		t.Logf("name : %s  value: %s \n", name, match[i])
+	}
 }
 
 func TestCafeteriaName2(t *testing.T) {
