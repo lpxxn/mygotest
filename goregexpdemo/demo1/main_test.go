@@ -8,7 +8,7 @@ import (
 func Benchmark_Reg(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		if ok, _ := regexp.MatchString(`^ZONE\d*$`, "ZONE12122323"); ok {
-			//fmt.Println("ZONE12122323 ok")
+			fmt.Println("ZONE12122323 ok")
 		}
 
 		//if ok, _ := regexp.MatchString(`^ZONE\d*$`, "zone12122323"); ok {
@@ -79,7 +79,6 @@ func TestCafeteriaName2(t *testing.T) {
 	match := re.FindStringSubmatch(str)
 	for i, name := range re.SubexpNames() {
 		t.Logf("name : %s  value: %s \n", name, match[i])
-
 	}
 }
 
