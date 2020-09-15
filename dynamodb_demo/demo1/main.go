@@ -5,8 +5,7 @@ import (
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/service/dynamodb"
 	"github.com/mygotest/dynamodb_demo/dynamodb_utils"
-	"go.planetmeican.com/planet/dynamodbdao"
-)
+
 var DB *dynamodb.DynamoDB
 func main() {
 	svc, dbs := dynamodb_utils.StartSession()
