@@ -1,18 +1,18 @@
 package dynamodb_utils
 
 import (
+	"os"
+
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/credentials"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/dynamodb"
-	"go.planetmeican.com/planet/dynamodb-local-server"
-	"os"
 )
 
 func StartSession() (*dynamodb.DynamoDB, *server.DynamoDBServer) {
 	accessKey := os.Getenv("AWS_ACCESS_KEY_ID")
 	accessSecret := os.Getenv("AWS_SECRET_ACCESS_KEY")
-	s :=server.Start(accessKey, accessSecret, "48080")
+	s := server.Start(accessKey, accessSecret, "48080")
 	theCredentials := credentials.NewStaticCredentials(accessKey, accessSecret, "")
 
 	sess := session.Must(session.NewSession())
