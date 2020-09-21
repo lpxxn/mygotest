@@ -1,17 +1,26 @@
 package main
 
 import (
+	"context"
 	"testing"
 )
 
 func Test_ReidsClient(t *testing.T) {
 
-	_, err := RClient()
+	r, err := RClient()
 	if err != nil {
 		t.Error(err)
 	}
-}
+	ctx := context.Background()
+	r.Set(ctx, "m_a", "aaaa", 0).Result()
+	r.Set(ctx, "m_b", "bbb", 0).Result()
+	r.Set(ctx, "m_c", "ccc", 0).Result()
 
+	rev, err := r.MGet(ctx, "m_a", "m_c", "m_zzz", "m_b", "m_d").Result()
+	t.Log(err)
+	t.Log(rev)
+
+}
 
 func Benchmark_RedisRemove(b *testing.B) {
 	client, _ := RClient()
@@ -32,5 +41,4 @@ func Benchmark_RedisRemove(b *testing.B) {
 /*
 
 go test -test.bench=".*"
- */
-
+*/
