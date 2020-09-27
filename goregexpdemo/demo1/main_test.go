@@ -1,14 +1,17 @@
 package main_test
 
 import (
+	"fmt"
 	"regexp"
+	"sort"
+	"strconv"
+	"strings"
 	"testing"
 )
 
 func Benchmark_Reg(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		if ok, _ := regexp.MatchString(`^ZONE\d*$`, "ZONE12122323"); ok {
-			fmt.Println("ZONE12122323 ok")
 		}
 
 		//if ok, _ := regexp.MatchString(`^ZONE\d*$`, "zone12122323"); ok {
@@ -101,4 +104,29 @@ func TestReplaceCafeteriaName2(t *testing.T) {
 	if re.MatchString(str) {
 		t.Error("match")
 	}
+}
+
+func TestAFsdf(t *testing.T) {
+	str := `/admin/restaurant/98/cafeteria/calendar/menus/sectione, /admin/restaurant/17/cafeteria/calendar/menus/sectione, /admin/restaurant/21/cafeteria/calendar/menus/sectione`
+	var re = regexp.MustCompile(`/admin/restaurant/(?P<number>\d*)/cafeteria/calendar/menus`)
+	m := re.FindStringSubmatch(`/admin/restaurant/98/cafeteria/calendar/menus/sectione`)
+	t.Log(re.SubexpNames(), m)
+	rev := map[string]struct{}{}
+	match := re.FindAllStringSubmatch(str, -1)
+	for i := 0; i < len(match); i++ {
+		t.Logf("value: %s \n", match[i][1])
+		rev[match[i][1]] = struct{}{}
+	}
+	for k, _ := range rev {
+		fmt.Printf("\"%s\", ", k)
+	}
+	arr := []string{"477", "131", "134", "165", "476", "905", "17", "98", "474", "130", "904", "21", "859", "536", "335", "132", "436", "164"}
+	sort.Slice(arr, func(i, j int) bool {
+		a, _ := strconv.Atoi(arr[i])
+		b, _ := strconv.Atoi(arr[j])
+		return a < b
+	})
+	fmt.Println(arr)
+
+	fmt.Println(strings.Join(arr, ","))
 }
