@@ -130,3 +130,17 @@ func TestAFsdf(t *testing.T) {
 
 	fmt.Println(strings.Join(arr, ","))
 }
+
+func TestMultiple(t *testing.T) {
+	str := `https:///corps/516082/settings
+https:///corps/814139/settings
+https:///corps/822386/settings
+https:///corps/739363/settings`
+
+	var re = regexp.MustCompile(`rps/(?P<number>\d*)/settings`)
+
+	match := re.FindAllStringSubmatch(str, -1)
+	for i := 0; i < len(match); i++ {
+		fmt.Println(`{"corpNamespace": "` + match[i][1] + `","themeID": 2},`)
+	}
+}
