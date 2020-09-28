@@ -141,6 +141,10 @@ https:///corps/739363/settings`
 
 	match := re.FindAllStringSubmatch(str, -1)
 	for i := 0; i < len(match); i++ {
+		fmt.Printf("%s, ", match[i][1])
+	}
+	fmt.Println()
+	for i := 0; i < len(match); i++ {
 		fmt.Println(`{"corpNamespace": "` + match[i][1] + `","themeID": 2},`)
 	}
 }
