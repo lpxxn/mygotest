@@ -30,6 +30,19 @@ func SetupRootTrace() gin.HandlerFunc {
 	}
 }
 
+// 上面那个parentSpan不太好，可以用下面这个
+func Middleware() gin.HandlerFunc {
+	return func(g *gin.Context) {
+		tracer := opentracing.GlobalTracer()
+		ctx := g.Request.Context()
+		spanCtx, _ := tracer.Extract(opentracing.HTTPHeaders, opentracing.HTTPHeadersCarrier(g.Request.Header))
+		span := tracer.StartSpan("http: "+g.Request.RequestURI, ext.RPCServerOption(spanCtx))
+		g.Request = g.Request.WithContext(opentracing.ContextWithSpan(ctx, span))
+		defer span.Finish()
+		g.Next()
+	}
+}
+
 func SpanFromCtx() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		tracer := opentracing.GlobalTracer()
