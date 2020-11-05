@@ -17,7 +17,6 @@ type MyConnType struct {
 
 func (mct *MyConnType) SendMsg(urlStr, msg string) (*http.Response, error) {
 	uri, err := url.Parse(urlStr)
-
 	conn, err := net.Dial("tcp", uri.Host+":80")
 	if err != nil {
 		return nil, err
