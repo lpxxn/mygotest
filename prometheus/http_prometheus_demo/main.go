@@ -31,8 +31,13 @@ func main() {
 	}
 	go f1()
 	http.Handle("/metrics", promhttp.Handler())
+	http.HandleFunc("/", func(resp http.ResponseWriter, r *http.Request){resp.Write([]byte("hello"))})
+
 	if err := http.ListenAndServe(":5112", nil); err != nil {
 		panic(err)
 	}
 	fmt.Println("end")
 }
+/*
+
+ */
