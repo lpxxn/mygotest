@@ -10,9 +10,14 @@ import (
 )
 
 func main() {
-	app := fx.New(fx.Provide(NewLogger, NewHandler, NewMux),
-		fx.Invoke(Register))
-	startCtx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	app := fx.New(
+		// 前后顺序无关
+		//fx.Invoke(Register),
+		fx.Provide(NewLogger, NewHandler, NewMux),
+		fx.Invoke(Register),
+		fx.Provide(NewLogger, NewHandler, NewMux),
+	)
+	startCtx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 	if err := app.Start(startCtx); err != nil {
 		panic(err)
@@ -37,7 +42,7 @@ func NewLogger() *log.Logger {
 func NewHandler(l *log.Logger) (http.Handler, error) {
 	l.Print("NewHandler...")
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		w.Write([]byte("hello world"))
+		w.Write([]byte("hello world\n"))
 		l.Print("get a request...")
 	}), nil
 }
@@ -46,7 +51,7 @@ func Register(mux *http.ServeMux, h http.Handler, l *log.Logger) {
 	l.Print("Register...")
 	mux.Handle("/", h)
 	mux.HandleFunc("/hi", func(w http.ResponseWriter, r *http.Request) {
-		w.Write([]byte("hi there"))
+		w.Write([]byte("hi there\n"))
 	})
 }
 
