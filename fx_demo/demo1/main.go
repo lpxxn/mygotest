@@ -15,7 +15,6 @@ func main() {
 		//fx.Invoke(Register),
 		fx.Provide(NewLogger, NewHandler, NewMux),
 		fx.Invoke(Register),
-		fx.Provide(NewLogger, NewHandler, NewMux),
 	)
 	startCtx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
