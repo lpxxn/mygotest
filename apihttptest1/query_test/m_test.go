@@ -31,13 +31,13 @@ func TestDumpResponse(t *testing.T) {
 	defer ts.Close()
 
 	const body = `{ "desc": "Go is a general-purpose language designed with systems programming in mind.", "age": 10}`
-	req, err := http.NewRequest("POST", ts.URL, strings.NewReader(body))
+	req, err := http.NewRequest("POST", ts.URL + "?a=b", strings.NewReader(body))
 	if err != nil {
 		log.Fatal(err)
 	}
 	req.Header.Add("test", "abcdef")
 	req.Header.Add("client_id", "aaaaa")
-	req.Header.Add("", "")
+	req.Header.Add("Content-Type", "application/json")
 	req.Host = "www.example.org"
 	resp, err := http.DefaultClient.Do(req)
 	if err != nil {
