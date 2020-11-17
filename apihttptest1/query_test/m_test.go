@@ -22,6 +22,9 @@ func TestDumpResponse(t *testing.T) {
 		}
 
 		fmt.Fprintf(w, "%q\n", dump)
+		fmt.Fprintf(w, "-----------\n")
+		fmt.Fprintf(w, "%s\n", string(dump))
+		fmt.Fprintf(w, "-----------\n")
 		body, _ := ioutil.ReadAll(r.Body)
 		fmt.Fprintf(w, " body: %s \n header: %#v", string(body), r.Header)
 	}))
