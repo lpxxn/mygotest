@@ -20,7 +20,7 @@ func TestDumpResponse(t *testing.T) {
 			http.Error(w, fmt.Sprint(err), http.StatusInternalServerError)
 			return
 		}
-
+		// %q 不会格式化输出
 		fmt.Fprintf(w, "%q\n", dump)
 		fmt.Fprintf(w, "-----------\n")
 		fmt.Fprintf(w, "%s\n", string(dump))
@@ -37,6 +37,7 @@ func TestDumpResponse(t *testing.T) {
 	}
 	req.Header.Add("test", "abcdef")
 	req.Header.Add("client_id", "aaaaa")
+	req.Header.Add("", "")
 	req.Host = "www.example.org"
 	resp, err := http.DefaultClient.Do(req)
 	if err != nil {
