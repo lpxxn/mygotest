@@ -27,7 +27,7 @@ func TestDumpResponse(t *testing.T) {
 	}))
 	defer ts.Close()
 
-	const body = "Go is a general-purpose language designed with systems programming in mind."
+	const body = `{ "desc": "Go is a general-purpose language designed with systems programming in mind.", "age": 10}`
 	req, err := http.NewRequest("POST", ts.URL, strings.NewReader(body))
 	if err != nil {
 		log.Fatal(err)
