@@ -6,25 +6,26 @@ import (
 	"io"
 	"io/ioutil"
 	"net/http"
+	"net/http/httputil"
 	"net/url"
 	"strconv"
 	"strings"
 )
 
 const (
-	AdapterMainListURI = "user/order/adaptMainTransList"
-	SystemOrderPaidStatus = "Paid"
-	SystemOrderRefundingStatus = "Refunding"
+	AdapterMainListURI               = "user/order/adaptMainTransList"
+	SystemOrderPaidStatus            = "Paid"
+	SystemOrderRefundingStatus       = "Refunding"
 	SystemOrderPartialRefundedStatus = "PartialRefunded"
-	SystemOrderRefundedStatus = "Refunded"
-	SystemOrderRevokedStatus = "Revoked"
+	SystemOrderRefundedStatus        = "Refunded"
+	SystemOrderRevokedStatus         = "Revoked"
 )
 
 func main() {
 	param := url.Values{}
 	param["name"] = []string{"li"}
 	strings.NewReader(param.Encode())
-	req, _ :=http.NewRequest(http.MethodGet, "http://127.0.0.1:9998/user/orders/adaptMainTransList?status=Refunded&status=Revoked&limit=105", nil)
+	req, _ := http.NewRequest(http.MethodGet, "http://127.0.0.1:9998/user/orders/adaptMainTransList?status=Refunded&status=Revoked&limit=105", nil)
 	query := req.URL.Query()
 	query.Set("status", SystemOrderPaidStatus)
 	query.Add("status", SystemOrderRefundingStatus)
@@ -59,4 +60,15 @@ func main() {
 	}
 	fmt.Println(string(data))
 	resp.Body.Close()
+
+	// 最简单用 DumpRequest()
+	// 这个就不用自己写了。
+	httputil.DumpResponse(resp, true)
+
+	// 或者这么做
+	/*
+		bodyBytes, _ := ioutil.ReadAll(req.Body)
+		req.Body.Close()  //  must close
+		req.Body = ioutil.NopCloser(bytes.NewBuffer(bodyBytes))
+	*/
 }
