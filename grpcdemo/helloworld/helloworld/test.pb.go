@@ -89,7 +89,9 @@ var _MyTest2_serviceDesc = grpc.ServiceDesc{
 	Metadata: "test.proto",
 }
 
-func init() { proto.RegisterFile("test.proto", fileDescriptor1) }
+func init() {
+	proto.RegisterFile("test.proto", fileDescriptor1)
+}
 
 var fileDescriptor1 = []byte{
 	// 90 bytes of a gzipped FileDescriptorProto
