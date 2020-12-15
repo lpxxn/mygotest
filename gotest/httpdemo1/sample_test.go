@@ -1,6 +1,8 @@
 package main
 
 import (
+	"encoding/json"
+	"fmt"
 	"net/http"
 	"net/http/httptest"
 	"net/url"
@@ -45,4 +47,69 @@ func TestSetName(t *testing.T) {
 		t.Errorf("response is empty")
 	}
 	t.Logf("response body %s\n", body)
+}
+
+func TestValue1(t *testing.T) {
+	var params = url.Values{}
+	params.Add("app_id", "afadfasdfasdf")
+	params.Add("method", "cccc")
+	params.Add("format", "json")
+	params.Add("charset", "utf-8")
+	params.Add("sign_type", "sign")
+	params.Add("version", "v1.0")
+	params.Add("app_auth_token", "aaa-bbb-ccc")
+	params.Add("extend_params", fmt.Sprintf(`{"sys_service_provider_id":"%s"}`, "uniidididdi"))
+	t.Log(Encode(params))
+
+}
+
+func Encode(v url.Values) string {
+	if v == nil {
+		return ""
+	}
+	var buf strings.Builder
+	keys := make([]string, 0, len(v))
+	for k := range v {
+		keys = append(keys, k)
+	}
+	for _, k := range keys {
+		vs := v[k]
+		for _, v := range vs {
+			if buf.Len() > 0 {
+				buf.WriteByte('&')
+			}
+			buf.WriteString(k)
+			buf.WriteByte('=')
+			buf.WriteString(v)
+		}
+	}
+	return buf.String()
+}
+
+func TestValue2(t *testing.T) {
+	type ExtendParams struct {
+		SysServiceProviderID string `json:"sys_service_provider_id"`
+	}
+	p := ExtendParams{SysServiceProviderID: "aaaa"}
+	b, _ := json.Marshal(p)
+	var params = url.Values{}
+	params.Add("app_id", "afadfasdfasdf")
+	params.Add("method", "cccc")
+	params.Add("format", "json")
+	params.Add("charset", "utf-8")
+	params.Add("sign_type", "sign")
+	params.Add("version", "v1.0")
+	params.Add("app_auth_token", "aaa-bbb-ccc")
+	params.Add("extend_params", string(b))
+	t.Log(Encode(params))
+
+	type A struct {
+		Name string
+		ExtendParams *struct {
+			SysServiceProviderID string `json:"sys_service_provider_id"`
+		} `json:"extend_params,omitempty"`
+	}
+	a := &A{}
+	b1, _ := json.Marshal(a)
+	t.Log(string(b1))
 }

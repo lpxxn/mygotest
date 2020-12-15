@@ -148,3 +148,23 @@ https:///corps/739363/settings`
 		fmt.Println(`{"corpNamespace": "` + match[i][1] + `","themeID": 2},`)
 	}
 }
+
+func TestMultiple2(t *testing.T) {
+	str := `
+edit/45423
+edit/45424
+edit/45425
+edit/45426
+`
+
+	var re = regexp.MustCompile(`dit/(?P<number>\d*)`)
+
+	match := re.FindAllStringSubmatch(str, -1)
+	for i := 0; i < len(match); i++ {
+		fmt.Printf("%s, ", match[i][1])
+	}
+	fmt.Println(len(match))
+	for i := 0; i < len(match); i++ {
+		fmt.Println(`{"corpNamespace": "` + match[i][1] + `","themeID": 2},`)
+	}
+}
