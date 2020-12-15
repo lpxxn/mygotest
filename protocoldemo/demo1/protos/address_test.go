@@ -2,6 +2,7 @@ package tutorial
 
 import (
 	"reflect"
+	"strings"
 	"testing"
 
 	"github.com/davecgh/go-spew/spew"
@@ -9,6 +10,8 @@ import (
 )
 
 func TestRWpb(t *testing.T) {
+	s := "21342345"
+	t.Log(strings.Trim(s, "0123456789"))
 	studentList := &StudentList{
 		Students: []*Student{&Student{Name: "li", Age: 10},
 			{Name: "peng", Age: 12},

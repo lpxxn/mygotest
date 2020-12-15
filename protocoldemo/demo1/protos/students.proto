@@ -9,5 +9,7 @@ message Student {
 }
 
 message StudentList {
-    repeated Student students = 1;
+    string class = 1;
+    string teacher = 2;
+    repeated Student students = 3;
 }
