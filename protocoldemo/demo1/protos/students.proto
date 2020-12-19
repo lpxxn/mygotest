@@ -1,15 +1,21 @@
 syntax = "proto3";
 package tutorial;
+option go_package = "github.com/mygotest/protocoldemo/demo1/protos/tutorial";
 
-
+message School {
+    int64 id = 1;
+    string name = 2;
+}
 
 message Student {
-    string name = 1;
-    int32 age = 2;
+    int64 id = 1;
+    string name = 2;
+    int32 age = 3;
 }
 
 message StudentList {
     string class = 1;
     string teacher = 2;
-    repeated Student students = 3;
+    School school = 3;
+    repeated Student students = 4;
 }
