@@ -1,6 +1,8 @@
 package tutorial
 
 import (
+	"fmt"
+	"math/bits"
 	"reflect"
 	"strings"
 	"testing"
@@ -15,7 +17,7 @@ func TestRWpb(t *testing.T) {
 	studentList := &StudentList{
 		Class:   "一",
 		Teacher: "李老师",
-		Students: []*Student{&Student{Id: 123, Name: "床前明月光，疑是地上霜", Age: 10},
+		Students: []*Student{&Student{Id: 123121212211212, Name: "床前明月光，疑是地上霜", Age: 10},
 			{Id: 789, Name: "一去二三里，山村四五家", Age: 12},
 		},
 	}
@@ -63,4 +65,18 @@ func TestOffset(t *testing.T) {
 
 	// 为什么string是16个字节呢？因为string的结构包含两个域，
 	//一个是指向Data的指针，占8个字节，一个是表示string长度的len，占8个字节
+}
+
+func TestSizeVarint(t *testing.T) {
+	t.Log(SizeVarint(123456))
+}
+// SizeVarint returns the encoded size of a varint.
+// The size is guaranteed to be within 1 and 10, inclusive.
+func SizeVarint(v uint64) int {
+	// This computes 1 + (bits.Len64(v)-1)/7.
+	// 9/64 is a good enough approximation of 1/7
+	bitLen := bits.Len64(v)
+	fmt.Println(9/64)
+	fmt.Println(bitLen)
+	return int(9*uint32(bitLen)+64) / 64
 }
