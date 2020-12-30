@@ -168,3 +168,72 @@ edit/45426
 		fmt.Println(`{"corpNamespace": "` + match[i][1] + `","themeID": 2},`)
 	}
 }
+
+type Base struct {
+	ID string
+	W  int
+	H  int
+}
+
+type Banner struct {
+	Base
+	Type int
+}
+
+func (b *Banner) CheckAttr(s *SImp) bool {
+	return b.Type == s.Ban.A
+}
+
+type Video struct {
+	Base
+	Length int
+}
+
+func (v *Video) CheckAttr(s *SImp) bool {
+	return v.Length > s.Vi.B && v.H < s.Tp
+}
+
+type SImp struct {
+	Ban *struct {
+		A int
+	}
+	Vi *struct {
+		B int
+	}
+
+	Tp int
+}
+
+type verify interface {
+	CheckAttr(*SImp) bool
+}
+
+type Creatives struct {
+	Banner map[string][]verify
+	Video  map[string][]verify
+}
+
+func TestBV(t *testing.T) {
+	idx1 := "v"
+	info := &Creatives{
+		Banner: map[string][]verify{idx1: []verify{&Banner{}, &Banner{}}},
+		Video:  map[string][]verify{idx1: []verify{&Video{}, &Video{}}},
+	}
+	imp := &SImp{
+		Ban: &struct{ A int }{A: 1},
+		Vi:  &struct{ B int }{B: 2},
+	}
+	creatives := []verify{}
+	if imp.Ban != nil {
+		creatives = info.Banner[idx1]
+	} else if imp.Vi != nil {
+		creatives = info.Video[idx1]
+	}
+	for _, item := range creatives {
+		if item.CheckAttr(imp) {
+			t.Log("aaaaaa")
+		} else {
+			t.Log("bbbb")
+		}
+	}
+}
