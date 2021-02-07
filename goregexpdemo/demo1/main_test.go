@@ -151,10 +151,9 @@ https:///corps/739363/settings`
 
 func TestMultiple2(t *testing.T) {
 	str := `
-edit/45423
-edit/45424
-edit/45425
-edit/45426
+r/edit/333740
+r/edit/333723
+r/edit/333741
 `
 
 	var re = regexp.MustCompile(`dit/(?P<number>\d*)`)
@@ -163,6 +162,7 @@ edit/45426
 	for i := 0; i < len(match); i++ {
 		fmt.Printf("%s, ", match[i][1])
 	}
+	fmt.Println()
 	fmt.Println(len(match))
 	for i := 0; i < len(match); i++ {
 		fmt.Println(`{"corpNamespace": "` + match[i][1] + `","themeID": 2},`)

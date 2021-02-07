@@ -17,7 +17,7 @@ func twoSum(sum []int, target int) []int {
 		if idx, ok := mp[target - num]; ok {
 			return []int {idx, i}
 		}
-		mp[num] = i;
+		mp[num] = i
 	}
 
 	return nil
