@@ -22,13 +22,9 @@ func TestAdd(t *testing.T) {
 }
 
 func add(a, b *ListValue) *ListValue {
-	if a == nil && b == nil {
-		return nil
-	}
 	newList := &ListValue{}
 	nextList := newList
 	carry := 0
-
 	for a != nil || b != nil {
 		v1, v2 := 0, 0
 		if a != nil {
@@ -40,19 +36,13 @@ func add(a, b *ListValue) *ListValue {
 			b = b.Next
 		}
 		v3 := v1 + v2 + carry
-		nextList.Next = &ListValue{
-			Val: v3 % 10,
-		}
+		nextList.Next = &ListValue{Val: v3 % 10}
 		carry = v3 / 10
 		nextList = nextList.Next
 	}
-
 	if carry > 0 {
-		nextList.Next = &ListValue{
-			Val: carry,
-		}
+		nextList.Next = &ListValue{Val: carry}
 	}
-
 	return newList.Next
 }
 
