@@ -25,6 +25,14 @@ func main() {
 	dist := add(n1, n2)
 	fmt.Println(dist.String())
 	fmt.Println(dist.Value())
+
+	dist = add(nil, n2)
+	fmt.Println(dist.String())
+	fmt.Println(dist.Value())
+
+	dist = add(NewNum(0), n2)
+	fmt.Println(dist.String())
+	fmt.Println(dist.Value())
 }
 
 func twoSum(sum []int, target int) []int {
