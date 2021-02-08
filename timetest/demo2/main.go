@@ -58,4 +58,5 @@ func main() {
 	//fmt.Println(mascot.MascotRabbit)
 	color.Blue(mascot.MascotRabbit)
 	fmt.Println(time.Local, "time now: ", time.Now())
+	color.Yellow(mascot.MoscotDragon)
 }

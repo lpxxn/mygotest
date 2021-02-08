@@ -57,3 +57,11 @@ var MascotRabbit = `
       '----- (O.o)
              (> <)
 `
+
+var MoscotDragon = `
+            __
+           / _)
+    .-^^^-/ /
+ __/       /
+<__.|_|-|_|
+`
