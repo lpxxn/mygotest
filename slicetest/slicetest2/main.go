@@ -32,10 +32,25 @@ func main() {
 	wg.Wait()
 	af := t1[:]
 	fmt.Println(af)
+
+	TestAddNil()
 }
 
 func doSomeThing(s []int) {
 	fmt.Println(len(s))
+}
+
+func TestAddNil() {
+	arr := []*Element{}
+	arr = append(arr, &Element{Name: "abc"})
+	fmt.Println(arr, "  ", len(arr))
+
+	arr = append(arr, nil)
+	fmt.Println(arr, "  ", len(arr))
+}
+
+type Element struct {
+	Name string
 }
 
 /*
