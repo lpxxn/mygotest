@@ -49,7 +49,7 @@ func TestAddNil() {
 	fmt.Println(arr, "  ", len(arr))
 
 	fmt.Println("----------")
-	arr2 := []*Element{}
+	var arr2 []*Element
 	arr = append(arr, arr2...)
 	fmt.Println(arr, "  ", len(arr))
 	arr2 = append(arr2, &Element{Name: "b"})

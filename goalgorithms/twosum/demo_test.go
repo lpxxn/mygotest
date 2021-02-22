@@ -7,20 +7,91 @@ import (
 )
 
 func TestAdd(t *testing.T) {
-	p1 := NewListValue(231)
-	t.Log(p1.String())
-	t.Log(p1.Values())
-	p2 := NewListValue(111)
+	a := NewNumValue(123)
+	fmt.Println(a.String())
+	fmt.Println(a.Value())
 
-	rev := add(p1, p2)
-	t.Log(rev)
-	t.Log(rev.Values())
+	b := NewNumValue(877)
 
-	rev = add(p1, NewListValue(789))
-	t.Log(rev)
-	t.Log(rev.Values())
+	rev := addTwoNum(a, b)
+	fmt.Println(rev.Value())
+
+	rev = addTwoNum(b, NewNumValue(5))
+	fmt.Println(rev.Value())
+	/*
+		p1 := NewListValue(231)
+		t.Log(p1.String())
+		t.Log(p1.Values())
+		p2 := NewListValue(111)
+
+		rev := add(p1, p2)
+		t.Log(rev)
+		t.Log(rev.Values())
+
+		rev = add(p1, NewListValue(789))
+		t.Log(rev)
+		t.Log(rev.Values())
+
+	*/
 }
 
+func addTwoNum(a, b *NumValue) *NumValue {
+	current := &NumValue{}
+	rev := current
+	carry := 0
+	for a != nil || b != nil {
+		sum := 0
+		if a != nil {
+			sum += a.value
+			a = a.Next
+		}
+		if b != nil {
+			sum += b.value
+			b = b.Next
+		}
+		current.Next = &NumValue{value: (sum + carry) % 10}
+		current = current.Next
+		carry = (sum + carry) / 10
+	}
+	if carry > 0 {
+		current.Next = &NumValue{value: carry}
+	}
+	return rev.Next
+}
+
+type NumValue struct {
+	value int
+	Next  *NumValue
+}
+
+func (n *NumValue) String() string {
+	if n.Next != nil {
+		return fmt.Sprintf("%d -> %s", n.value, n.Next.String())
+	}
+	return fmt.Sprintln(n.value)
+
+}
+
+func (n *NumValue) Value() int {
+	if n.Next != nil {
+		v, _ := strconv.Atoi(fmt.Sprintf("%d%d", n.Next.Value(), n.value))
+		return v
+	}
+	return n.value
+}
+
+func NewNumValue(v int) *NumValue {
+	current := &NumValue{value: 0}
+	rev := current
+	for v > 0 {
+		current.Next = &NumValue{value: v % 10}
+		current = current.Next
+		v /= 10
+	}
+	return rev.Next
+}
+
+/*
 func add(a, b *ListValue) *ListValue {
 	newList := &ListValue{}
 	nextList := newList
@@ -79,3 +150,5 @@ func (l *ListValue) String() string {
 	}
 	return rev
 }
+
+*/
