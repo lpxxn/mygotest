@@ -21,6 +21,8 @@ func TestAdd(t *testing.T) {
 
 	rev = addTwoNum(b, NewNumValue(5555))
 	fmt.Println(rev.Value())
+
+
 	/*
 		p1 := NewListValue(231)
 		t.Log(p1.String())
@@ -43,7 +45,7 @@ func addTwoNum(a, b *NumValue) *NumValue {
 	rev := current
 	carry := 0
 	for a != nil || b != nil {
-		sum := 0
+		sum := carry
 		if a != nil {
 			sum += a.value
 			a = a.Next
@@ -52,9 +54,9 @@ func addTwoNum(a, b *NumValue) *NumValue {
 			sum += b.value
 			b = b.Next
 		}
-		current.Next = &NumValue{value: (sum + carry) % 10}
+		current.Next = &NumValue{value: sum % 10}
 		current = current.Next
-		carry = (sum + carry) / 10
+		carry = sum / 10
 	}
 	if carry > 0 {
 		current.Next = &NumValue{value: carry}
