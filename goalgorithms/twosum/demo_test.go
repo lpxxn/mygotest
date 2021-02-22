@@ -18,6 +18,9 @@ func TestAdd(t *testing.T) {
 
 	rev = addTwoNum(b, NewNumValue(5))
 	fmt.Println(rev.Value())
+
+	rev = addTwoNum(b, NewNumValue(5555))
+	fmt.Println(rev.Value())
 	/*
 		p1 := NewListValue(231)
 		t.Log(p1.String())
