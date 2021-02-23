@@ -7,20 +7,21 @@ import (
 )
 
 func TestAdd(t *testing.T) {
-	a := NewNumValue(123)
-	fmt.Println(a.String())
-	fmt.Println(a.Value())
 
-	b := NewNumValue(877)
+	a := NewANum(789)
+	t.Log(a.String())
+	t.Log(a.Value())
 
-	rev := addTwoNum(a, b)
-	fmt.Println(rev.Value())
+	b := NewANum(654)
+	t.Log(b.String())
+	t.Log(b.Value())
 
-	rev = addTwoNum(b, NewNumValue(5))
-	fmt.Println(rev.Value())
-
-	rev = addTwoNum(b, NewNumValue(5555))
-	fmt.Println(rev.Value())
+	rev := AddANum(a, b)
+	t.Log(rev.String())
+	t.Log(rev.Value())
+	if rev.Value() != a.Value() + b.Value() {
+		t.Error("err")
+	}
 
 	/*
 		p1 := NewListValue(231)
@@ -39,59 +40,59 @@ func TestAdd(t *testing.T) {
 	*/
 }
 
-func addTwoNum(a, b *NumValue) *NumValue {
-	current := &NumValue{}
-	rev, carry := current, 0
+func AddANum(a, b *ANum) *ANum {
+	current := &ANum{}
+	rev := current
+	carry := 0
 	for a != nil || b != nil {
 		sum := carry
 		if a != nil {
 			sum += a.value
-			a = a.Next
+			a = a.next
 		}
 		if b != nil {
 			sum += b.value
-			b = b.Next
+			b = b.next
 		}
-		current.Next = &NumValue{value: sum % 10}
-		current = current.Next
+		current.next = &ANum{value: sum % 10}
+		current = current.next
 		carry = sum / 10
 	}
 	if carry > 0 {
-		current.Next = &NumValue{value: carry}
+		current.next = &ANum{value: carry}
 	}
-	return rev.Next
+	return rev.next
 }
 
-type NumValue struct {
+type ANum struct {
 	value int
-	Next  *NumValue
+	next  *ANum
 }
 
-func (n *NumValue) String() string {
-	if n.Next != nil {
-		return fmt.Sprintf("%d -> %s", n.value, n.Next.String())
+func (a ANum) String() string {
+	if a.next != nil {
+		return fmt.Sprintf("%d -> %s", a.value, a.next.String())
 	}
-	return fmt.Sprintln(n.value)
-
+	return fmt.Sprint(a.value)
 }
 
-func (n *NumValue) Value() int {
-	if n.Next != nil {
-		v, _ := strconv.Atoi(fmt.Sprintf("%d%d", n.Next.Value(), n.value))
+func (a ANum) Value() int {
+	if a.next != nil {
+		v, _ := strconv.Atoi(fmt.Sprintf("%d%d", a.next.Value(), a.value))
 		return v
 	}
-	return n.value
+	return a.value
 }
 
-func NewNumValue(v int) *NumValue {
-	current := &NumValue{value: 0}
+func NewANum(v int) *ANum {
+	current := &ANum{}
 	rev := current
 	for v > 0 {
-		current.Next = &NumValue{value: v % 10}
-		current = current.Next
+		current.next = &ANum{value: v % 10}
+		current = current.next
 		v /= 10
 	}
-	return rev.Next
+	return rev.next
 }
 
 /*
