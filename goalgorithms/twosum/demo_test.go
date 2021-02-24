@@ -8,20 +8,17 @@ import (
 
 func TestAdd(t *testing.T) {
 
-	a := NewANum(789)
+	a := NewNumValue(1234)
 	t.Log(a.String())
 	t.Log(a.Value())
 
-	b := NewANum(654)
+	b := NewNumValue(766)
 	t.Log(b.String())
 	t.Log(b.Value())
 
-	rev := AddANum(a, b)
+	rev := addTwoNumValue(a, b)
 	t.Log(rev.String())
 	t.Log(rev.Value())
-	if rev.Value() != a.Value() + b.Value() {
-		t.Error("err")
-	}
 
 	/*
 		p1 := NewListValue(231)
@@ -40,8 +37,8 @@ func TestAdd(t *testing.T) {
 	*/
 }
 
-func AddANum(a, b *ANum) *ANum {
-	current := &ANum{}
+func addTwoNumValue(a, b *NumValue) *NumValue {
+	current := &NumValue{}
 	rev := current
 	carry := 0
 	for a != nil || b != nil {
@@ -54,45 +51,45 @@ func AddANum(a, b *ANum) *ANum {
 			sum += b.value
 			b = b.next
 		}
-		current.next = &ANum{value: sum % 10}
-		current = current.next
+		current.next = &NumValue{value: sum % 10}
 		carry = sum / 10
+		current = current.next
 	}
-	if carry > 0 {
-		current.next = &ANum{value: carry}
+	if carry != 0 {
+		current.next = &NumValue{value: carry}
 	}
 	return rev.next
 }
 
-type ANum struct {
-	value int
-	next  *ANum
-}
-
-func (a ANum) String() string {
-	if a.next != nil {
-		return fmt.Sprintf("%d -> %s", a.value, a.next.String())
-	}
-	return fmt.Sprint(a.value)
-}
-
-func (a ANum) Value() int {
-	if a.next != nil {
-		v, _ := strconv.Atoi(fmt.Sprintf("%d%d", a.next.Value(), a.value))
-		return v
-	}
-	return a.value
-}
-
-func NewANum(v int) *ANum {
-	current := &ANum{}
+func NewNumValue(v int) *NumValue {
+	current := &NumValue{}
 	rev := current
 	for v > 0 {
-		current.next = &ANum{value: v % 10}
-		current = current.next
+		current.next = &NumValue{value: v % 10}
 		v /= 10
+		current = current.next
 	}
 	return rev.next
+}
+
+type NumValue struct {
+	value int
+	next  *NumValue
+}
+
+func (n NumValue) String() string {
+	if n.next != nil {
+		return fmt.Sprintf("%d -> %s", n.value, n.next.String())
+	}
+	return fmt.Sprint(n.value)
+}
+
+func (n NumValue) Value() int {
+	if n.next != nil {
+		v, _ := strconv.Atoi(fmt.Sprintf("%d%d", n.next.Value(), n.value))
+		return v
+	}
+	return n.value
 }
 
 /*
