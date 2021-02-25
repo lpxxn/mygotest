@@ -8,18 +8,20 @@ import (
 
 func TestAdd(t *testing.T) {
 
-	a := NewNumValue(1234)
+	a := NewNumber(123)
 	t.Log(a.String())
 	t.Log(a.Value())
 
-	b := NewNumValue(766)
+	b := NewNumber(789)
 	t.Log(b.String())
 	t.Log(b.Value())
 
-	rev := addTwoNumValue(a, b)
-	t.Log(rev.String())
+	rev := AddTwoNumber(a, b)
+	if rev.Value() != a.Value()+b.Value() {
+		t.Error("error value not equal")
+	}
 	t.Log(rev.Value())
-
+	t.Log(rev.String())
 	/*
 		p1 := NewListValue(231)
 		t.Log(p1.String())
@@ -37,8 +39,8 @@ func TestAdd(t *testing.T) {
 	*/
 }
 
-func addTwoNumValue(a, b *NumValue) *NumValue {
-	current := &NumValue{}
+func AddTwoNumber(a, b *NumberValue) *NumberValue {
+	current := &NumberValue{}
 	rev := current
 	carry := 0
 	for a != nil || b != nil {
@@ -51,45 +53,46 @@ func addTwoNumValue(a, b *NumValue) *NumValue {
 			sum += b.value
 			b = b.next
 		}
-		current.next = &NumValue{value: sum % 10}
+		current.next = &NumberValue{value: sum % 10}
 		carry = sum / 10
 		current = current.next
 	}
-	if carry != 0 {
-		current.next = &NumValue{value: carry}
+	if carry > 0 {
+		current.next = &NumberValue{value: carry}
 	}
+
 	return rev.next
 }
 
-func NewNumValue(v int) *NumValue {
-	current := &NumValue{}
+func NewNumber(v int) *NumberValue {
+	current := &NumberValue{}
 	rev := current
 	for v > 0 {
-		current.next = &NumValue{value: v % 10}
-		v /= 10
+		current.next = &NumberValue{value: v % 10}
 		current = current.next
+		v /= 10
 	}
 	return rev.next
 }
 
-type NumValue struct {
+type NumberValue struct {
 	value int
-	next  *NumValue
+	next  *NumberValue
 }
 
-func (n NumValue) String() string {
-	if n.next != nil {
-		return fmt.Sprintf("%d -> %s", n.value, n.next.String())
-	}
-	return fmt.Sprint(n.value)
-}
-
-func (n NumValue) Value() int {
+func (n NumberValue) Value() int {
 	if n.next != nil {
 		v, _ := strconv.Atoi(fmt.Sprintf("%d%d", n.next.Value(), n.value))
 		return v
 	}
 	return n.value
+}
+
+func (n NumberValue) String() string {
+	if n.next != nil {
+		return fmt.Sprintf("%d -> %s", n.value, n.next.String())
+	}
+	return fmt.Sprint(n.value)
 }
 
 /*
