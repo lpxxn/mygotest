@@ -27,6 +27,7 @@ func TestLongestStr(t *testing.T) {
 		t.Error()
 	}
 }
+
 // 12ms
 func longestStr(s string) int {
 	m := make(map[byte]int)
@@ -36,6 +37,9 @@ func longestStr(s string) int {
 			l = max(l, index)
 		}
 		strLen = max(strLen, r-l+1)
+		// 比如 aaaa 如果不加1， strLen 为2
+		// Next substring will start after the last occurrence of current character to avoid its repetition.
+		// 比如 aaa 上面的 l 就会变成下一个index
 		m[s[r]] = r + 1
 	}
 	return strLen
