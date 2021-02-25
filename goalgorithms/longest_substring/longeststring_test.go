@@ -3,29 +3,52 @@ package longest_substring
 import "testing"
 
 func TestLongestStr(t *testing.T) {
-	str := "abxyzpfabcdbea"
-	t.Log(longestStr(str))
-	str = "abcabcbb"
-	if longestStr(str) != 3 {
+	str := "abcabcbb"
+	lenStr, str := longest(str)
+	t.Log(str)
+	if lenStr != 3 {
 		t.Error()
 	}
-	str = "bbbbb"
-	if longestStr(str) != 1 {
-		t.Error()
-	}
+	//str := "abxyzpfabcdbea"
+	//t.Log(longestStr(str))
+	//str = "abcabcbb"
+	//if longestStr(str) != 3 {
+	//	t.Error()
+	//}
+	//str = "bbbbb"
+	//if longestStr(str) != 1 {
+	//	t.Error()
+	//}
+	//
+	//str = ""
+	//if longestStr(str) != 0 {
+	//	t.Error()
+	//}
+	//str = "a"
+	//if longestStr(str) != 1 {
+	//	t.Error()
+	//}
+	//str = " "
+	//if longestStr(str) != 1 {
+	//	t.Error()
+	//}
+}
 
-	str = ""
-	if longestStr(str) != 0 {
-		t.Error()
+func longest(s string) (int, string) {
+	m := make(map[byte]int)
+	strLen := 0
+	str := ""
+	for l, r := 0, 0; r < len(s); r++ {
+		if idx, ok := m[s[r]]; ok {
+			l = max(l, idx)
+		}
+		m[s[r]] = r + 1
+		strLen = max(strLen, r-l+1)
+		if len(str) < strLen {
+			str = s[l : r+1]
+		}
 	}
-	str = "a"
-	if longestStr(str) != 1 {
-		t.Error()
-	}
-	str = " "
-	if longestStr(str) != 1 {
-		t.Error()
-	}
+	return strLen, str
 }
 
 // 12ms
@@ -36,11 +59,11 @@ func longestStr(s string) int {
 		if index, ok := m[s[r]]; ok {
 			l = max(l, index)
 		}
-		strLen = max(strLen, r-l+1)
 		// 比如 aaaa 如果不加1， strLen 为2
 		// Next substring will start after the last occurrence of current character to avoid its repetition.
 		// 比如 aaa 上面的 l 就会变成下一个index
 		m[s[r]] = r + 1
+		strLen = max(strLen, r-l+1)
 	}
 	return strLen
 }
