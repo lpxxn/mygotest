@@ -9,6 +9,13 @@ func TestLongestStr(t *testing.T) {
 	if lenStr != 3 {
 		t.Error()
 	}
+
+	str = "abxyzpfabcdbea"
+	lenStr, str = longest(str)
+	t.Log(str)
+	if lenStr != 9 {
+		t.Error()
+	}
 	//str := "abxyzpfabcdbea"
 	//t.Log(longestStr(str))
 	//str = "abcabcbb"
@@ -56,9 +63,9 @@ func longestStr(s string) int {
 	m := make(map[byte]int)
 	strLen := 0
 	for l, r := 0, 0; r < len(s); r++ {
-		if index, ok := m[s[r]]; ok {
-			l = max(l, index)
-		}
+		//if index, ok := m[s[r]]; ok {
+		l = max(l, m[s[r]])
+		//}
 		// 比如 aaaa 如果不加1， strLen 为2
 		// Next substring will start after the last occurrence of current character to avoid its repetition.
 		// 比如 aaa 上面的 l 就会变成下一个index
