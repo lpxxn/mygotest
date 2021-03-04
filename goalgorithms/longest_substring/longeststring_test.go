@@ -6,48 +6,56 @@ import (
 )
 
 func TestLongestStr(t *testing.T) {
-	str := "abcabcbb"
-	lenStr, str := longest(str)
-	t.Log(str)
+	str1 := "abcabcbb"
+	lenStr, str1 := longest(str1)
+	t.Log(str1)
 	if lenStr != 3 {
 		t.Error()
 	}
 
-	str = "abxyzpfabcdbea"
-	lenStr, str = longest(str)
-	t.Log(str)
+	str2 := "abxyzpfabcdbea"
+	lenStr, str1 = longest(str2)
+	t.Log(str1)
 	if lenStr != 9 {
 		t.Error()
 	}
 
-	lenStr2, str2 := testLongest(str)
+	lenStr2, str2 := testLongest(str1)
 	if lenStr != lenStr2 {
 		t.Fatal()
 	}
-	if str != str2 {
+	if str1 != str2 {
 		t.Fatal()
 	}
-	//str := "abxyzpfabcdbea"
-	//t.Log(longestStr(str))
-	//str = "abcabcbb"
-	//if longestStr(str) != 3 {
+
+	str1 = "bbbbb"
+	lenStr2, str2 = testLongest(str1)
+	t.Log(str2)
+	if lenStr2 != 1 {
+		t.Error()
+	}
+
+	//str1 := "abxyzpfabcdbea"
+	//t.Log(longestStr(str1))
+	//str1 = "abcabcbb"
+	//if longestStr(str1) != 3 {
 	//	t.Error()
 	//}
-	//str = "bbbbb"
-	//if longestStr(str) != 1 {
+	//str1 = "bbbbb"
+	//if longestStr(str1) != 1 {
 	//	t.Error()
 	//}
 	//
-	//str = ""
-	//if longestStr(str) != 0 {
+	//str1 = ""
+	//if longestStr(str1) != 0 {
 	//	t.Error()
 	//}
-	//str = "a"
-	//if longestStr(str) != 1 {
+	//str1 = "a"
+	//if longestStr(str1) != 1 {
 	//	t.Error()
 	//}
-	//str = " "
-	//if longestStr(str) != 1 {
+	//str1 = " "
+	//if longestStr(str1) != 1 {
 	//	t.Error()
 	//}
 }
@@ -62,7 +70,7 @@ func testLongest(s string) (int, string) {
 			l = max(idx, l)
 		}
 		m[s[r]] = r + 1
-		strLen = max(l, r-l+1)
+		strLen = max(strLen, r-l+1)
 		if len(str) < strLen {
 			str = s[l : r+1]
 		}
