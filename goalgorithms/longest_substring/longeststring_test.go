@@ -1,6 +1,9 @@
 package longest_substring
 
-import "testing"
+import (
+	"fmt"
+	"testing"
+)
 
 func TestLongestStr(t *testing.T) {
 	str := "abcabcbb"
@@ -15,6 +18,14 @@ func TestLongestStr(t *testing.T) {
 	t.Log(str)
 	if lenStr != 9 {
 		t.Error()
+	}
+
+	lenStr2, str2 := testLongest(str)
+	if lenStr != lenStr2 {
+		t.Fatal()
+	}
+	if str != str2 {
+		t.Fatal()
 	}
 	//str := "abxyzpfabcdbea"
 	//t.Log(longestStr(str))
@@ -39,6 +50,24 @@ func TestLongestStr(t *testing.T) {
 	//if longestStr(str) != 1 {
 	//	t.Error()
 	//}
+}
+
+func testLongest(s string) (int, string) {
+	m := make(map[byte]int)
+	strLen := 0
+	str := ""
+	for l, r := 0, 0; r < len(s); r++ {
+		fmt.Println(m[s[r]])
+		if idx, ok := m[s[r]]; ok {
+			l = max(idx, l)
+		}
+		m[s[r]] = r + 1
+		strLen = max(l, r-l+1)
+		if len(str) < strLen {
+			str = s[l : r+1]
+		}
+	}
+	return strLen, str
 }
 
 func longest(s string) (int, string) {
