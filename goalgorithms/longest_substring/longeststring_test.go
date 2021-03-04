@@ -27,7 +27,7 @@ func TestLongestStr(t *testing.T) {
 	if str1 != str2 {
 		t.Fatal()
 	}
-
+	t.Log("-----------")
 	str1 = "bbbbb"
 	lenStr2, str2 = testLongest(str1)
 	t.Log(str2)
@@ -66,9 +66,9 @@ func testLongest(s string) (int, string) {
 	str := ""
 	for l, r := 0, 0; r < len(s); r++ {
 		fmt.Println(m[s[r]])
-		if idx, ok := m[s[r]]; ok {
-			l = max(idx, l)
-		}
+		//if idx, ok := m[s[r]]; ok {
+		l = max(l, m[s[r]])
+		//}
 		m[s[r]] = r + 1
 		strLen = max(strLen, r-l+1)
 		if len(str) < strLen {
