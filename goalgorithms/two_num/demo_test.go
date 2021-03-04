@@ -8,20 +8,20 @@ import (
 
 func TestAdd(t *testing.T) {
 
-	a := NewNumber(123)
-	t.Log(a.String())
-	t.Log(a.Value())
-
-	b := NewNumber(789)
-	t.Log(b.String())
-	t.Log(b.Value())
-
-	rev := AddTwoNumber(a, b)
-	if rev.Value() != a.Value()+b.Value() {
-		t.Error("error value not equal")
+	v1 := 123
+	n1 := NewNum(v1)
+	t.Log(n1.String())
+	t.Log(n1.Value())
+	if n1.Value() != v1 {
+		t.Fatal()
 	}
-	t.Log(rev.Value())
-	t.Log(rev.String())
+
+	n2 := NewNum(789)
+
+	n3 := AddTowNum(n1, n2)
+	if n3.Value() != v1 + n2.Value() {
+		t.Fatal()
+	}
 	/*
 		p1 := NewListValue(231)
 		t.Log(p1.String())
@@ -39,8 +39,8 @@ func TestAdd(t *testing.T) {
 	*/
 }
 
-func AddTwoNumber(a, b *NumberValue) *NumberValue {
-	current := &NumberValue{}
+func AddTowNum(a, b *Num) *Num {
+	current := &Num{}
 	rev := current
 	carry := 0
 	for a != nil || b != nil {
@@ -53,46 +53,45 @@ func AddTwoNumber(a, b *NumberValue) *NumberValue {
 			sum += b.value
 			b = b.next
 		}
-		current.next = &NumberValue{value: sum % 10}
+		current.next = &Num{value: sum % 10}
 		carry = sum / 10
 		current = current.next
 	}
 	if carry > 0 {
-		current.next = &NumberValue{value: carry}
+		current.next = &Num{value: carry}
 	}
-
 	return rev.next
 }
 
-func NewNumber(v int) *NumberValue {
-	current := &NumberValue{}
+type Num struct {
+	value int
+	next  *Num
+}
+
+func NewNum(v int) *Num {
+	current := &Num{}
 	rev := current
 	for v > 0 {
-		current.next = &NumberValue{value: v % 10}
+		current.next = &Num{value: v % 10}
+		v = v / 10
 		current = current.next
-		v /= 10
 	}
 	return rev.next
 }
 
-type NumberValue struct {
-	value int
-	next  *NumberValue
+func (n Num) String() string {
+	if n.next != nil {
+		return fmt.Sprintf("%d -> %s", n.value, n.next.String())
+	}
+	return fmt.Sprint(n.value)
 }
 
-func (n NumberValue) Value() int {
+func (n Num) Value() int {
 	if n.next != nil {
 		v, _ := strconv.Atoi(fmt.Sprintf("%d%d", n.next.Value(), n.value))
 		return v
 	}
 	return n.value
-}
-
-func (n NumberValue) String() string {
-	if n.next != nil {
-		return fmt.Sprintf("%d -> %s", n.value, n.next.String())
-	}
-	return fmt.Sprint(n.value)
 }
 
 /*
