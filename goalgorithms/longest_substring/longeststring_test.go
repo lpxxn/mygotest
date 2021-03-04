@@ -27,12 +27,22 @@ func TestLongestStr(t *testing.T) {
 	if str1 != str2 {
 		t.Fatal()
 	}
+
+	tl := testLongestSubString(str1)
+	if tl != lenStr {
+		t.Fatal()
+	}
 	t.Log("-----------")
 	str1 = "bbbbb"
 	lenStr2, str2 = testLongest(str1)
 	t.Log(str2)
 	if lenStr2 != 1 {
 		t.Error()
+	}
+
+	tl = testLongestSubString(str1)
+	if tl != 1 {
+		t.Fatal()
 	}
 
 	//str1 := "abxyzpfabcdbea"
@@ -134,4 +144,15 @@ func max(a, b int) int {
 		return a
 	}
 	return b
+}
+
+func testLongestSubString(s string) int {
+	m := [128]int{}
+	longest := 0
+	for left, right := 0, 0; right < len(s); right++ {
+		left := max(left, m[s[right]])
+		m[s[right]] = right + 1
+		longest = max(longest, right-left+1)
+	}
+	return longest
 }
