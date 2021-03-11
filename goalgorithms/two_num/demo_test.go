@@ -19,7 +19,7 @@ func TestAdd(t *testing.T) {
 	n2 := NewNum(789)
 
 	n3 := AddTowNum(n1, n2)
-	if n3.Value() != v1 + n2.Value() {
+	if n3.Value() != v1+n2.Value() {
 		t.Fatal()
 	}
 	/*
@@ -63,20 +63,20 @@ func AddTowNum(a, b *Num) *Num {
 	return rev.next
 }
 
-type Num struct {
-	value int
-	next  *Num
-}
-
 func NewNum(v int) *Num {
 	current := &Num{}
 	rev := current
 	for v > 0 {
 		current.next = &Num{value: v % 10}
-		v = v / 10
+		v /= 10
 		current = current.next
 	}
 	return rev.next
+}
+
+type Num struct {
+	value int
+	next  *Num
 }
 
 func (n Num) String() string {
