@@ -149,10 +149,10 @@ func max(a, b int) int {
 func testLongestSubString(s string) int {
 	m := [128]int{}
 	longest := 0
-	for lIdx, rIdx := 0, 0; rIdx < len(s); rIdx++ {
-		lIdx = max(m[s[rIdx]], lIdx)
-		m[s[rIdx]] = rIdx + 1
-		longest = max(longest, rIdx-lIdx+1)
+	for l, r := 0, 0; r < len(s); r++ {
+		l = max(l, m[s[r]])
+		m[s[r]] = r + 1
+		longest = max(longest, r-l+1)
 	}
 	return longest
 }
