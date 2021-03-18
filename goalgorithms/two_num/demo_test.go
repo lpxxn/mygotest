@@ -18,7 +18,13 @@ func TestAdd(t *testing.T) {
 
 	n2 := NewNum(789)
 
-	n3 := AddTowNum(n1, n2)
+	n3 := AddTwoNum(n1, n2)
+	if n3.Value() != v1+n2.Value() {
+		t.Fatal()
+	}
+
+	n2 = NewNum(23987)
+	n3 = AddTwoNum(n1, n2)
 	if n3.Value() != v1+n2.Value() {
 		t.Fatal()
 	}
@@ -39,8 +45,8 @@ func TestAdd(t *testing.T) {
 	*/
 }
 
-func AddTowNum(a, b *Num) *Num {
-	current := &Num{}
+func AddTwoNum(a, b *num) *num {
+	current := &num{}
 	rev := current
 	carry := 0
 	for a != nil || b != nil {
@@ -53,45 +59,45 @@ func AddTowNum(a, b *Num) *Num {
 			sum += b.value
 			b = b.next
 		}
-		current.next = &Num{value: sum % 10}
-		carry = sum / 10
+		current.next = &num{value: sum % 10}
 		current = current.next
+		carry = sum / 10
 	}
 	if carry > 0 {
-		current.next = &Num{value: carry}
+		current.next = &num{value: carry}
 	}
 	return rev.next
 }
 
-func NewNum(v int) *Num {
-	current := &Num{}
-	rev := current
-	for v > 0 {
-		current.next = &Num{value: v % 10}
-		v /= 10
-		current = current.next
-	}
-	return rev.next
-}
-
-type Num struct {
+type num struct {
 	value int
-	next  *Num
+	next  *num
 }
 
-func (n Num) String() string {
+func (n num) String() string {
 	if n.next != nil {
 		return fmt.Sprintf("%d -> %s", n.value, n.next.String())
 	}
 	return fmt.Sprint(n.value)
 }
 
-func (n Num) Value() int {
+func (n num) Value() int {
 	if n.next != nil {
-		v, _ := strconv.Atoi(fmt.Sprintf("%d%d", n.next.Value(), n.value))
-		return v
+		rev, _ := strconv.Atoi(fmt.Sprintf("%d%d", n.next.Value(), n.value))
+		return rev
 	}
 	return n.value
+}
+
+func NewNum(v int) *num {
+	current := &num{}
+	rev := current
+	for v > 0 {
+		current.next = &num{value: v % 10}
+		v /= 10
+		current = current.next
+	}
+	return rev.next
 }
 
 /*
