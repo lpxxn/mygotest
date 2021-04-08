@@ -29,19 +29,17 @@ func TestStructFile(t *testing.T) {
 		t.Log("field value: ", reflect.Indirect(reflect.ValueOf(user1)).FieldByName("Name"))
 		t.Log(getFieldString(user1, "Name"))
 	}
-
-	idField, ok := user1Type.Elem().FieldByName("ID")
-	t.Log(idField, " ", ok)
-	if ok {
-		langName := idField.Tag.Get(LangTag)
-		t.Log(langName)
-		t.Log("value: ", reflect.ValueOf(idField).Interface())
-		t.Log("value: ", reflect.Indirect(reflect.ValueOf(idField)).Int())
-	}
+	t.Log(getFieldInteger(user1, "ID"))
 }
 
 func getFieldString(e *User, field string) string {
 	r := reflect.ValueOf(e)
 	f := reflect.Indirect(r).FieldByName(field)
 	return f.String()
+}
+
+func getFieldInteger(e *User, field string) int {
+	r := reflect.ValueOf(e)
+	f := reflect.Indirect(r).FieldByName(field)
+	return int(f.Int())
 }
