@@ -43,3 +43,16 @@ func getFieldInteger(e *User, field string) int {
 	f := reflect.Indirect(r).FieldByName(field)
 	return int(f.Int())
 }
+
+func TestStructFile2(t *testing.T) {
+	user1 := &User{ID: 1, Name: "zhang"}
+	nameType := reflect.ValueOf(user1.Name)
+	t.Log("nameValue: ", nameType.String())
+
+	nameField, ok := nameType.Interface().(reflect.StructField)
+	if ok {
+		t.Log(nameField)
+	} else {
+		t.Log(nameType.Type())
+	}
+}
