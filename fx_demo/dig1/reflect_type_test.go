@@ -6,8 +6,9 @@ import (
 )
 
 type User struct {
-	ID   int64  `json:"id" lang:"id"`
-	Name string `json:"name" lang:"name"`
+	ID     int64  `json:"id" lang:"idLan"`
+	Name   string `json:"name" lang:"nameLan"`
+	Values []int  `json:"values" lang:"valuesLan"`
 }
 
 const (
@@ -42,17 +43,4 @@ func getFieldInteger(e *User, field string) int {
 	r := reflect.ValueOf(e)
 	f := reflect.Indirect(r).FieldByName(field)
 	return int(f.Int())
-}
-
-func TestStructFile2(t *testing.T) {
-	user1 := &User{ID: 1, Name: "zhang"}
-	nameType := reflect.ValueOf(user1.Name)
-	t.Log("nameValue: ", nameType.String())
-
-	nameField, ok := nameType.Interface().(reflect.StructField)
-	if ok {
-		t.Log(nameField)
-	} else {
-		t.Log(nameType.Type())
-	}
 }
