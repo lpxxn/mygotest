@@ -12,12 +12,15 @@ func TestStructFile1(t *testing.T) {
 
 	nameFieldType, _ := userType.FieldByName("Name")
 	fmt.Println(nameFieldType.Type)          // string
+	fmt.Println(nameFieldType.Type.Kind())   // string
 	fmt.Println(nameFieldType.Type.String()) // string
 	fmt.Println(nameFieldType.Type.Name())   // string
 
 	valueFieldType, _ := userType.FieldByName("Values")
 	fmt.Println(valueFieldType.Type.String())      // []int
+	fmt.Println(valueFieldType.Type.Kind())        // slice
 	fmt.Println(valueFieldType.Type.Elem())        // int
+	fmt.Println(valueFieldType.Type.Elem().Kind()) // int
 	fmt.Println(valueFieldType.Type.Elem().Name()) // int
 }
 
