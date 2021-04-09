@@ -16,7 +16,8 @@ import (
 // WriteCounter counts the number of bytes written to it. It implements to the io.Writer interface
 // and we can pass this into io.TeeReader() which will report progress on each write cycle.
 type WriteCounter struct {
-	Total uint64
+	ContentLength int64
+	Total         uint64
 }
 
 func (wc *WriteCounter) Write(p []byte) (int, error) {
@@ -70,9 +71,9 @@ func ReqAPI(url string) error {
 		return err
 	}
 	defer resp.Body.Close()
-
+	fmt.Println("content Length: ", resp.ContentLength)
 	// Create our progress reporter and pass it to be used alongside our writer
-	counter := &WriteCounter{}
+	counter := &WriteCounter{ContentLength: resp.ContentLength}
 
 	var w int64
 	var out *bytes.Buffer = bytes.NewBuffer(make([]byte, 0, 10))
