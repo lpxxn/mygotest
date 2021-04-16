@@ -81,7 +81,6 @@ func ReqAPI(url string) error {
 	if err != nil {
 		return err
 	}
-
 	//if _, err = io.Copy(os.Stdout, io.TeeReader(resp.Body, counter)); err != nil {
 	//	return err
 	//}

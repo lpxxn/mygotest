@@ -3,8 +3,10 @@ package utils
 import (
 	"encoding/binary"
 	"fmt"
+	"strconv"
 	"testing"
 	"time"
+	"unicode"
 )
 
 func TestConstValue(t *testing.T) {
@@ -182,3 +184,12 @@ sonyflake 是 39 bits for time in units of 10 msec
 
 标识在 snowflake_test
 */
+
+func TestParse(t *testing.T) {
+	v, err := strconv.ParseInt("999999999999999999", 10, 64)
+	if err != nil {
+		t.Fatal(err)
+	}
+	t.Log(v)
+	unicode.IsNumber(1)
+}
