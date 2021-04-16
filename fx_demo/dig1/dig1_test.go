@@ -1,6 +1,7 @@
 package dig1
 
 import (
+	"bytes"
 	"testing"
 
 	"go.uber.org/dig"
@@ -24,6 +25,16 @@ func TestDig1(t *testing.T) {
 	if err := d.Provide(f1); err != nil {
 		t.Fatal(err)
 	}
+	// invoke 里没有用float32的参数，这个方法也不执行
+	// 其他被调用到的 provide没有用float32，所以这个也不执行
+	f3 := func(s string) (float32, error) {
+		t.Log("func3")
+		t.Log(s)
+		return 0, nil
+	}
+	if err := d.Provide(f3); err != nil {
+		t.Fatal(err)
+	}
 
 	if err := d.Invoke(func(i int) {
 		t.Log(i)
@@ -41,14 +52,22 @@ func TestDig1(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	if err := d.Invoke(func(i int, s string) {
+	f4 := func(i int, s string) {
 		t.Log("str: ", s)
 		t.Log(i)
 		// val1
 		t.Log(val1)
-	}); err != nil {
+	}
+	if err := d.Invoke(f4); err != nil {
 		t.Fatal(err)
 	}
+	t.Log(d.String())
+
+	b := &bytes.Buffer{}
+	if err := dig.Visualize(d, b); err != nil {
+		t.Fatal(err)
+	}
+	t.Log(b.String())
 }
 
 func TestDit1(t *testing.T) {
@@ -90,4 +109,10 @@ func TestDit1(t *testing.T) {
 		t.Fatal(err)
 
 	}
+
+	b := &bytes.Buffer{}
+	if err := dig.Visualize(d, b); err != nil {
+		t.Fatal(err)
+	}
+	t.Log(b.String())
 }
