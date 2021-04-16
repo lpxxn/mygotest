@@ -62,9 +62,9 @@ func TestDitErr2(t *testing.T) {
 		//t.Log(err.Error())
 		t.Fatal(err)
 		/*
-			cannot provide function "github.com/mygotest/fx_demo/dig1".TestDitErr2.func2 (/Users/li/go/src/github.com/mygotest/fx_demo/dig1/dig_err_test.go:60):
-		this function introduces a cycle: int[group="val"] provided by "github.com/mygotest/fx_demo/dig1".TestDitErr2.func2 (/Users/li/go/src/github.com/mygotest/fx_demo/dig1/dig_err_test.go:60)
-		depends on int[group="val"] provided by "github.com/mygotest/fx_demo/dig1".TestDitErr2.func2 (/Users/li/go/src/github.com/mygotest/fx_demo/dig1/dig_err_test.go:60)
+				cannot provide function "github.com/mygotest/fx_demo/dig1".TestDitErr2.func2 (/Users/li/go/src/github.com/mygotest/fx_demo/dig1/dig_err_test.go:60):
+			this function introduces a cycle: int[group="val"] provided by "github.com/mygotest/fx_demo/dig1".TestDitErr2.func2 (/Users/li/go/src/github.com/mygotest/fx_demo/dig1/dig_err_test.go:60)
+			depends on int[group="val"] provided by "github.com/mygotest/fx_demo/dig1".TestDitErr2.func2 (/Users/li/go/src/github.com/mygotest/fx_demo/dig1/dig_err_test.go:60)
 		*/
 	}
 
@@ -74,5 +74,34 @@ func TestDitErr2(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 
+	}
+}
+
+func TestDigErr3(t *testing.T) {
+	d := dig.New()
+	f1 := func() int {
+		return 1
+	}
+
+	err := d.Provide(f1)
+	if err != nil {
+		t.Fatal(err)
+	}
+	// 有返回参数不报错
+	if err := d.Invoke(func(i int) (string, error) {
+		t.Log(i)
+		return "", nil
+	}); err != nil {
+		t.Fatal(err)
+	}
+
+	//  missing type: string
+	// Invoke 返回的 string 参数，不被记录到provider里
+	// 这里也返回string 不报错
+	if err := d.Invoke(func(s string) (string, error) {
+		t.Log(s)
+		return "", nil
+	}); err != nil {
+		t.Fatal(err)
 	}
 }
