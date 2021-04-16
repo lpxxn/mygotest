@@ -54,7 +54,7 @@ func TestDig1(t *testing.T) {
 func TestDit1(t *testing.T) {
 	d := dig.New()
 	type out struct {
-		Out
+		dig.Out
 
 		Value []int `group:"val,flatten"`
 	}
@@ -71,7 +71,7 @@ func TestDit1(t *testing.T) {
 	provide([]int{3, 4})
 
 	type in struct {
-		In
+		dig.In
 
 		Values []int `group:"val"`
 	}
