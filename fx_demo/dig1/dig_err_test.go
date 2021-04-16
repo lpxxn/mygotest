@@ -8,25 +8,6 @@ import (
 	"go.uber.org/dig"
 )
 
-func TestFuncLine(t *testing.T) {
-	// go test -v -gcflags all="-N -l"  -run TestFuncLine 禁止内联
-	f1 := func() int {
-		return 1
-	}
-
-	f2 := func() int {
-		return 2
-	}
-	fl := func(constructor interface{}) {
-		fptr := reflect.ValueOf(constructor).Pointer()
-		f := runtime.FuncForPC(fptr)
-		fileName, lineNum := f.FileLine(fptr)
-		t.Logf("fileName: %s, line: %d funcName: %s\n", fileName, lineNum, f.Name())
-	}
-	fl(f1)
-	fl(f2)
-}
-
 func TestDigErr1(t *testing.T) {
 	d := dig.New()
 	f1 := func() int {
@@ -131,4 +112,23 @@ func TestDigErr3(t *testing.T) {
 	}); err != nil {
 		t.Fatal(err)
 	}
+}
+
+func TestFuncLine(t *testing.T) {
+	// go test -v -gcflags all="-N -l"  -run TestFuncLine 禁止内联
+	f1 := func() int {
+		return 1
+	}
+
+	f2 := func() int {
+		return 2
+	}
+	fl := func(constructor interface{}) {
+		fptr := reflect.ValueOf(constructor).Pointer()
+		f := runtime.FuncForPC(fptr)
+		fileName, lineNum := f.FileLine(fptr)
+		t.Logf("fileName: %s, line: %d funcName: %s\n", fileName, lineNum, f.Name())
+	}
+	fl(f1)
+	fl(f2)
 }
