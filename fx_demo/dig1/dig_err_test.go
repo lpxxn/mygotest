@@ -126,7 +126,7 @@ func TestFuncLine(t *testing.T) {
 	fl := func(constructor interface{}) {
 		fptr := reflect.ValueOf(constructor).Pointer()
 		f := runtime.FuncForPC(fptr)
-		fileName, lineNum := f.FileLine(fptr)
+		fileName, lineNum := f.FileLine(fptr)          
 		t.Logf("fileName: %s, line: %d funcName: %s\n", fileName, lineNum, f.Name())
 	}
 	fl(f1)
