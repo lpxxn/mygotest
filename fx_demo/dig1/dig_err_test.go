@@ -69,12 +69,12 @@ func TestDitErr2(t *testing.T) {
 	}); err != nil {
 		//t.Log(err.Error())
 		t.Fatal(err)
-		/*
-				cannot provide function "github.com/mygotest/fx_demo/dig1".TestDitErr2.func2 (/Users/li/go/src/github.com/mygotest/fx_demo/dig1/dig_err_test.go:60):
-			this function introduces a cycle: int[group="val"] provided by "github.com/mygotest/fx_demo/dig1".TestDitErr2.func2 (/Users/li/go/src/github.com/mygotest/fx_demo/dig1/dig_err_test.go:60)
-			depends on int[group="val"] provided by "github.com/mygotest/fx_demo/dig1".TestDitErr2.func2 (/Users/li/go/src/github.com/mygotest/fx_demo/dig1/dig_err_test.go:60)
-		*/
 	}
+	/*
+		cannot provide function "github.com/mygotest/fx_demo/dig1".TestDitErr2.func2 (/Users/li/go/src/github.com/mygotest/fx_demo/dig1/dig_err_test.go:60):
+		this function introduces a cycle: int[group="val"] provided by "github.com/mygotest/fx_demo/dig1".TestDitErr2.func2 (/Users/li/go/src/github.com/mygotest/fx_demo/dig1/dig_err_test.go:60)
+		depends on int[group="val"] provided by "github.com/mygotest/fx_demo/dig1".TestDitErr2.func2 (/Users/li/go/src/github.com/mygotest/fx_demo/dig1/dig_err_test.go:60)
+	*/
 
 	err := d.Invoke(func(i in) {
 		t.Log(i.Values)
@@ -126,7 +126,7 @@ func TestFuncLine(t *testing.T) {
 	fl := func(constructor interface{}) {
 		fptr := reflect.ValueOf(constructor).Pointer()
 		f := runtime.FuncForPC(fptr)
-		fileName, lineNum := f.FileLine(fptr)          
+		fileName, lineNum := f.FileLine(fptr)
 		t.Logf("fileName: %s, line: %d funcName: %s\n", fileName, lineNum, f.Name())
 	}
 	fl(f1)
