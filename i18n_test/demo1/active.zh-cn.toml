@@ -1,0 +1,15 @@
+HelloPerson = "你好 {{.Name}}"
+
+MEALPLAN_ONE="一"
+MEALPLAN_TWO="二"
+
+[MyUnreadEmails]
+description = "The number of unread emails I have"
+one = "I 有 {{.PluralCount}} unread email."
+other = "I 有 {{.PluralCount}} unread emails."
+
+[PersonUnreadEmails]
+description = "The number of unread emails a person has"
+one = "{{.Name}} 有 {{.UnreadEmailCount}} unread email."
+other = "{{.Name}} 有 {{.UnreadEmailCount}} unread emails."
+
