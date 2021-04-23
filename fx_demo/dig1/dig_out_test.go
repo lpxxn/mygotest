@@ -25,7 +25,7 @@ func TestOut1(t *testing.T) {
 		if err := d.Provide(func() out {
 			rev := out{StudentList: []*Student{}}
 			for _, item := range i {
-				rev.StudentList = append(rev.StudentList, &Student{Name: fmt.Sprintf("name: %d", item), Age: item})
+				rev.StudentList = append(rev.StudentList, &Student{Name: fmt.Sprintf("name-%d-END", item), Age: item})
 			}
 			return rev
 		}); err != nil {
@@ -49,6 +49,7 @@ func TestOut1(t *testing.T) {
 		t.Fatal(err)
 
 	}
+	t.Log(d.String())
 
 	b := &bytes.Buffer{}
 	if err := dig.Visualize(d, b); err != nil {

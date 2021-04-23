@@ -55,5 +55,6 @@ func TestIn1(t *testing.T) {
 	if err := d.Invoke(f3); err != nil {
 		t.Fatal(err)
 	}
+	t.Log(d.String())
 
 }
