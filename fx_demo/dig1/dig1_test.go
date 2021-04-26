@@ -51,7 +51,6 @@ func TestDig1(t *testing.T) {
 	}); err != nil {
 		t.Fatal(err)
 	}
-
 	f4 := func(i int, s string) {
 		t.Log("str: ", s)
 		t.Log(i)
@@ -109,6 +108,7 @@ func TestDit1(t *testing.T) {
 		t.Fatal(err)
 
 	}
+	t.Log(d.String())
 
 	b := &bytes.Buffer{}
 	if err := dig.Visualize(d, b); err != nil {
