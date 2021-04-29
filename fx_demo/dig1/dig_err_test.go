@@ -1,6 +1,7 @@
 package dig1
 
 import (
+	"bytes"
 	"reflect"
 	"runtime"
 	"testing"
@@ -41,15 +42,14 @@ func TestDigErr1(t *testing.T) {
 
 func TestDitErr2(t *testing.T) {
 	d := dig.New()
-	type out struct {
+	type out1 struct {
 		dig.Out
-
 		Value []int `group:"val,flatten"`
 	}
 
 	provide := func(i []int) {
-		if err := d.Provide(func() out {
-			return out{Value: i}
+		if err := d.Provide(func() out1 {
+			return out1{Value: i}
 		}); err != nil {
 			t.Fatal(err)
 		}
@@ -63,9 +63,14 @@ func TestDitErr2(t *testing.T) {
 
 		Values []int `group:"val"`
 	}
+	type out2 struct {
+		dig.Out
+
+		Value []int `group:"val,flatten"`
+	}
 	// valcy
-	if err := d.Provide(func(i in) out {
-		return out{Value: append(i.Values, 7, 8)}
+	if err := d.Provide(func(i in) out2 {
+		return out2{Value: append(i.Values, 7, 8)}
 	}); err != nil {
 		//t.Log(err.Error())
 		t.Fatal(err)
@@ -131,4 +136,51 @@ func TestFuncLine(t *testing.T) {
 	}
 	fl(f1)
 	fl(f2)
+}
+
+func TestDigErr4(t *testing.T) {
+	d := dig.New()
+	f1 := func() int {
+		return 1
+	}
+	val1 := 0
+	f2 := func(i int) (string, error) {
+		val1 += i
+		return "ok", nil
+	}
+	// 顺序无关
+	if err := d.Provide(f2); err != nil {
+		t.Fatal(err)
+	}
+
+	if err := d.Provide(f1); err != nil {
+		t.Fatal(err)
+	}
+	type Resp struct {
+		dig.Out
+		Name string
+	}
+	type Param struct {
+		dig.In
+		Age int
+	}
+	// invoke 里没有用float32的参数，这个方法也不执行
+	// 其他被调用到的 provide没有用float32，所以这个也不执行
+	f3 := func(s string, p Param) (int, error) {
+		t.Log("func3")
+		t.Log(s)
+		//return Resp{Name: "aaa"}, nil
+		return 0, nil
+	}
+	if err := d.Provide(f3); err != nil {
+		t.Fatal(err)
+	}
+
+	t.Log(d.String())
+
+	b := &bytes.Buffer{}
+	if err := dig.Visualize(d, b); err != nil {
+		t.Fatal(err)
+	}
+	t.Log(b.String())
 }
