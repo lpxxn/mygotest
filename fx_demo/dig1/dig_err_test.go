@@ -39,7 +39,6 @@ func TestDigErr1(t *testing.T) {
 	fl(f1)
 	fl(f2)
 }
-
 func TestDitErr2(t *testing.T) {
 	d := dig.New()
 	type out1 struct {
@@ -82,6 +81,70 @@ func TestDitErr2(t *testing.T) {
 	*/
 
 	err := d.Invoke(func(i in) {
+		t.Log(i.Values)
+	})
+	if err != nil {
+		t.Fatal(err)
+
+	}
+}
+func TestDitErr22(t *testing.T) {
+	d := dig.New()
+	type out1 struct {
+		dig.Out
+		Value []int `group:"val,flatten"`
+	}
+
+	provide := func(i []int) {
+		if err := d.Provide(func() out1 {
+			return out1{Value: i}
+		}); err != nil {
+			t.Fatal(err)
+		}
+	}
+
+	provide([]int{1, 2})
+	provide([]int{3, 4})
+	type rev1 struct {
+		Value []int `group:"val,flatten"`
+	}
+	type out2 struct {
+		dig.Out
+		Rev rev1
+	}
+	if err := d.Provide(func() out2 {
+		return out2{Rev: rev1{Value: []int{5, 6}}}
+	}); err != nil {
+		t.Fatal(err)
+	}
+
+	type in struct {
+		dig.In
+	}
+	type out3 struct {
+		dig.Out
+
+		Value []int `group:"val,flatten"`
+	}
+	// valcy
+	if err := d.Provide(func(i in) out3 {
+		return out3{Value: []int{7, 8}}
+	}); err != nil {
+		//t.Log(err.Error())
+		t.Fatal(err)
+	}
+	/*
+		cannot provide function "github.com/mygotest/fx_demo/dig1".TestDitErr2.func2 (/Users/li/go/src/github.com/mygotest/fx_demo/dig1/dig_err_test.go:60):
+		this function introduces a cycle: int[group="val"] provided by "github.com/mygotest/fx_demo/dig1".TestDitErr2.func2 (/Users/li/go/src/github.com/mygotest/fx_demo/dig1/dig_err_test.go:60)
+		depends on int[group="val"] provided by "github.com/mygotest/fx_demo/dig1".TestDitErr2.func2 (/Users/li/go/src/github.com/mygotest/fx_demo/dig1/dig_err_test.go:60)
+	*/
+
+	type in2 struct {
+		dig.In
+
+		Values []int `group:"val"`
+	}
+	err := d.Invoke(func(i in2) {
 		t.Log(i.Values)
 	})
 	if err != nil {
