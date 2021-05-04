@@ -11,9 +11,9 @@ func main() {
 
 	// Create client config
 	config := &ssh.ClientConfig{
-		User: "li",
+		User: "user",
 		Auth: []ssh.AuthMethod{
-			ssh.Password("lipeng1019"),
+			ssh.Password("abcdef"),
 		},
 		HostKeyCallback: ssh.FixedHostKey(hostKey),
 	}
