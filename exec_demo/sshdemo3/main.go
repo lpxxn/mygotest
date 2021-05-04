@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"io/ioutil"
 	"log"
-	"net"
 	"os"
 	"time"
 
@@ -78,9 +77,10 @@ func BastionConfig() (*ssh.ClientConfig, error) {
 		User:    "ec2-user",
 		Auth:    []ssh.AuthMethod{ssh.PublicKeys(signer)},
 		Timeout: Timeout,
-		HostKeyCallback: func(hostname string, remote net.Addr, key ssh.PublicKey) error {
-			return nil
-		},
+		//HostKeyCallback: func(hostname string, remote net.Addr, key ssh.PublicKey) error {
+		//	return nil
+		//},
+		HostKeyCallback: ssh.InsecureIgnoreHostKey(),
 	}
 	return config, err
 }
