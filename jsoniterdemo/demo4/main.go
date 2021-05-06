@@ -18,10 +18,10 @@ const revData = `
             "createTime": 1551770052,
             "amountInCent": 3,
             "status": "New",
-            "orderId": "MEICAN_MAIN-Recharge-155211278720180227",
+            "orderId": "MAIN-Recharge-155211278720180227",
             "clientId": 237879989763099715,
             "paymentServiceId": 223381299346328643,
-            "effectiveAmountInCent": 0,
+            "effectiveAmountInCent": ,
             "effectiveTime": 0,
             "finishTime": 0,
             "subject": "在线支付",
@@ -34,18 +34,18 @@ const revData = `
 
 type A struct {
 	ResultCode string `json:"resultCode"`
-	Data struct{
+	Data       struct {
 		TradeNo int64 `json:"tradeNo"`
 	} `json:"data"`
 }
 
-func main()  {
+func main() {
 	// interface 里的ID是不正确的
 	mapData := make(map[string]interface{})
 	if err := json.Unmarshal([]byte(revData), &mapData); err != nil {
 		panic(err)
 	}
-	a  := A{}
+	a := A{}
 	if err := json.Unmarshal([]byte(revData), &a); err != nil {
 		panic(err)
 	}
