@@ -4,4 +4,4 @@ tell application "iTerm"
     exec command "$@"
 
 # chmod +x run-in-iterm.sh
-# ./run-in-iterm.sh "echo 'hello world'"
+# ./run-in-iterm.sh "echo 'hello world'
