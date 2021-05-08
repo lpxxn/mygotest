@@ -2,18 +2,21 @@ package main
 
 import (
 	"bytes"
+	"fmt"
 	"io/ioutil"
 	"log"
 	"os"
 	"time"
 
 	"golang.org/x/crypto/ssh"
+	"golang.org/x/crypto/ssh/terminal"
 )
 
+// https://github.com/nanobox-io/golang-ssh/blob/master/client.go
 var (
 	Bastion    = "5.8.19.4:22"
 	Target     = "xxx.xxx.xxx.xxx:22"
-	BastionPem = "/Users/l/.ssh/c.pem"
+	BastionPem = "/Users/l/.ssh/cw1-.pem"
 	DestPem    = "/Users/me/.ssh/xxx-dest.pem"
 	Timeout    = 30 * time.Second
 )
@@ -29,11 +32,22 @@ func main() {
 	}
 	defer conn.Close()
 
+	fd := int(os.Stdin.Fd())
+	//state, err := terminal.MakeRaw(fd)
+	//if err != nil {
+	//	log.Fatal(err)
+	//}
+	termWidth, termHeight, err := terminal.GetSize(fd)
+	if err != nil {
+		termWidth = 80
+		termHeight = 24
+	}
+
+	fmt.Println(termWidth, termHeight)
 	// Create a session
 	session, err := conn.NewSession()
-	if err != nil {
-		log.Fatal("unable to create session: ", err)
-	}
+	//defer terminal.Restore(fd, state)
+
 	defer session.Close()
 	// 成功
 	//session.Stdout = os.Stdout
@@ -46,12 +60,15 @@ func main() {
 	session.Stderr = os.Stderr
 	session.Stdin = os.Stdin
 	modes := ssh.TerminalModes{
-		ssh.ECHO:          0,     // disable echoing
+		ssh.ECHO:          1,     // disable echoing
 		ssh.TTY_OP_ISPEED: 14400, // input speed = 14.4kbaud
 		ssh.TTY_OP_OSPEED: 14400, // output speed = 14.4kbaud
 	}
 	// Request pseudo terminal
-	if err := session.RequestPty("xterm", 40, 80, modes); err != nil {
+	//if err := session.RequestPty("xterm", termWidth, termHeight, modes); err != nil {
+	// vt100  VT220 xterm  xterm-256color ansi
+	// echo $TERM  echo $SHELL echo $0
+	if err := session.RequestPty("xterm-256color", termWidth, termHeight, modes); err != nil {
 		log.Fatal("request for pseudo terminal failed: ", err)
 	}
 	// Start remote shell
