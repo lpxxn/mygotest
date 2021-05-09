@@ -6,6 +6,8 @@ import (
 	"io/ioutil"
 	"log"
 	"os"
+	"os/signal"
+	"syscall"
 	"time"
 
 	"golang.org/x/crypto/ssh"
@@ -14,9 +16,9 @@ import (
 
 // https://github.com/nanobox-io/golang-ssh/blob/master/client.go
 var (
-	Bastion    = "5.8.19.4:22"
+	Bastion    = "5.3.1.4:22"
 	Target     = "xxx.xxx.xxx.xxx:22"
-	BastionPem = "/Users/l/.ssh/cw1-.pem"
+	BastionPem = "/Users/l/.ssh/c1.pem"
 	DestPem    = "/Users/me/.ssh/xxx-dest.pem"
 	Timeout    = 30 * time.Second
 )
@@ -33,20 +35,24 @@ func main() {
 	defer conn.Close()
 
 	fd := int(os.Stdin.Fd())
-	//state, err := terminal.MakeRaw(fd)
-	//if err != nil {
-	//	log.Fatal(err)
-	//}
+	state, err := terminal.MakeRaw(fd)
+	if err != nil {
+		return
+	}
+	defer terminal.Restore(fd, state)
+
 	termWidth, termHeight, err := terminal.GetSize(fd)
 	if err != nil {
-		termWidth = 80
-		termHeight = 24
+		panic(err)
 	}
 
 	fmt.Println(termWidth, termHeight)
+
 	// Create a session
 	session, err := conn.NewSession()
-	//defer terminal.Restore(fd, state)
+	if err != nil {
+		panic(err)
+	}
 
 	defer session.Close()
 	// 成功
@@ -59,6 +65,7 @@ func main() {
 	session.Stdout = os.Stdout
 	session.Stderr = os.Stderr
 	session.Stdin = os.Stdin
+
 	modes := ssh.TerminalModes{
 		ssh.ECHO:          1,     // disable echoing
 		ssh.TTY_OP_ISPEED: 14400, // input speed = 14.4kbaud
@@ -68,16 +75,66 @@ func main() {
 	//if err := session.RequestPty("xterm", termWidth, termHeight, modes); err != nil {
 	// vt100  VT220 xterm  xterm-256color ansi
 	// echo $TERM  echo $SHELL echo $0
-	if err := session.RequestPty("xterm-256color", termWidth, termHeight, modes); err != nil {
+	term := os.Getenv("TERM")
+	if err := session.RequestPty(term, termWidth, termHeight, modes); err != nil {
 		log.Fatal("request for pseudo terminal failed: ", err)
 	}
-	// Start remote shell
+	// Terminal resize goroutine.
+	winch := syscall.Signal(0x1c)
+	signalchan := make(chan os.Signal, 1)
+	signal.Notify(signalchan, winch)
+	go func() {
+		for {
+			s := <-signalchan
+			switch s {
+			case winch:
+				fd := int(os.Stdout.Fd())
+				width, height, err := terminal.GetSize(fd)
+				if err != nil {
+					session.WindowChange(height, width)
+				}
+			}
+		}
+	}()
 	if err := session.Shell(); err != nil {
 		log.Fatal("failed to start shell: ", err)
 	}
-	session.Run("ls /; pwd;")
+
+	go SendKeepAlive(session)
+	// Start remote shell
+
 	if err := session.Wait(); err != nil {
 		panic(err)
+	}
+}
+
+func SendKeepAlive(session *ssh.Session) {
+	// keep alive interval (default 30 sec)
+	interval := 30
+
+	// keep alive max (default 5)
+	max := 5
+
+	// keep alive counter
+	i := 0
+	for {
+		// Send keep alive packet
+		_, err := session.SendRequest("keepalive", true, nil)
+		// _, _, err := c.Client.SendRequest("keepalive", true, nil)
+		if err == nil {
+			i = 0
+		} else {
+			i += 1
+		}
+
+		// check counter
+		if max <= i {
+			session.Close()
+			return
+		}
+
+		// sleep
+		time.Sleep(time.Duration(interval) * time.Second)
 	}
 }
 
