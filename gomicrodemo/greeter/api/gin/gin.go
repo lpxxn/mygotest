@@ -1,15 +1,15 @@
 package main
 
 import (
+	"context"
 	"log"
+	"strings"
 
 	"github.com/gin-gonic/gin"
 
 	hello "github.com/micro/examples/greeter/srv/proto/hello"
 	"github.com/micro/go-micro/client"
 	"github.com/micro/go-web"
-
-	"context"
 )
 
 type Say struct{}
@@ -20,6 +20,13 @@ var (
 
 func (s *Say) Anything(c *gin.Context) {
 	log.Print("Received Say.Anything API request")
+	log.Println(c.Request.UserAgent())
+	log.Println(c.Request.RemoteAddr)
+	ip := c.Request.Header.Get("X-Forwarded-For")
+	if ip == "" {
+		ip = strings.Split(c.Request.RemoteAddr, ":")[0]
+	}
+	log.Println("ip: ", ip)
 	c.JSON(200, map[string]string{
 		"message": "Hi, this is the Greeter API",
 	})
