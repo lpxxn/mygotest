@@ -1,5 +1,6 @@
 package mascot
 // https://patorjk.com/software/taag/#p=testall&f=4Max&t=doraemon
+// https://twitter.com/textart4u?lang=en
 var MascotAlpaca string = `
 
       ┌─┐       ┌─┐ + +
@@ -110,4 +111,15 @@ const d4=`
 ▏▏━╭╮┉╰╯┉╭╮━▕▕
 ▏▏╱╰┳━┻┻━┳╯╲▕▕
 ▏╲┉┉┃╭━━╮┃┅┅╱▕...
+`
+
+const d5=`
+────▄████▄▄
+───▄▀█▀▐└─┐
+───█▄▐▌▄█▄┘
+───└▄▄▄▄─┘
+▄███▒██▒███▄
+▒▒█▄▒▒▒▒▄█▒▒
+──▒▒▒▀▀▒▒▒
+▄███────███▄
 `
