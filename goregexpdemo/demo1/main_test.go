@@ -85,6 +85,33 @@ func TestCafeteriaName2(t *testing.T) {
 	}
 }
 
+func TestDishName(t *testing.T) {
+	var re = regexp.MustCompile(`.*-副本(?P<numFlag>[0-9]*)$`)
+	var str = `菜品名字`
+
+	match := re.FindStringSubmatch(str)
+	if match != nil {
+		for i, name := range re.SubexpNames() {
+			t.Logf("name : %s  value: %s \n", name, match[i])
+		}
+	} else {
+		t.Logf("no match")
+	}
+
+	str = `菜1-副本`
+	match = re.FindStringSubmatch(str)
+	t.Log(match)
+	for i, name := range re.SubexpNames() {
+		t.Logf("name : %s  value: %s \n", name, match[i])
+	}
+
+	str = `菜1212品-副本123`
+	match = re.FindStringSubmatch(str)
+	for i, name := range re.SubexpNames() {
+		t.Logf("name : %s  value: %s \n", name, match[i])
+	}
+}
+
 func TestReplaceCafeteriaName1(t *testing.T) {
 	var re = regexp.MustCompile(`^<.*>(.*)~.*\[(.*)_[0-9]*\]$`)
 	var str = `<食堂菜单>2019-03-18~infinity[按天重复_27]`
