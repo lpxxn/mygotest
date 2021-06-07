@@ -7,6 +7,8 @@ import (
 	"strconv"
 	"strings"
 	"testing"
+	"unicode"
+	"unicode/utf8"
 )
 
 func Benchmark_Reg(b *testing.B) {
@@ -86,7 +88,7 @@ func TestCafeteriaName2(t *testing.T) {
 }
 
 func TestDishName(t *testing.T) {
-	var re = regexp.MustCompile(`.*-副本(?P<numFlag>[0-9]*)$`)
+	var re = regexp.MustCompile(`-副本(?P<numFlag>[0-9]*)$`)
 	var str = `菜品名字`
 
 	match := re.FindStringSubmatch(str)
@@ -97,19 +99,44 @@ func TestDishName(t *testing.T) {
 	} else {
 		t.Logf("no match")
 	}
+	r, s := utf8.DecodeLastRune([]byte(str))
+	t.Log(r, s)
+	t.Log(unicode.IsNumber(r))
 
 	str = `菜1-副本`
-	match = re.FindStringSubmatch(str)
-	t.Log(match)
-	for i, name := range re.SubexpNames() {
-		t.Logf("name : %s  value: %s \n", name, match[i])
+	f1 := func() {
+		match = re.FindStringSubmatch(str)
+		t.Log(match)
+		for i, name := range re.SubexpNames() {
+			t.Logf("name : %s  value: %s \n", name, match[i])
+		}
+		if match != nil {
+			t.Log(re.ReplaceAllLiteralString(str, ""))
+		}
+		r, s = utf8.DecodeLastRune([]byte(str))
+		t.Log(r, s)
+		t.Log(unicode.IsNumber(r))
 	}
+	f1()
+	str = `菜-副本1-副本`
+	f1()
+	str = `菜-副本1-副本1`
+	f1()
 
 	str = `菜1212品-副本123`
 	match = re.FindStringSubmatch(str)
+	t.Log(match)
+	if match != nil {
+		t.Log(re.ReplaceAllLiteralString(str, ""))
+	}
 	for i, name := range re.SubexpNames() {
 		t.Logf("name : %s  value: %s \n", name, match[i])
 	}
+
+	r, s = utf8.DecodeLastRune([]byte(str))
+	t.Log(r, s)
+	t.Log(unicode.IsNumber(r))
+	t.Log(strconv.Atoi(string(r)))
 }
 
 func TestReplaceCafeteriaName1(t *testing.T) {
