@@ -132,6 +132,9 @@ func TestDishName(t *testing.T) {
 	for i, name := range re.SubexpNames() {
 		t.Logf("name : %s  value: %s \n", name, match[i])
 	}
+	intList := []int{2, 41, 1, 5}
+	sort.Ints(intList)
+	t.Log(intList)
 
 	r, s = utf8.DecodeLastRune([]byte(str))
 	t.Log(r, s)
