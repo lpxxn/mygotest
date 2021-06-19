@@ -193,3 +193,46 @@ func TestParse(t *testing.T) {
 	t.Log(v)
 	unicode.IsNumber(1)
 }
+
+func TestV1(t *testing.T) {
+	x := ^uint32(0) // x is 0xffffffff
+	i := int(x)     // i is -1 on 32-bit systems, 0xffffffff on 64-bit
+	t.Log(i)
+
+	f1 := 0xffffffff
+	t.Log(f1)
+
+	f2 := 0xffffffff
+	t.Log(int32(f2))
+
+	y, m, d := time.Now().Date()
+	t.Log(y, m, d)
+	t.Logf("%02d", int(time.Now().Month()))
+}
+
+func TestV2(t *testing.T) {
+	t.Log(makeMilliseconds())
+}
+func makeMilliseconds() int64 {
+	return time.Now().UnixNano() / int64(time.Millisecond)
+}
+
+//  64 bit
+//  1 bit unused | 39 id  549755813888   | 15 year 2**15=32768  | 4 month 2**4=16 | 5 day 2**5=32 |
+//                                       |                           24                           |
+
+func MakeLong(left int32, right int32) int64 {
+	//implicit conversion of left to a long
+	var res int64 = int64(left)
+
+	//shift the bits creating an empty space on the right
+	// ex: 0x0000CFFF becomes 0xCFFF0000
+	res = res << 32
+
+	//combine the bits on the right with the previous value
+	// ex: 0xCFFF0000 | 0x0000ABCD becomes 0xCFFFABCD
+	res = res | int64(right) //uint first to prevent loss of signed bit
+
+	//return the combined result
+	return res
+}
