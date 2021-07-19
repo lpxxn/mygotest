@@ -51,3 +51,30 @@ func TestVIPCenter_ServiceUser(t *testing.T) {
 		})
 	}
 }
+
+func TestVIPCenter_ServiceUser1(t *testing.T) {
+	type fields struct {
+		providers map[UserType]ServiceProvider
+	}
+	type args struct {
+		user *User
+	}
+	tests := []struct {
+		name    string
+		fields  fields
+		args    args
+		wantErr bool
+	}{
+		// TODO: Add test cases.
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			v := &VIPCenter{
+				providers: tt.fields.providers,
+			}
+			if err := v.ServiceUser(tt.args.user); (err != nil) != tt.wantErr {
+				t.Errorf("ServiceUser() error = %v, wantErr %v", err, tt.wantErr)
+			}
+		})
+	}
+}

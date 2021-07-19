@@ -24,8 +24,8 @@ func (v *VIPCenter) addProviders(t UserType, s ServiceProvider) {
 	v.providers[t] = s
 }
 
-func (v *VIPCenter) ServiceUser(user *User) {
-	v.providers[user.Type].Service(user)
+func (v *VIPCenter) ServiceUser(user *User) error {
+	return v.providers[user.Type].Service(user)
 }
 
 type ServiceProvider interface {
