@@ -20,6 +20,13 @@ func TestSliceStr(t *testing.T) {
 /*
 Go has an optimizing compiler. Constants are evaluated at compile time. Variables are evaluated at runtime.
 Constant values can be used to optimize compiler generated code. For example,
+
+The benchmark tool only reports heap allocations. Stack allocations via escape analysis are less costly, possibly free, so are not reported.
+The gcflag -m flag appears to show info that shows whether the var is assigned in the stack or heap
+
+All goroutines share a common heap and anything that can’t be stored on the stack will end up there.
+When a heap allocation occurs in a function being benchmarked, we’ll see the allocs/ops stat go up by one.
+It’s the job of the garbage collector to later free heap variables that are no longer referenced.
 */
 // go test str_test.go -bench=. -benchmem
 // benchmark slice
