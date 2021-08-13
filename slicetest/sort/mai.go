@@ -15,7 +15,7 @@ type AsortObjArray []AsortObj
 func (a *AsortObjArray) SortDesc() {
 	pData := *a
 	sort.SliceStable(pData, func(i, j int) bool {
-		return pData[i].V > pData[j].V
+		return pData[i].V < pData[j].V
 	})
 }
 
