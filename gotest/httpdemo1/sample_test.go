@@ -104,7 +104,7 @@ func TestValue2(t *testing.T) {
 	t.Log(Encode(params))
 
 	type A struct {
-		Name string
+		Name         string
 		ExtendParams *struct {
 			SysServiceProviderID string `json:"sys_service_provider_id"`
 		} `json:"extend_params,omitempty"`
@@ -112,4 +112,29 @@ func TestValue2(t *testing.T) {
 	a := &A{}
 	b1, _ := json.Marshal(a)
 	t.Log(string(b1))
+}
+
+func TestValue3(t *testing.T) {
+	type s struct {
+		ID   int64
+		Name string
+		Age  int
+	}
+	type b struct {
+		*s
+		ID  string
+		Age string
+	}
+	a1 := &s{
+		ID:   1,
+		Name: "aa",
+		Age:  1,
+	}
+	a2 := &b{
+		s:   a1,
+		ID:  "abc",
+		Age: "def",
+	}
+	j, err := json.Marshal(a2)
+	t.Log(string(j), err)
 }
