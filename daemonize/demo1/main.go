@@ -21,14 +21,13 @@ func main() {
 			args[k] = ""
 		}
 	}
+	if daemon {
+		Daemonize(args...)
+		return
+	}
 	file, err := os.OpenFile("test.txt", os.O_CREATE|os.O_RDWR, 0664)
 	if err != nil {
 		log.Println(err)
-		return
-	}
-
-	if daemon {
-		Daemonize(args...)
 		return
 	}
 
