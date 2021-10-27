@@ -7,6 +7,30 @@ import (
 
 	"github.com/go-redis/redis"
 )
+// 连接 cluster也是没有问题的，failover后一般30秒到1分钟左右就能恢复
+func TestRedisClient(t *testing.T) {
+	// cafeteria-c-test1.lbqctm.clustercfg.cnw1.cache.amazonaws.com.cn:6379
+	client := redis.NewClient(&redis.Options{
+		Addr:               "cafeteria-c-test1.lbqctm.clustercfg.cnw1.cache.amazonaws.com.cn:6379",
+	})
+	key1 := "a"
+	for {
+		time.Sleep(time.Second * 2)
+		cmd := client.Set(context.Background(), key1, "a", -1)
+		if cmd.Err() != nil {
+			t.Log(cmd.Err())
+			continue
+		}
+		t.Log(cmd.Val())
+		strCmd := client.Get(context.Background(), key1)
+		if strCmd.Err() != nil {
+			t.Log(strCmd.Err())
+			continue
+		}
+		t.Log(strCmd.Val())
+
+	}
+}
 
 func TestRedisCluster(t *testing.T) {
 	// cafeteria-c-test1.lbqctm.clustercfg.cnw1.cache.amazonaws.com.cn:6379
