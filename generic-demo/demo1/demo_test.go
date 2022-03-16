@@ -17,19 +17,20 @@ func TestGeneric1(t *testing.T) {
 	for _, k := range v1 {
 		fmt.Printf("name: %s, age: %d, value: %v \n", k.k.GetName(), k.k.GetAge(), k.v)
 	}
-	//for _, k := range v2 {
-	//	fmt.Printf("name: %s, age: %d, value: %v", k.k.GetName(), k.k.GetAge(), k.v)
-	//}
 	GetInfo(v1)
 	GetInfo(v2)
 }
 
-type M[K Info, V int64 | string | float64] struct {
+type vInterface interface {
+	int64 | string | float64
+}
+
+type M[K Info, V vInterface] struct {
 	k K
 	v V
 }
 
-func GetInfo[K Info, V int64 | string | float64](m []M[K, V]) {
+func GetInfo[K Info, V vInterface](m []M[K, V]) {
 	for _, k := range m {
 		fmt.Printf("name: %s, age: %d, value: %v \n", k.k.GetName(), k.k.GetAge(), k.v)
 	}
