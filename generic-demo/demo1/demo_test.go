@@ -19,6 +19,13 @@ func TestGeneric1(t *testing.T) {
 	}
 	GetInfo(v1)
 	GetInfo(v2)
+	// 用map要把 type Info interface 里的 // comparable 去掉
+	//fmt.Println("--------------")
+	//m1 := map[Int1]int64{1: 123, 2: 246}
+	//GetInfo2(m1)
+	//
+	//m2 := map[Student]string{Student{Name: "li", Age: 1}: "hello", Student{Name: "zhang", Age: 2}: "world"}
+	//GetInfo2(m2)
 }
 
 type vInterface interface {
@@ -36,7 +43,14 @@ func GetInfo[K Info, V vInterface](m []M[K, V]) {
 	}
 }
 
+func GetInfo2[K Info, V vInterface](m map[K]V) {
+	for k, v := range m {
+		fmt.Printf("name: %s, age: %d, value: %v\n", k.GetName(), k.GetAge(), v)
+	}
+}
+
 type Info interface {
+	// comparable // 用map
 	GetName() string
 	GetAge() int64
 }
