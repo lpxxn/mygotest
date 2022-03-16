@@ -2,27 +2,7 @@ package main_test
 
 import (
 	"fmt"
-	"testing"
 )
-
-func TestGeneric1(t *testing.T) {
-	v1 := []M[Info, int64]{
-		{k: Int1(1), v: 123},
-		{k: Int1(7), v: 345},
-	}
-	v2 := []M[Info, string]{
-		{k: Student{Name: "li", Age: 1}, v: "hello"},
-		{k: Student{Name: "zhang", Age: 2}, v: "world"},
-	}
-	for _, k := range v1 {
-		fmt.Printf("name: %s, age: %d, value: %v \n", k.k.GetName(), k.k.GetAge(), k.v)
-	}
-	//for _, k := range v2 {
-	//	fmt.Printf("name: %s, age: %d, value: %v", k.k.GetName(), k.k.GetAge(), k.v)
-	//}
-	GetInfo(v1)
-	GetInfo(v2)
-}
 
 type M[K Info, V int64 | string | float64] struct {
 	k K
