@@ -28,8 +28,14 @@ func TestGeneric1(t *testing.T) {
 	//GetInfo2(m2)
 }
 
+type Info interface {
+	// comparable // 用map
+	GetName() string
+	GetAge() int64
+}
+
 type vInterface interface {
-	int64 | string | float64
+	~int64 | string | ~float64
 }
 
 type M[K Info, V vInterface] struct {
@@ -47,12 +53,6 @@ func GetInfo2[K Info, V vInterface](m map[K]V) {
 	for k, v := range m {
 		fmt.Printf("name: %s, age: %d, value: %v\n", k.GetName(), k.GetAge(), v)
 	}
-}
-
-type Info interface {
-	// comparable // 用map
-	GetName() string
-	GetAge() int64
 }
 
 type Int1 int
