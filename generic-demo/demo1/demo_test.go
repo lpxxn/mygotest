@@ -49,11 +49,11 @@ func GetInfo[K Info, V vInterface](m []M[K, V]) {
 	}
 }
 
-func GetInfo2[K Info, V vInterface](m map[K]V) {
-	for k, v := range m {
-		fmt.Printf("name: %s, age: %d, value: %v\n", k.GetName(), k.GetAge(), v)
-	}
-}
+//func GetInfo2[K Info, V vInterface](m map[K]V) {
+//	for k, v := range m {
+//		fmt.Printf("name: %s, age: %d, value: %v\n", k.GetName(), k.GetAge(), v)
+//	}
+//}
 
 type Int1 int
 
