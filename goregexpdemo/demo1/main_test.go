@@ -248,6 +248,102 @@ func TestSetCo(t *testing.T) {
 	fmt.Println()
 }
 
+func TestQuote(t *testing.T) {
+	str := `
+米小奴炒饭                                                                                 |
+ 猫师妹(B7档口-食萤美食城)                                                                  |
+  老坛鱼头王（B6档口-食萤美食城）`
+
+	str = strings.ReplaceAll(str, "（", "(")
+	str = strings.ReplaceAll(str, "）", ")")
+	// +?  matches the previous token between one and unlimited times, as few times as possible, expanding as needed (lazy)
+	var re = regexp.MustCompile(`(?m)(?P<name>.+?)(\((?P<subtitle>.*?)\)|$)`)
+	match := re.FindAllStringSubmatch(str, -1)
+	for i := 0; i < len(match); i++ {
+		t.Log(match[i])
+	}
+
+	re = regexp.MustCompile(`(?m)(?P<name>.+?)(\((?P<subtitle>.*?)\)|$)`)
+	str = `Cream Soda (0.99)
+Potato Chips (2.50)
+Atlantic Salmon
+猫师妹(B7档口-食萤美食城)
+aaasdfas()
+猫师妹(B7档口-食萤美食城)
+一二三`
+
+	for i, match := range re.FindAllString(str, -1) {
+		fmt.Println(match, "found at index", i)
+	}
+}
+
+func TestQuote2(t *testing.T) {
+	const replacement = ""
+	var replacer = strings.NewReplacer(
+		" ", replacement,
+		"\r\n", replacement,
+		"\r", replacement,
+		"\n", replacement,
+		"\v", replacement,
+		"\f", replacement,
+		"\u0085", replacement,
+		"\u2028", replacement,
+		"\u2029", replacement,
+		"（", "(",
+		"）", ")",
+	)
+	str := `
+米小奴炒饭                        
+`
+	str = replacer.Replace(str)
+	str = strings.ReplaceAll(str, "（", "(")
+	str = strings.ReplaceAll(str, "）", ")")
+	// +?  matches the previous token between one and unlimited times, as few times as possible, expanding as needed (lazy)
+	var re = regexp.MustCompile(`(?P<name>.+?)(\((?P<subtitle>.*?)\)|$)`)
+	match := re.FindStringSubmatch(str)
+	nameIdx := re.SubexpIndex("name")
+	subtitleIdx := re.SubexpIndex("subtitle")
+	t.Log(nameIdx, subtitleIdx)
+	str1 := match[re.SubexpIndex("name")]
+	t.Log(str1)
+	t.Log(match[re.SubexpIndex("subtitle")])
+	for i := 0; i < len(match); i++ {
+		t.Log(match[i])
+	}
+
+	str = ` 猫师妹(B7档口-食萤美食城)     `
+	str = replacer.Replace(str)
+	match = re.FindStringSubmatch(str)
+	t.Log(match[re.SubexpIndex("name")])
+	t.Log(match[re.SubexpIndex("subtitle")])
+
+	str = `  老坛鱼头王（B6档口-食萤美食城）`
+	//str = strings.TrimSpace(str)
+	str = replacer.Replace(str)
+	match = re.FindStringSubmatch(str)
+	t.Log(match[re.SubexpIndex("name")])
+	t.Log(match[re.SubexpIndex("subtitle")])
+
+	str = `a`
+	str = replacer.Replace(str)
+	match = re.FindStringSubmatch(str)
+	t.Log(match[re.SubexpIndex("name")])
+	t.Log(match[re.SubexpIndex("subtitle")])
+
+	//str = ""
+	//str = replacer.Replace(str)
+	//match = re.FindStringSubmatch(str)
+	//t.Log(match[re.SubexpIndex("name")])
+	//t.Log(match[re.SubexpIndex("subtitle")])
+
+	str = `  `
+	str = replacer.Replace(str)
+	match = re.FindStringSubmatch(str)
+	t.Log(match[re.SubexpIndex("name")])
+	t.Log(match[re.SubexpIndex("subtitle")])
+
+}
+
 func TestSyncRestaurant(t *testing.T) {
 	str := `合肥010 (318407)`
 	var re = regexp.MustCompile(` \((?P<number>\d*)\)`)
