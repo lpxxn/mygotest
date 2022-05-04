@@ -277,6 +277,30 @@ aaasdfas()
 	}
 }
 
+func TestQuote3(t *testing.T) {
+	var re = regexp.MustCompile(`\$request.(?P<parameter>[.\w]+)`)
+	str := `asdf{{$request.Name.abc}}=`
+	match := re.FindStringSubmatch(str)
+	t.Log(match[re.SubexpIndex("parameter")])
+
+	str = `asdf$request.adf<12`
+	match = re.FindStringSubmatch(str)
+	t.Log(match[re.SubexpIndex("parameter")])
+
+	str = `qwersd $request.asdf.asdf ==true`
+	match = re.FindStringSubmatch(str)
+	t.Log(match[re.SubexpIndex("parameter")])
+
+	str = `qwersd $request.asdf.asdf ==true && $request.VVbb==123||$request.cdef=="adfe"`
+	match = re.FindStringSubmatch(str)
+	t.Log(match[re.SubexpIndex("parameter")])
+	match2 := re.FindAllStringSubmatch(str, -1)
+	idx := re.SubexpIndex("parameter")
+	for _, matchItem := range match2 {
+		t.Log(matchItem[idx])
+	}
+
+}
 func TestQuote2(t *testing.T) {
 	const replacement = ""
 	var replacer = strings.NewReplacer(
