@@ -65,6 +65,7 @@ func TestAdd1(t *testing.T) {
 }
 
 func TestNumber1(t *testing.T) {
+
 	h := 12
 	min := 15
 	fHour := func() {
