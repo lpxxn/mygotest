@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"math"
 	"math/rand"
+	"strconv"
+	"strings"
 	"sync"
 	"time"
 )
@@ -21,6 +23,63 @@ func main() {
 		t := e.Calculate(i)
 		fmt.Printf("retires: %d, duration: %f \n", i, t.Seconds())
 	}
+
+	type t struct {
+		a *int
+		b int
+	}
+	chList := make(chan t, 3)
+	wg := sync.WaitGroup{}
+	for i := 0; i < 3; i++ {
+		wg.Add(1)
+		go func(i int) {
+			defer wg.Done()
+			chList <- t{a: nil, b: i}
+		}(i)
+	}
+	wg.Wait()
+	close(chList)
+	for i := 0; i < 3; i++ {
+		fmt.Println("value: ", <-chList)
+	}
+	length := 16
+	snowflakeIDStr := strconv.FormatUint(uint64(262683231892309619), 16)
+	fmt.Println("snowflakeIDStr: ", snowflakeIDStr, len(snowflakeIDStr))
+	curLength := len(snowflakeIDStr)
+	id, err := Rand(length - curLength)
+	if err != nil {
+		snowflakeIDStr += strings.Repeat("0", length-curLength)
+		fmt.Println("snowflakeIDStr err: ", snowflakeIDStr)
+	}
+	fmt.Println("snowflakeIDStr +id: ", snowflakeIDStr+id)
+}
+
+var (
+	numbers        = "0123456789"
+	numberAndAlpha = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+)
+
+// GenerateRandomBytes of n size
+func GenerateRandomBytes(n int) ([]byte, error) {
+	b := make([]byte, n)
+	_, err := rand.Read(b)
+	// Note that err == nil only if we read len(b) bytes.
+	if err != nil {
+		return nil, err
+	}
+
+	return b, nil
+}
+
+func Rand(n int) (string, error) {
+	bytes, err := GenerateRandomBytes(n)
+	if err != nil {
+		return "", err
+	}
+	for i, b := range bytes {
+		bytes[i] = numberAndAlpha[b%byte(len(numberAndAlpha))]
+	}
+	return string(bytes), nil
 }
 
 var BackoffMultiplier = time.Second
