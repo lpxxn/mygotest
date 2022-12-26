@@ -40,7 +40,6 @@ func (m *MyJson) GetResult() []string {
 }
 
 func (m *MyJson) parseJSON(key, value j.Result, keyPath string, newVal string) {
-	// fmt.Printf("key:%s, keyPath:%s\n", key, keyPath)
 	if value.IsObject() {
 		value.ForEach(func(key, value j.Result) bool {
 			m.parseJSON(key, value, fmt.Sprintf("%s.%s", keyPath, key), newVal)
