@@ -17,7 +17,6 @@ func main() {
 
 	newVal := "new"
 	myJson.ParseJSON(newVal)
-	//fmt.Println(OriginJson)
 }
 
 type MyJson struct {
