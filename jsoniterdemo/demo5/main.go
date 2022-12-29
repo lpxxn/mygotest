@@ -55,12 +55,10 @@ func (m *MyJson) parseJSON(key, value j.Result, keyPath string, newVal string) {
 			} else {
 				v, _ := sj.Set(m.OriginJson, tmpKeyPath, name.String()+newVal)
 				m.rev = append(m.rev, v)
-				//fmt.Println(v)
 			}
 		}
 	} else {
 		v, _ := sj.Set(m.OriginJson, keyPath, value.String()+newVal)
 		m.rev = append(m.rev, v)
-		//fmt.Println(v)
 	}
 }
