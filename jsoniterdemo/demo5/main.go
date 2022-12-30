@@ -11,8 +11,6 @@ import (
 func main() {
 	myJson := MyJson{}
 	myJson.OriginJson = `{"name":"tom","age":18,"hobby":["basketball","football"],"address":{"city":"beijing","street":"xizhimen"}}`
-	fmt.Println(myJson.OriginJson)
-
 	fmt.Println("------开始遍历--------")
 
 	newVal := "new"
