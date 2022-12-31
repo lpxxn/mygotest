@@ -11,9 +11,7 @@ import (
 
 // github.com/kevinburke/ssh_config
 func main() {
-
 	var hostKey ssh.PublicKey
-
 	key, err := ioutil.ReadFile("/Users/li/.ssh/id_rsa")
 	if err != nil {
 		fmt.Println(err)
