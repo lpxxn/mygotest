@@ -21,7 +21,7 @@ func generateCombinations(length int) []string {
 	letters := "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 	return generateCombinationsRecursive("", letters, length)
 }
- // all length 指定长度的组合
+ // all length 所有指定长度的组合
 func generateCombinationsRecursive(prefix string, letters string, remaining int) []string {
 	if remaining == 0 {
 		return []string{prefix}
